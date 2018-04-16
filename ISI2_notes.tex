@@ -46,6 +46,8 @@
 \newcommand{\eeq}{\end{equation*}}
 \newcommand{\ud}{\,\mathrm{d}}
 \newcommand{\ureal}{\,\mathbb{R}}
+\newcommand{\uninf}{\,-\infty}
+\newcommand{\uinf}{\,-\infty}
 \DeclareMathOperator{\var}{var}
 \DeclareMathOperator{\cov}{cov}
 \DeclareMathOperator{\E}{E}
@@ -95,6 +97,96 @@
 \mainmatter
 \pagenumbering{arabic}
 
+\chapter {Recap from ``Introduction to statistical inference 1''}
+\section{Random variable}
+\begin{itemize}
+\item Random variable is a function from sample space $\mathcal{S}$ of an
+experiment to sample space of the random variable $\mathcal{X}$, which is set of real numbers.
+$$X: \mathcal{S} \rightarrow \mathcal{X}$$
+\item The sample space is a set of all possible values random variable can get.
+\item $\mathcal{X}$ can be
+\begin{itemize}
+  \item an interval of real axis (continuous random variable).
+  $$\mathcal{X} = [0, 10),~ \mathcal{X} = [0, 10],~ \mathcal{X} = (0, 10)$$
+  \item An uncountable set of integers (discrete random variable) 
+  $$\mathcal{X} = \{0,1,2,\ldots\}$$
+  \item A countable set of integers or real numbers (discrete random variable)
+  $$\mathcal{X} =\{0,1\},~\mathcal{X} = \{0,0.5,1\},~ \mathcal{X} =
+  \{0,1,\ldots,10\}$$ 
+\end{itemize}
+\item Probabilities associated with each value of $X$ are defined by the
+cumulative distribution function (cdf for short).
+$$F_X(x) = P(X \leq x),~\text{where } -\infty < x < \infty$$
+\item[\bf{Note:}]$F_X(x)$ is a step function if $X$ is discrete.
+\item[\bf{Note:}]$F_X(x)$ is a continuous function if $X$ is continuous.
+%TODO: Two plots visualizing discreate and continous CDFs.
+\item $F_X(x)$ or $F(x)$ is cdf, if
+\begin{itemize}
+  \item [1)] $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to
+  \infty} F(x) = 1$
+  \item [2)] $F(x)$ is non-decreasing
+  \item [3)] $F(x)$ is right-continuous
+\end{itemize}
+\item Cdf is useful in calculation of any probabilities; for example
+$$P(a < X \leq b) = F(b) - F(a)$$
+\item [\bf{Note:}] Be careful with $<$ and $\leq$ when working with discreate
+random variables.
+\item The probability density function (pdf for short) is defined for
+continuous random variable as
+$$f_X(x) = F'(x) = \frac{\ud F_X(x)}{\ud x}, ~ -\infty < x < \infty$$
+and
+$$\int_{-\infty}^x f_X(t)\ud t = F_X(x)$$
+\item The probability mass function (pmf for short) is defined for discrete
+random variables as
+$$f_X(x) = P(X=x)$$
+$$F_X(x) = \sum_{k=1}^x f_X(k)$$
+\end{itemize}
+\section{Transformations of random variable}
+\begin{itemize}
+  \item Consider a monotonic function $g: \mathcal{X} \to \mathcal{Y}$
+  \item $Y = g(X)$ is also a random variable; function $g$ is called an
+  transformation (muunnos).
+  \item If $g(x)$ is a increasing function of $x$, then
+  $$F_Y(y) = F_X(g^{-1}(y))$$
+  \item If $g(x)$ is a decreasing function of $x$, then
+  $$F_Y(y) = 1 - F_X(g^{-1}(y))$$
+  \item The pdf of continuous $Y$ is
+  $$f_Y(y) = F_Y'(y)$$
+\end{itemize}
+\section{Expected values}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+E(X) = \mu_X = \left\{
+\begin{array}{ll}
+\int_{-\infty}^\infty x f(x) \ud x & \text{if $X$ is continuous} \\
+\sum_{x \in \mathcal{X}} x f(x) & \text{if $X$ is discrete}
+\end{array} \right.
+\end{equation*}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+E(g(X)) =  \left\{
+\begin{array}{ll}
+\int_{-\infty}^\infty g(x) f(x) \ud x & \text{if $X$ is continuous} \\
+\sum_{x \in \mathcal{X}} g(x) f(x) & \text{if $X$ is discrete}
+\end{array} \right.
+\end{equation*}
+\section{Variance}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+\sigma_X^2 = Var(X) & = E(X - \mu_X)^2 \\
+& = E(X^2 - 2X\mu_X + \mu_X^2) \\
+& = E(X^2) - E(2X\mu_X) + E(\mu_X^2) \\
+& = E(X^2) - \underbrace{2\mu_X \underbrace{E(X)}_{\mu_X}}_{2\mu_X^2} +
+E(\mu_X^2) \\
+& = E(X^2) - \mu_X^2 \\
+\end{equation*}
 
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+sd(X) = \sqrt{Var(X)} = \sigma_X
+\end{equation*}
 
+\section{Bivariate random variables}
 \end{document}
