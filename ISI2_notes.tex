@@ -1,0 +1,100 @@
+%%%%%%%%  Document class  %%%%%%%%%%%%
+\documentclass[10pt, twoside, a4paper]{book}
+
+%%%%%%%%  Packages   %%%%%%%%%%%%%%%%
+\usepackage{natbib}
+%\usepackage{d:/laurim/biometria/lshort/src/lshort}
+%\usepackage{numline}
+%\usepackage{lineno}
+\bibpunct{(}{)}{,}{a}{}{,}
+\usepackage{amsmath,amssymb}
+\usepackage{bm} 
+\usepackage{verbatim}
+\usepackage{enumerate}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{color}
+
+%\newenvironment{Rcode}[1]%
+%{\scriptsize{\ttfamily{\bf The R-code for #1}} \\
+%\ttfamily \noindent\ignorespaces }
+%{\par\noindent%
+%  \ignorespacesafterend}
+  
+\newenvironment{Rcode}[1]%
+{\ttfamily{\bf The R-code for #1}
+\scriptsize \\\par\verbatim}
+{\endverbatim\par} 
+
+\newenvironment{Rcode2}%
+{\scriptsize \par\verbatim}%
+{\endverbatim\par}
+
+\usepackage{graphicx}
+%\usepackage{subfigure}
+%\usepackage[nolists]{endfloat}
+\usepackage{amsthm}
+
+\usepackage{times}
+%\usepackage[T1]{fontenc}
+
+%\usepackage{breqn} % Helps with multline \left \right problems.
+
+\newcommand{\foldPath}{c:/laurim/tex/}
+
+\newcommand{\beq}{\begin{equation*}}
+\newcommand{\eeq}{\end{equation*}}
+\newcommand{\ud}{\,\mathrm{d}}
+\newcommand{\ureal}{\,\mathbb{R}}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\corr}{corr}
+\DeclareMathOperator{\sd}{sd}
+
+\theoremstyle{definition}
+
+\newtheorem{example}{Example}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+%\bibpunct{(}{)}{,}{a}{}{,}
+\bibliographystyle{\foldPath saf}
+%\bibliographystyle{alpha}
+%\bibliographystyle{\foldPath wiley}
+%\bibliographystyle{unsrt}
+
+%%%%%%%%  Page Setup %%%%%%%%%%%%%%%%%%
+%\topmargin      0pt
+%\headheight     0pt 
+%\headsep        0pt 
+%\textheight   648pt 
+%\oddsidemargin  0pt
+%\textwidth    468pt 
+
+%%%%%%%% Document %%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagenumbering{Roman}
+\setlength{\baselineskip}{16pt}
+
+%% Front matter
+%\title{Forest biometrics with examples in R}
+\title{Introduction to statistical inference 2}
+
+\author{Lauri Meht\"atalo\\
+	   University of Eastern Finland \\ School of Computing
+	   }
+
+\date{\normalsize \today}
+\maketitle
+\tableofcontents
+
+%\section*{Preface}
+
+%These are lecture notes for course Biometrics: R-statistics in Forest Sciences. In writing these notes, I have used several sources. In writing chapter 1, the main sources have been the second edition of the classical book ``Statistical Inference'' by George Casella and Roger L Berger\citep{Casellaandberger2002} and ``Methods for Forest Biometrics'' by Juha Lappi  \citep{Lappi1993}. In addition, I have used lecture notes of courses on mathematical statistics (by Eero Korpelainen) and statistical inference (by Jukka Nyblom). For chapters 2 and 3, the main sources have been the lecture notes of Jukka Nyblom on Regression analysis and Linear models, the book of Jose Pinheiro and Douglas Bates on Linear models with R \citep{Pinheiroandbates2000}, and the book ``Generalized, Linear and Mixed Models'' by CharlesMcCulloch and Shayle R Searle \citep{McCullochandsearle2001}. For the GLMs and GLMMs, I have used \citet{McCullochandsearle2001}, too. The last chapter on models systems is based mainly on book ``Econometric analysis'' by William H Greene \citep{Greene1997}. In addition, good sources of information have been the lecture notes of Annika Kangas on Forest Biometrics, the books of of Julian Faraway \citep{Faraway2004, Faraway2006}, Keith E Muller and Paul W Stewart \citep{Mullerandstewart2006}, and William N. Venables and Brian D. Ripley \citep{Venablesandripley2002}.   
+
+\mainmatter
+\pagenumbering{arabic}
+
+
+
+\end{document}
