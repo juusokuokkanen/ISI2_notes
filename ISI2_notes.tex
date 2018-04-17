@@ -48,6 +48,8 @@
 \newcommand{\ureal}{\,\mathbb{R}}
 \newcommand{\uninf}{\,-\infty}
 \newcommand{\uinf}{\,-\infty}
+\usepackage{graphicx}
+\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
 \DeclareMathOperator{\var}{var}
 \DeclareMathOperator{\cov}{cov}
 \DeclareMathOperator{\E}{E}
@@ -119,7 +121,7 @@ cumulative distribution function (cdf for short).
 $$F_X(x) = P(X \leq x),~\text{where } -\infty < x < \infty$$
 \item[\bf{Note:}]$F_X(x)$ is a step function if $X$ is discrete.
 \item[\bf{Note:}]$F_X(x)$ is a continuous function if $X$ is continuous.
-%TODO: Two plots visualizing discreate and continous CDFs.
+%TODO: Two plots visualizing discreate and continous CDFs. Notes 1, page 2.
 \item $F_X(x)$ or $F(x)$ is cdf, if
 \begin{itemize}
   \item [1)] $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to
@@ -180,13 +182,78 @@ E(g(X)) =  \left\{
 & = E(X^2) - \underbrace{2\mu_X \underbrace{E(X)}_{\mu_X}}_{2\mu_X^2} +
 E(\mu_X^2) \\
 & = E(X^2) - \mu_X^2 \\
+\end{array}
 \end{equation*}
 
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
 sd(X) = \sqrt{Var(X)} = \sigma_X
+\end{array}
 \end{equation*}
 
 \section{Bivariate random variables}
+\begin{itemize}
+  \item For two discrete random variables, the joint pmf is defined as
+  $$f_{X,Y}(x,y)=P(X=x, Y=y)$$
+  \item For two continuous random variables, we define the joint pdf
+  $f_{X,Y}(x,y)$ as
+  $$P((X,Y) \in A) = \iint\limits_A f(x,y) \ud x \ud y$$
+  \item The expected value for transformation
+$g(X,Y) : \ureal^2 \to \ureal$ (for example, \\ $g(X,Y) = XY$ or
+$g(X,Y) =
+\frac{X}{Y}$) is
+$$E(g(X,Y)) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(x,y)f(x,y) \ud
+x \ud y$$
+if $(X,Y)$ is continuous, and
+$$E(g(X,Y)) = \sum_{x,y \in \ureal^2} g(x,y)f(x,y)$$
+if $(X,Y)$ is discrete.
+\item The marginal pmf / pdf for $X$ are
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+f_X(x) = \sum_{y \in \ureal} f_{X,Y}(x,y) & \text{(pmf)} \\
+f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x,y) \ud y & \text{(pdf)} \\
+\end{array}
+\end{equation*}
+and correspondingly for $Y$.
+\item The conditional pmf / pdf are both defined as
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+f(y \mid x)  = \frac{f_{X,Y}(x,y)}{f_X(x)} & \text{(for both doscrete and
+continuous random variables)}
+\end{array}
+\end{equation*}
+and correspondingly for $x \mid y$.
+\end{itemize}
+\section{Independence}
+\begin{itemize}
+  \item Random variables are said to be independent ($X \indep Y$) if
+  $$f_{X,Y}(x,y) = f_X(x)f_Y(y)$$
+  \item For independent random variables, conditional distribution $y \mid x$ is 
+  $$f(y \mid x) = f_y(y)$$
+  regardless of the value of $x$.
+\end{itemize}
+
+\section{Covariance}
+\begin{itemize}
+  \item Covariance measures the linear association between two random variables
+  $X$ and $Y$
+  \begin{equation*}
+	\renewcommand{\arraystretch}{1.6}
+	\begin{array}{lll}
+	cov(X,Y) & = E((X-\mu_X)(Y-\mu_Y)) \\
+	& = E(XY) - \mu_X\mu_Y \\
+	cov(X,Y) & = cov(Y,X) \\
+	corr(X,Y) & = \rho_{XY} = \frac{cov(X,Y)}{\sigma_X \sigma_Y} & \text{where } -1
+	\leq \rho_{XY} \leq 1
+	\end{array}
+	\end{equation*}
+	\item[\bf{Note:}] $cov(X,X) = Var(X)$
+	%TODO: Small plot left out. Notes 1, page 8.
+	\item[\bf{Note:}] If $X \indep Y$, then $cov(X,Y) = 0$, but if $cov(X,Y) = 0$,
+	it does not mean $X$ and $Y$ are necessarily independent.
+\end{itemize}
+
 \end{document}
