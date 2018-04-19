@@ -221,7 +221,7 @@ and correspondingly for $Y$.
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
-f(y \mid x)  = \frac{f_{X,Y}(x,y)}{f_X(x)} & \text{(for both doscrete and
+f(y \mid x)  = \frac{f_{X,Y}(x,y)}{f_X(x)} & \text{(for both discrete and
 continuous random variables)}
 \end{array}
 \end{equation*}
@@ -255,5 +255,166 @@ and correspondingly for $x \mid y$.
 	\item[\bf{Note:}] If $X \indep Y$, then $cov(X,Y) = 0$, but if $cov(X,Y) = 0$,
 	it does not mean $X$ and $Y$ are necessarily independent.
 \end{itemize}
+\section{Random vectors}
+\begin{itemize}
+  \item Random vectors generalize the bivariate random variables to a
+  $n$-variate case.
+  	\begin{equation*}
+	\renewcommand{\arraystretch}{1.6}
+	\begin{array}{ll}
+	\bm X = \left [
+	\begin{matrix}
+	X_1 \\ X_2 \\ \vdots \\ X_n
+	\end{matrix} \right ] & \text{where $X_i,~i=1,2,\ldots,n$ are scalar random
+	variables}
+	\end{array}
+	\end{equation*}
+	\item If $\bm x$ is a continuous random vector, then
+	\begin{equation*}
+	\renewcommand{\arraystretch}{1.6}
+	\begin{array}{ll}
+	P(\bm X \in A) = \idotsint\limits_A f(\bm x) \ud x_1 \ldots \ud x_n &
+	f: \ureal^2 \to \ureal
+	\end{array}
+	\end{equation*}
+	where $f(\bm x)$ is a joint pdf.
+	\item If $\bm x$ is a discrete random vector, then
+	\begin{equation*}
+	\renewcommand{\arraystretch}{1.6}
+	\begin{array}{ll}
+	P(\bm X \in A) = \sum \ldots \sum f(\bm x)
+	\end{array}
+	\end{equation*}
+	where $f(\bm x)$ is a joint pmf.
 
+\item Let $g(\bm x)$ be a transformation $g: \ureal^2 \to \ureal$. Then, the
+	expected value is
+	\begin{equation*}
+	\renewcommand{\arraystretch}{1.6}
+	E(g(\bm X)) = \left\{
+	\begin{array}{ll}
+	\int_{-\infty}^\infty \ldots \int_{-\infty}^\infty x f(x) \ud x_1 \ldots \ud
+	x_n & \text{if $\bm X$ is continuous} \\
+	\mathop{\sum\ldots\sum}_{\bm X \in \ureal^2}g(\bm x)f(\bm x)& \text{if $\bm X$
+	is discrete} \end{array} \right.
+	\end{equation*}
+	\item Let us partition the $n$-variate random vector $\bm X$ as follows:
+	$$\bm X = \left(\begin{matrix}\bm X_1 \\ \bm X_2\end{matrix}\right)$$
+	where $\bm X_1$ has lenght $k$ and $\bm X_2$ has length $n-k$. 
+	\item The joint pdf
+	of $\bm X$ can be written as
+	$$f(\bm x) = f(\bm x_1, \bm x_2)$$ 
+	%TODO: In notes, X_1 and X_2 normal random variables. Is this correct?
+	\item The marginal density of $\bm X_1$ is
+	\begin{equation*}
+	\renewcommand{\arraystretch}{1.6}
+	\begin{array}{ll}
+	f(\bm x_1) = \int\limits_{\ureal^{n-k}} f(\bm x_1, \bm x_2) \ud \bm x_2 &
+	\text{if $\bm X$ is continuous} \\
+	f(\bm x_1) = \sum\limits_{\ureal^{n-k}} f(\bm x_1, \bm x_2) &
+	\text{if $\bm X$ is discrete}
+	\end{array}
+	\end{equation*}
+	where $f(\bm x_1)$ is a $k$-variate pdf/pmf.
+	
+	%TODO: Left out notes 2 page 2 stuff about pdf and pmf sample spaces and plots,
+	% since they are little out of context in notes. Are they needed?
+	
+	\item The conditional pdf/pmf for $\bm X_2 \mid \bm X_1$ is
+	$$f(\bm X_2 \mid \bm X_1) = \frac{f(\bm X_1, \bm X_2)}{f(\bm X_2)}$$
+	
+	%TODO: Left out plots and table visualization from notes 2 page 2 (end), are
+	% they needed?
+	
+	\item Expected value of random vectors is defined as vector
+	
+	\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+
+E(\bm x) = 
+\begin{bmatrix}
+E(X_1) \\ E(X_2) \\ \vdots \\ E(X_n)
+\end{bmatrix}_{n \times 1} = 
+\begin{bmatrix}
+E(\bm X_1) \\ E(\bm X_2)
+\end{bmatrix} =
+\begin{bmatrix}
+\bm \mu_1 \\ \bm \mu_2 \\
+\end{bmatrix}
+\end{array}
+\end{equation*}
+	
+	\item The variance of a random vector is $n \times n$ symmetric matrix called
+variance-covariance matrix.
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+
+Var(\bm x)_{n \times n} & = 
+\begin{bmatrix}
+Var(X_1) & cov(X_1, X_2) & cov(X_1, X_3) & \hdots & cov(X_1, X_n) \\
+cov(X_2, X_1) & Var(X_2) & cov(X_2, X_3) & \hdots & cov(X_2, X_n) \\
+cov(X_3, X_1) & cov(X_3, X_2) & Var(X_3) & \hdots & cov(X_3, X_n) \\
+\vdots & \vdots & \vdots & \ddots  & \vdots \\
+cov(X_n, X_1) & cov(X_n, X_2) & cov(X_n, X_3) & \hdots & Var(X_n) \\
+\end{bmatrix} \\ \\
+ & = 
+ 
+\begin{bmatrix}
+Var(\bm x_1)_{k \times k} & cov(\bm x_1, \bm x_2')_{k \times (n-k)} \\ 
+cov(\bm x_2, \bm x_1')_{(n-k) \times k}& Var(\bm x_2)_{(n-k) \times (n-k)}
+\end{bmatrix}
+\end{array}
+\end{equation*}
+
+\item The correlation matrix is defined as
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+
+corr(\bm x)_{n \times n} & = 
+\begin{bmatrix}
+1 & corr(X_1, X_2) & corr(X_1, X_3) & \hdots & corr(X_1, X_n) \\
+corr(X_2, X_1) & 1 & corr(X_2, X_3) & \hdots & corr(X_2, X_n) \\
+corr(X_3, X_1) & corr(X_3, X_2) & 1 & \hdots & corr(X_3, X_n) \\
+\vdots & \vdots & \vdots & \ddots  & \vdots \\
+corr(X_n, X_1) & corr(X_n, X_2) & corr(X_n, X_3) & \hdots & 1 \\
+\end{bmatrix}
+\end{array}
+\end{equation*}
+
+\item If $\bm X$ has a $n$-variate normal distribution, then, with
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{lll}
+
+E(\bm x) = 
+\bm \mu =
+\begin{bmatrix}
+\bm \mu_1 \\ \bm \mu_2 \\
+\end{bmatrix}
+
+ & \text{ and } & 
+ 
+ Var(\bm x)_{n \times n} = 
+\bm \Sigma =
+\begin{bmatrix}
+\bm \Sigma_1 & \bm \Sigma_{12} \\
+\bm \Sigma_{21} & \bm \Sigma_2
+\end{bmatrix}
+
+\end{array}
+\end{equation*}
+then $\bm X_1 \mid \bm X_2$ has a $k$-variate normal distribution with
+$$E(\bm X_1 \mid \bm X_2) = \bm \mu_1 + \bm \Sigma_{12} \bm
+\Sigma_2^{-1}(\bm X_2 - \bm \mu_2)$$
+$$Var(\bm X_1 \mid \bm X_2) = \bm \Sigma_1 - \bm \Sigma_{12} \bm \Sigma_2^{-1}
+\bm \Sigma_{21}$$
+\item[\bf{Note:}] $Var(\bm X_1 \mid \bm X_2) \leq Var(\bm X_1)$
+
+\end{itemize}
+	
 \end{document}
