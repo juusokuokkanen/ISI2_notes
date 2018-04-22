@@ -416,5 +416,82 @@ $$Var(\bm X_1 \mid \bm X_2) = \bm \Sigma_1 - \bm \Sigma_{12} \bm \Sigma_2^{-1}
 \item[\bf{Note:}] $Var(\bm X_1 \mid \bm X_2) \leq Var(\bm X_1)$
 
 \end{itemize}
-	
+
+\section{Computing using expected values and variances}
+Let $a$, $b$ and $c$ be constants, and let $X$, $Y$ and $Z$ be (scalar) random
+variables. The following rules hold regardless of the distribution of random
+variables $X$, $Y$ and $Z$.
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+
+E(c) = c \\
+E(cX) = cE(X) \\
+E(X+Y) = E(X)+E(Y) \\
+E(X + c) = E(X)+c \\
+E(XY) = E(X)E(Y) & \text{Only if $X \indep Y$.} \\
+E(g(X)) = g(E(X)) & \text{Only in some special cases, like when $g(X)$ }\\
+&\text{is a linear transformation.} \\
+Var(X+Y) = Var(X)+Var(Y)+2cov(X,Y) \\
+Var(X-Y) = Var(X)+Var(Y)-2cov(X,Y) \\
+Var(aX) = a^2 \cdot Var(X) \\
+cov(X, Y+Z) = cov(X,Y)+cov(X,Z) \\
+cov(aX,bY) = ab\cdot cov(XY) \\
+Var(X+a) = Var(X) \\
+%TODO: Plot in notes 2 page 5 left out
+cov(X+a,Y+b) = cov(X,Y) \\
+E(X) = E_Y\left[E_{X\mid Y}(X \mid Y)\right] \\
+Var(X) = E_Y\left[Var_{X\mid Y}(X \mid Y)\right]+Var_Y\left[Var_{X\mid Y}(X \mid
+Y)\right]
+\end{array}
+\end{equation*}
+Let $\bm a$ and $\bm b$ be fixed vectors and $\bm X$ and $\bm Y$ random vectors
+so that the dimensions in the equations match.
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+E(\bm a' \bm X) = \bm a' E(\bm X) \\
+Var(\bm a' \bm X) = \bm a' Var(\bm X) \bm a & \text{Compare to }Var(aX) = a^2
+\cdot Var(X) = a \cdot Var(X) \cdot a \\
+cov(\bm a' \bm X, \bm b' \bm Y) = \bm a' cov(\bm X, \bm Y) \bm b
+\end{array}
+\end{equation*}
+{\bf Note: } These equations need to be remembered by hearth!
+
+\chapter{Random samples}
+\begin{definition}
+\label{defRandomSamples1}
+Random variables $X_1,..,X_n$ are called random sample of size $n$ from
+population $f(x)$, if $X_1,\ldots,X_n$ are mutually independent random variables
+and the marginal pdf/pmf if each $X_i$ is the same function $f(x)$.
+Alternatively, $X_1,\ldots,X_n$ are called independent and identically
+distributed random variables (i.i.d.) with pdf/pmf $f(x)$.
+
+\textbf{Note:} Sample $X_1,\ldots,X_n$ can also be denoted by $\bm X$, where
+$\bm X = \begin{bmatrix}X_1 & \hdots & X_n \end{bmatrix}^T$
+\begin{itemize}
+\item If follows from the mutual independence, of $X_1,\ldots,X_n$ that the
+joint pdf or pmf of $\bm X$ is
+$$f(x_1,\ldots,x_2) = f(x_1)f(x_2)\ldots f(x_n) = \prod_{i=1}^n f(x_i)$$
+\item All univariate marginal distributions $f(x_i)$ are the same by definition
+\ref{defRandomSamples1}.
+\end{itemize}
+\begin{example}
+Let $X_1,\ldots,X_n$ be a random sample from $Exponential(\beta)$ population.
+$X_i$ specifies the time until failure for $n$ identical cellphones. The
+exponential pdf is
+$$f(x_i) = \frac{1}{\beta}e^{-x_i/\beta}$$ %TODO: Is the x_i correct?(note 2 p6)
+The joint pdf pf the sample is
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+f(x_1, x_2, \ldots, x_n \mid \beta) = \prod_{i=1}^n
+\frac{1}{\beta}e^{-x_i/\beta} = \frac{1}{\beta^n}e^{\frac{1}{\beta}\sum x_i} &
+\text{Recall: } a^ba^c=a^{b+c}
+\end{array}
+\end{equation*}
+What is the probability that all $n$ cellphones last more than 2 years?
+\end{example}
+\end{definition}
 \end{document}
