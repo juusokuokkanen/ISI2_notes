@@ -467,7 +467,7 @@ population $f(x)$, if $X_1,\ldots,X_n$ are mutually independent random variables
 and the marginal pdf/pmf if each $X_i$ is the same function $f(x)$.
 Alternatively, $X_1,\ldots,X_n$ are called independent and identically
 distributed random variables (i.i.d.) with pdf/pmf $f(x)$.
-
+\end{definition}
 \textbf{Note:} Sample $X_1,\ldots,X_n$ can also be denoted by $\bm X$, where
 $\bm X = \begin{bmatrix}X_1 & \hdots & X_n \end{bmatrix}^T$
 \begin{itemize}
@@ -492,6 +492,149 @@ f(x_1, x_2, \ldots, x_n \mid \beta) = \prod_{i=1}^n
 \end{array}
 \end{equation*}
 What is the probability that all $n$ cellphones last more than 2 years?
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+P(X_1>2,\ldots,X_n>2) & = \int_2^\infty \ldots \int_2^\infty f(x_1,\ldots,x_n)
+\ud x_1 \ldots \ud x_n \\
+& = \int_2^\infty \ldots \int_2^\infty \prod_{i=1} \frac{1}{\beta}e^{-x_i/\beta}
+\ud x_1 \ldots \ud x_n \\
+& = \int_2^\infty \ldots \int_2^\infty \prod_{i=2} \frac{1}{\beta}e^{-x_i/\beta}
+\underbrace{\int_2^\infty \frac{1}{\beta}e^{-x_1/\beta} \ud x_1}_{
+\substack{
+\text{Integral over the exponential pdf}\\
+\int_2^\infty f(x_1) \ud
+x_1 = 1 - F(2) \\ =
+1-(1-e^{-\frac{1}{\beta}2}) = e^{\frac{-2}{\beta}}}} \ud x_2 \ldots \ud x_n
+\\ %TODO: better way to do the underbrace?
+& = e^{\frac{-2}{\beta}}\underbrace{\int_2^\infty \ldots \int_2^\infty
+\prod_{i=2} \frac{1}{\beta}e^{-x_i/\beta} \ud x_2 \ldots \ud
+x_n}_{\substack{\text{Identical to original integral except that} \\
+\text{there are only n-1 terms to be integrated}}} =
+\ldots
+\\
+& = e^{-2/\beta}\cdot e^{-2/\beta} \int_2^\infty \ldots \int_2^\infty
+\prod_{i=3} \frac{1}{\beta}e^{-x_i/\beta} \ud x_3 \ldots \ud x_n \\
+& = (e^{-2/\beta})^n = e^{-2n/\beta}
+\end{array}
+\end{equation*}
 \end{example}
+A much more simpler solution: notice that $P(X_i > 2) = 1 - F(2) =
+e^{-1/\beta}$. Because $X_i$'s are independent, then also events $(X_i > 2)$ are
+independent event, and so
+$$P(\text{All } X_i > 2) = \prod_{i=1}^n P(X_i > 2) = (e^{-2/\beta})^n =
+e^{-2n/\beta}$$
+\textbf{Illustration} See \verb#ExponentialSample.R# for the case where $n=2$
+and $\beta=3$. Notice that R uses parametrization $\lambda=\frac{1}{\beta}$
+for the exponential distribution, so in R, exponential pdf is $f(x \mid
+\lambda) = \lambda e^{-\lambda x}$.
+%TODO: Left out the illustrations and texts related to illustrations in notes 3
+% page 1 (end).
+
+\textbf{Note:} Definition \ref{defRandomSamples1} assumes that $X_1,\ldots,X_n$
+are independent. In practice, we often do analysis on dependent data. For that
+use, we could define term ``dependent random sample''. Mathematical treatment of
+dependent sample requires more specific description of dependence structure,
+e.g. through spatial or temporal autocorrelation models, or explicit models for
+grouped data.
+
+Dependent data are modeled by assuming that random vectors $\bm
+X_1,\ldots,\bm X_n$ are vectors of appropriate length, and there are $n$
+independent realizations of them in the data. Quite often $n=1$ and each
+replicate to $\bm X_1$, which is a rather long vector.
+%TODO: Illustration about data points left out in notes 3, page 2. Is it needed?
+\begin{example} % TODO: Remark about see exercise 7.4 of ISI1 left out. Is it
+% needed? If so, see actual number of new notes.
+\label{exampleSpatialData1}
+Let $\bm X = \begin{bmatrix} X(u_1) & X(u_2) & X(u_3) \end{bmatrix}^T$ include
+random variables $X$ at locations $u_1$, $u_2$ and $u_3$. Assume that $\bm X_1$
+is normally distributed and the correlation $\rho_{ij} = corr(X(u_i), X(u_j))$
+depends only on the spatial distance $s_{ij} = \lVert u_i - u_j \rVert$ between
+locations $u_i$ and $u_j$.
+
+The marginal means and variances of $X(u_i)$ are $E(X(u_i))=\mu$ for all $i$ and
+$Var(X(u_i)) = \sigma^2$ for all $i$. Consider case where $u_1 = (1,0)$, $u_2 =
+(0,0)$, $u_3=(0,2)$ and $\rho_{ij} = e^{-s_{ij}/2}$. Correlations and
+covariances related to different random variables can be seen on table
+\ref{exampleSpatialData1Table1}.
+
+\begin{table}[h]
+\caption{Correlations between the random variable pairs
+of example \ref{exampleSpatialData1}}
+\label{exampleSpatialData1Table1}
+\renewcommand{\arraystretch}{1.4}
+\renewcommand{\tabcolsep}{0.3cm}
+\begin{tabular}{c|c|c|c}
+Pair & $s_{ij}$ & $\rho_{ij}$ & $cov(X(u_i), X(u_j))$ \\
+\hline
+1,2 & 1 & 0.61 & $0.61 \sigma^2$ \\
+1,3 & $\sqrt{5}$ & 0.33 & $0.33 \sigma^2$ \\
+2,3 & 2 & 0.37 & $0.37 \sigma^2$ \\
+
+\end{tabular}
+\end{table}
+%TODO: Illustration about data point location distances left out on notes 3 page
+% 2. Is it needed?
+Let
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{lll}
+\bm \mu = \begin{bmatrix} \mu \\ \mu  \\ \mu  \end{bmatrix} &
+\text{and} & 
+\bm \Sigma = \sigma^2
+\begin{bmatrix} 
+1 & 0.61 & 0.33 \\ 
+0.61 & 1 & 0.37  \\ 
+0.33 & 0.37 & 1
+\end{bmatrix}
+\end{array}
+\end{equation*}
+
+The joint pdf of $\bm X$ is 3 variate normal distribution with mean $\bm \mu$
+and variance $\bm \Simga$ 
+$$f(x_1 \mid \bm \mu, \bm \Sigma) = \frac{1}{\sqrt{(2\pi)^3}}
+\lvert \bm \Sigma \rvert^{-1/2}e^{\frac{1}{2}(\bm x_1 - \bm \mu)'\bm \Sigma^{-1}(\bm x_1 - \bm
+\mu)}$$
+
+\textbf{Note:} In random sample, we assume that $X_1,\ldots,X_n$ are identically
+distributed. In the case of random vectors, whis is specified by saying that the
+marginal distributions of the elements of $\bm X_i$ are identical.
+
+\textbf{Note:} We can also have independent replicates of random vectors, e.g.
+if we have grouped data where the groups are independent replicates from the
+process that generates the groups, and the observations within the groups are
+dependent. This is related to mixed-effects models.
+
+\textbf{Note:} Definition \ref{defRandomSamples1} specifies sampling from an
+infinite population (or population model): the sampling procedure does not
+change the population.
+
+The population may also be finite, like numbers in hat. In that case, the
+sampling can be made with replacement: whenever a number has been drawn, the
+value is recorded but the number is put back to the hat. This procedure, which
+is useful e.g. in Bootstrapping, fullfils the conditions of definition
+\ref{defRandomSamples1}.
+
+If we do the sampling without replacement (which often makes much sense), then
+the conditions of definition \ref{defRandomSamples1} are not fulfilled: each
+draw changes the population by removing one unit from the finite population.
+This leads to so called design-based inference, which is covered in the
+literature of sampling theory.
+
+The difference to definition \ref{defRandomSamples1} is important especially if
+the sample size $n$ is large compared to the size of population, but may be
+unimportant if $N >> n$. In this course, we are considering only sampling
+according to definition \ref{defRandomSamples1}.
+
+Random samples can be summarized to a well defined summary called statistic.
+
+\begin{definition}
+Let $\bm X = X_1,\ldots,X_n$ be a random sample of size $n$ from population
+$f(x)$ and let $T(\bm X)$ be a real-valued or vector-valued function, whose
+domain includes the sample space of $\bm X$. The random variable $Y = T(\bm X)$
+is called a statistic (statistiikka, tunnusluku). The probability distribution
+of $Y$ is called the sampling distribution of $Y$ (otantajakauma).
 \end{definition}
+
+\end{example}
 \end{document}
