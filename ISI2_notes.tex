@@ -591,11 +591,11 @@ Let
 \end{equation*}
 
 The joint pdf of $\bm X$ is 3 variate normal distribution with mean $\bm \mu$
-and variance $\bm \Simga$ 
+and variance $\bm \Simga $ 
 $$f(x_1 \mid \bm \mu, \bm \Sigma) = \frac{1}{\sqrt{(2\pi)^3}}
 \lvert \bm \Sigma \rvert^{-1/2}e^{\frac{1}{2}(\bm x_1 - \bm \mu)'\bm \Sigma^{-1}(\bm x_1 - \bm
 \mu)}$$
-
+\end{example}
 \textbf{Note:} In random sample, we assume that $X_1,\ldots,X_n$ are identically
 distributed. In the case of random vectors, whis is specified by saying that the
 marginal distributions of the elements of $\bm X_i$ are identical.
@@ -612,7 +612,7 @@ change the population.
 The population may also be finite, like numbers in hat. In that case, the
 sampling can be made with replacement: whenever a number has been drawn, the
 value is recorded but the number is put back to the hat. This procedure, which
-is useful e.g. in Bootstrapping, fullfils the conditions of definition
+is useful e.g. in Bootstrapping, fulfils the conditions of definition
 \ref{defRandomSamples1}.
 
 If we do the sampling without replacement (which often makes much sense), then
@@ -636,5 +636,53 @@ is called a statistic (statistiikka, tunnusluku). The probability distribution
 of $Y$ is called the sampling distribution of $Y$ (otantajakauma).
 \end{definition}
 
+\textbf{Examples of statistics}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+\text{Sample minimum} & min(\bm X) \\
+\text{Sample maximum} & max(\bm X) \\
+\text{Sample median} & median(\bm X) \\
+\end{array}
+\end{equation*}
+Also other like sample mean, variance, standard deviation, quartiles etc.
+
+\begin{example} Let $\bm X$ be a random sample of size 5 from $Exponential(2)$
+population. R script \verb#statistics.R# illustrates the distributions of
+$min(\bm X)$, $max(\bm X)$, $median(\bm X)$ and $mean(\bm X)$ through
+simulation. Script repeates the sampling from Exponential distribution $M=10000$
+times and illustrates the distribution of the above mentioned sample statistic
+when $n=5$.
 \end{example}
+
+\begin{definition}
+The sample mean is the statistic defined by
+$$\bar X = \frac{1}{n}\sum_{i=1}^n X_i$$
+\end{definition}
+
+\begin{definition}
+The sample variance is the statistic defined by
+$$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2$$
+\end{definition}
+\begin{itemize}
+  \item The sample standard deviation is the statistic defined by $S =
+  \sqrt{S^2}$.
+  \item The observed values of these random variables are denoted by $\bar X$,
+  $s^2$ and $s$.
+\end{itemize}
+\begin{theorem}
+Let $X_1,\ldots,X_n$ be any numbers. Then
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{lll}
+\text{a)} & min_a \sum_{i=1}^n (x_i-a)^2 = \sum_{i=1}^n(x_i-\bar x)^2 \\
+\text{b)} & (n-1)s^2 = \sum_{i=1}^n (x_i-\bar x)^2 = \underbrace{\sum_{i=1}^n
+x_i^2-n\bar x^2}_{\substack{\text{Compare to} \\ Var(\bm X) = E(\bm
+X^2)-(E(\bm X))^2}} %TODO: Is this correct (in notes, \bm X and X mixed in
+% formula)
+\\
+\end{array}
+\end{equation*}
+%TODO: Plot at notes 4 page 3 left out. Is it needed?
+\end{theorem}
 \end{document}
