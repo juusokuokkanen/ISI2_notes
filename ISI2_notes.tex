@@ -763,6 +763,7 @@ $$Var(X_1 + X_2) = Var(X_1)+Var(X_2)+2\cdot cov(X_1, X_2)$$
 to general sum $\sum X_i$.
 \end{itemize}
 \begin{theorem}
+\label{theoremUnbiasedEstimators1}
 Let $X_1,\ldots,X_n$ be a random sample form a population with mean $\mu$ and
 variance $\sigma^2 < \infty$. Then
 \begin{equation*}
@@ -781,4 +782,128 @@ variance $\sigma^2 < \infty$. Then
 an unbiased estimator (harhaton estimaattori) of population mean $\mu$. Also 
 $S^2$ is an unbiased estimator of population variance $\sigma^2$.
 \end{itemize}
+\begin{example}
+Illustrate these results through simulation. Intuitively, mean of an observed
+value of a statistic over a large number of samples should be close to expected
+value of the statistic in question. Therefore, (a), (b) and (c) of theorem
+\ref{theoremUnbiasedEstimators1} can be demonstrated by simulating $M$ samples
+of a fixed size $n$ and exploring how the means of the sample values of $\bar
+x$, $(\bar x - \mu)^2$ and $s^2$ behave as $M \to \infty$.
+
+R-script \verb#demonstratebias.R# implements this by assuming that the
+population has the $Uniform(0,10)$ distribution and $n=10$.
+\end{example}
+\section{Distribution of sum}
+\begin{theorem}\label{theoremConvolutionFormula1} (Convolution formula)
+
+If $X$ and $Y$ are independent, continuous random variables with pdf's $f_X(x)$
+and $f_Y(y)$, then the pdf of the sum $Z = x + Y$ is
+$$f_Z(z) = \int_{-\infty}^\infty f_X(w)f_Y(z-w) \ud w$$
+\end{theorem}
+\textbf{Proof: } See Casella & Berger, p 215-216.
+
+\textbf{Illustration: } See example 1.20 of \verb#notes.pdf#
+  %TODO: Two plots in the end of notes 4 page 7 left out. Needed?
+
+\textbf{Note:} To compute the complete distribution of a sum $Z = \sum_{i=1}^n$,
+where $X_i$'s do not need to be identically distributed, but they are
+independent, we need to apply theorem \ref{theoremConvolutionFormula1}
+iteratively. E.g. to find the distribution of $X_1 + X_2 + X_3$, you may first
+find the distribution of $Z = X_1 + X_2$ using theorem
+\ref{theoremConvolutionFormula1} and thereafter use theorem
+\ref{theoremConvolutionFormula1} again to find the pdf of $Z + X_3$. This is not
+trivial in very general case, but there are easier ways to do this, e.g. when
+$X_i$'s are identically distributed and independent (i.i.d).
+
+However, recall that in any case, the moments are easy
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+E(\sum X_i) = \sum E(X_i) \\
+Var(\sum X_i) = \sum Var(X_i) & \text{(If $X_i$'s are independent)}
+\end{array}
+\end{equation*}
+\section{Sampling from Normally distributed population}
+\begin{theorem}
+\label{theoremSumOfRVs1}
+Let $\bm X_{n \times 1}$ be random sample of size $n$ from a $N(\mu, \sigma^2)$
+distribution and let $\bar X = \frac{1}{n}\sum_{i=1}^n X_i$ and $S^2 =
+\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar X)^2$. Then
+%TODO: Plot at notes 5 page 2 left out. Needed?
+\begin{itemize}
+  \item[a)] $\bar X$ and $S^2$ are independent random variables.
+  \item[b)] $\bar X$ has $N(\mu, \frac{\sigma^2}{n})$
+  \item[c)] $(n-1)S^2/\sigma^2$ has chi-squared distribution with parameter
+  $n-1$. Parameter $n-1$ is commonly called the ``degrees of freedom''.
+\end{itemize}
+\end{theorem}
+\textbf{Note:} The chi-squared distribution with $p$ degrees of freedom has the
+pdf
+$$f_X(x)= \frac{1}{\underbrace{\Gamma(p/2)}_{\text{Gamma
+-function}}}X^{p/2-1}e^{-x/2}$$
+\begin{itemize}
+  \item Gamma -function: $\Gamma(z) = \int_0^\infty x^{z-1}e^{-x}\ud x}2^{p/2}$
+\end{itemize}
+\begin{lemma}
+We use notation $\chi_p^2$ for a chi-squared random variables with $p$ degrees
+of freedom
+\begin{itemize}
+  \item If $Z$ is a $N(0,1)$ random variable, then $Z^2 \sim \chi_1^2$, that is,
+  the square of a standard normal random variable is a chi-squared random
+  variable. %TODO: Is Z^2 \chi_p^2 or \chi_1^2?
+  \item If $X_1,\ldots,X_n$ are independent and $X_i \sim \chi_{p_i}^2$ then
+  $\sum X_i \sim \chi_{\sum p_i}^2$. That is, independent chi-squared random
+  variables add to a chi-squared random variable, and the degrees of freedom
+  also add.
+\end{itemize}
+\end{lemma}
+\begin{example}
+Illustrate the result of theorem \ref{theoremSumOfRVs1} using R-script. In file
+\verb#normalchi.R#, we implement the following:
+
+Repeat M times
+\begin{itemize}
+  \item[1.] Generate random variables $X_i \sim N(0,1)$, where $n=1,\ldots,9$
+  \item[2.] Compute $Z = \sum x_i^2$ for each sample
+  \item[3.] Plot the histogram of the $M$ obtained values of $Z$ and compate to
+  the distribution $\chi_n^2$.
+\end{itemize}
+\end{example}
+\textbf{Note:} If $\bm X_n$ is a random sample from $N(\mu,\sigma^2)$
+population, then the random variable
+$$Z = \frac{\bar X - \mu}{\sigma / \sqrt{n}} \sim N(0,1)$$
+where $\mu = E(\bar X)$ and $\sigma / \sqrt{n} = Var(\bar X)$.
+\begin{itemize}
+  \item This transformation could be used to make inference on $\mu$ using the
+  observed $\bar x$, if $\sigma^2$ is known.
+  \item However, that is not the case, and therefore we use $\frac{\bar X -
+  \mu}{\sigma / \sqrt{n}}$ which can also be written as
+  $$\frac{(\bar X - \mu)/(\sigma / \sqrt{n})}{\sqrt{S^2 / \sigma^2}}$$
+  where $(\bar X - \mu)/(\sigma / \sqrt{n}) \sim N(0,1)$ and
+  $\sqrt{S^2 / \sigma^2} \sim \chi_{n-1}^2$.
+\end{itemize}
+\begin{theorem}
+Let $\bm X$ be a random sample from $N(\mu, \sigma^2)$. The random variable
+$$T = \frac{\bar X - \mu}{S/\sqrt{n}}$$
+has Student's t-distribution with parameter (n-1) ``degrees of freedom''. 
+
+In
+general, a random variable $T$ has Student's t-distribution with $p$ degrees of
+freedom ($T \sim t_p$) if $T$ has the pdf
+$$f_T(t) =
+\frac{\Gamma(\frac{p+1}{2})}{\Gamma(\frac{p}{2})}\frac{1}{(p\pi)^{1/2}}\frac{1}{(1+t^2/p)^{(p+1)/2}}$$
+\end{theorem}
+\textbf{Proof:} See Casella & Berger, p.223-224.
+
+\textbf{Illustration:} File \verb#normalchi.R#
+\begin{itemize}
+  \item We use samples of sizes $3,4,\ldots,100$ and $M=10000$.
+  \item Plot empirical histogram of $\frac{\bar X - \mu}{s/\sqrt{n}}$
+  \item Compare to $t_{n-1}$ distribution and to $N(0,\sigma^2)$.
+  \item $\mu=5$ and $\sigma^2 = 3^2$. %TODO: Is this enough information?
+  \item Because $S^2 \to \sigma^2$ as $n$ increases, the difference between
+  $N(0,1)$ and $t_{n-1}$ becomes meaningless as $n \to \infty$.
+\end{itemize}
+\textbf{Note:} $t_p$ has only $p$ moments. Especially $E(T_p) = 0$ if $p > 1$.
+%TODO: Was there someting that was left out of page in notes 5 page 3 end?
 \end{document}
