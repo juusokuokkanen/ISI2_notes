@@ -61,6 +61,7 @@
 \newtheorem{example}{Example}[chapter]
 \newtheorem{definition}{Definition}[chapter]
 \newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
 %\bibpunct{(}{)}{,}{a}{}{,}
 \bibliographystyle{\foldPath saf}
 %\bibliographystyle{alpha}
@@ -671,6 +672,7 @@ $$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2$$
   $s^2$ and $s$.
 \end{itemize}
 \begin{theorem}
+\label{theoremXbarSigma}
 Let $X_1,\ldots,X_n$ be any numbers. Then
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
@@ -685,4 +687,98 @@ X^2)-(E(\bm X))^2}} %TODO: Is this correct (in notes, \bm X and X mixed in
 \end{equation*}
 %TODO: Plot at notes 4 page 3 left out. Is it needed?
 \end{theorem}
+
+\begin{lemma} Let $X_1,\ldots,X_n$ be a random sample form a population and the
+$g(X)$ be a function such that $E(g(X_i))$ and $Var(g(X_i))$ exist. Then
+$$E\left[\sum_{i=1}^ng(X_i)\right] = n\cdot E(g(X_i))$$
+and
+$$Var(\sum_{i=1}^n g(X_i)) = n \cdot Var(g(X_i))$$
+\textbf{Proof} 
+
+$$E(\sum g(X_i)) = \sum E(g(X_i)) = *$$
+Because $X_i$'s are identically distributed
+$$*=nE(g(X_i))$$
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+Var(\sum g(X_i)) & = E\left[ \sum g(X_i) - E(\sum g(X_i)) \right]^2 \\
+& = E\left\{ \sum \left[\underbrace{g(X_i) - E(g(X_i))}_{t_i}\right] \right\}^2
+= * \\
+\end{array}
+\end{equation*}
+With $t_i$, we can get following
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{l}
+E(\sum t_i \sum t_i) \\
+= E(\sum t_i^2 + \substack{\sum\sum\\i \neq j} t_i t_j) \\
+= \sum E(t_i^2) + \substack{\sum\sum\\i \neq j}E(t_i t_j)
+\end{array}
+\end{equation*}
+which we can expand back to original equation
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{l}
+* =  \underbrace{\sum E(\left[ g(X_i) - E(g(X_i)) \right]^2)}_{\sum E(t_i^2)} +
+\underbrace{\substack{\sum\sum\\i \neq j}E\left[(g(X_i) - E(g(X_i)))(g(X_j) -
+E(g(X_j)))\right]}_{\substack{\sum\sum\\i \neq j}E(t_i t_j)} \\
+~= \sum Var(g(X_i)) + \substack{\sum\sum\\i \neq j} cov(g(X_i),g(X_j)) \\
+~= \underbrace{n \cdot Var(X_1)}_{
+\substack{\text{Because $X_i$'s}
+\\ \text{ identically distributed}}} 
++ n(n-1)\cdot \underbrace{0}_{\substack{\text{Because $X_i$'s} \\ \text{are
+independent}}} = n \cdot Var\left[g(X_1)\right]
+\end{array}
+\end{equation*}
+\end{lemma}
+\textbf{Note:} The proof of $E(\sum g(X_i))$ did not utilize the assumption of
+independence. Therefore it is valid also for dependent samples. The poof of
+$Var(\sum g(X_i))$ used the assumption of independence. Therefore it is not
+valid for dependent samples.
+\begin{itemize}
+  \item For dependent samples, we get
+  $$Var(\sum g(X_i))= \sum_{i=1}^n \sum_{j=1}^n cov\left[g(X_i),g(X_j)\right]$$
+  \item Proof left as an exercise (recall, that $Var(X_i) = cov(X_i, X_i)$).
+  %TODO:  Is it still an exercise?
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+
+Var(\bm x) & = 
+\begin{bmatrix}
+Var(X_1) & cov(X_1, X_2)  & \hdots & cov(X_1, X_n) \\
+cov(X_2, X_1) & Var(X_2)  & \hdots & cov(X_2, X_n) \\
+\vdots & \vdots & \ddots  & \vdots \\
+cov(X_n, X_1) & cov(X_n, X_2) & \hdots & Var(X_n) \\
+\end{bmatrix} \\
+Var(\sum X_i) = \sum\sum cov(X_i, X_j)
+\end{array}
+\end{equation*}
+
+\item That is, the sum of all elements of matrix $Var(\bm X)$.
+\item[\textbf{Note:}] This extends the rule
+$$Var(X_1 + X_2) = Var(X_1)+Var(X_2)+2\cdot cov(X_1, X_2)$$
+to general sum $\sum X_i$.
+\end{itemize}
+\begin{theorem}
+Let $X_1,\ldots,X_n$ be a random sample form a population with mean $\mu$ and
+variance $\sigma^2 < \infty$. Then
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{lll}
+\text{a)} & E(\bar X) = \mu \\
+\text{b)} & Var(\bar X) = \frac{\sigma^2}{n} & ~E(\bar X - \mu)^2 \\ 
+\text{c)} & E(S^2) = \sigma^2 \\ 
+\end{array}
+\end{equation*}
+\end{theorem}
+\begin{itemize}
+  \item Proof for a and b are familiar from ISI1 course. Proof of c applier the theorem
+\ref{theoremXbarSigma} and is left as an exercise. %TODO: Still an exercise?
+\item[\bf{Note:}] Because $E(\bar X)= \mu$, the statistic $\bar X$ is said to be
+an unbiased estimator (harhaton estimaattori) of population mean $\mu$. Also 
+$S^2$ is an unbiased estimator of population variance $\sigma^2$.
+\end{itemize}
 \end{document}
