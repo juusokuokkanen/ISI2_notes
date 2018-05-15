@@ -842,7 +842,7 @@ pdf
 $$f_X(x)= \frac{1}{\underbrace{\Gamma(p/2)}_{\text{Gamma
 -function}}}X^{p/2-1}e^{-x/2}$$
 \begin{itemize}
-  \item Gamma -function: $\Gamma(z) = \int_0^\infty x^{z-1}e^{-x}\ud x}2^{p/2}$
+  \item Gamma -function: $\Gamma(z) = \int_0^\infty x^{z-1}e^{-x}\ud x$
 \end{itemize}
 \begin{lemma}
 We use notation $\chi_p^2$ for a chi-squared random variables with $p$ degrees
@@ -906,4 +906,43 @@ $$f_T(t) =
 \end{itemize}
 \textbf{Note:} $t_p$ has only $p$ moments. Especially $E(T_p) = 0$ if $p > 1$.
 %TODO: Was there someting that was left out of page in notes 5 page 3 end?
+
+\begin{itemize}
+  \item A third important derived distribution under sampling from a
+normal population is the Snedecor's/Fisher's F-distribution. 
+\item It is the theoretical distribution of
+the ratio of variances.
+\end{itemize}
+\begin{example}
+Let $\bm X$ be a random sample from $N(\mu_X,\sigma_X^2)$ and let $\bm Y$ be a
+random sample from $N(\mu_Y,\sigma_Y^2)$. If we were interested in comparing the
+variability in these two populations, a quality of interest would be
+$\sigma_X^2/\sigma_Y^2$. Information about $\sigma_X^2/\sigma_Y^2$ is contained
+in $s_X^2/s_Y^2$; ratio of the sample variances.
+
+The F-distribution allows this comparison by giving te distribution for random
+variable
+$$\frac{s_X^2/s_Y^2}{\sigma_X^2/\sigma_Y^2} =
+\frac{s_X^2/\sigma_X^2}{s_Y^2/\sigma_Y^2} $$
+where ratios $s_X^2/\sigma_X^2$ and $s_Y^2/\sigma_Y^2$ are independent, scaled
+$\chi^2$-distributed random variables. 
+\end{example}
+
+\begin{definition}
+Let $\bm X_{n \times 1}$ be a random sample from a $N(\mu_X, \sigma_X^2)$
+population and let $\bm Y_{m \times 1}$ be a random sample from an independent
+$N(\mu_Y, \sigma_X^2)$ population. The random variable
+$$F = \frac{s_X^2/\sigma_X^2}{s_Y^2/\sigma_Y^2} $$
+has the F-distribution with parameters (numerator and denominator degrees of
+freedom) $n-1$ and $m-1$. Equivalently, random variable $F$ has the
+F-distribution with $p$ and $q$ degrees of freedom $(F \sim F_{p,q})$ if $F$ has
+the pdf
+$$f_F(x) =
+\frac{\Gamma(\frac{p+q}{2})}{\Gamma(\frac{p}{2})\Gamma(\frac{q}{2})}\left(\frac{p}{q}\right)^{p/2}\frac{x^{p/2-1}}{\left[1+\frac{p}{q}x\right]^{(p+q)/2}}$$
+\end{definition}
+\textbf{Note:} \begin{itemize}
+  \item[a)] If $X \sim F_{p,q}$, then $1/X \sim F_{q,p}$
+  \item[b)] If $X \sim t_q$, then $X^2 \sim \chi_1^2$ (recall that if $X \sim
+  N(0,1)$, then $X^2 \sim \chi_1^2$)
+\end{itemize}
 \end{document}
