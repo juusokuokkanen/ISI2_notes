@@ -14,6 +14,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
 \usepackage{color}
+\usepackage{commath}
 
 %\newenvironment{Rcode}[1]%
 %{\scriptsize{\ttfamily{\bf The R-code for #1}} \\
@@ -592,7 +593,7 @@ Let
 \end{equation*}
 
 The joint pdf of $\bm X$ is 3 variate normal distribution with mean $\bm \mu$
-and variance $\bm \Simga $ 
+and variance $\bm \Sigma$ 
 $$f(x_1 \mid \bm \mu, \bm \Sigma) = \frac{1}{\sqrt{(2\pi)^3}}
 \lvert \bm \Sigma \rvert^{-1/2}e^{\frac{1}{2}(\bm x_1 - \bm \mu)'\bm \Sigma^{-1}(\bm x_1 - \bm
 \mu)}$$
@@ -945,4 +946,52 @@ $$f_F(x) =
   \item[b)] If $X \sim t_q$, then $X^2 \sim \chi_1^2$ (recall that if $X \sim
   N(0,1)$, then $X^2 \sim \chi_1^2$)
 \end{itemize}
+\section{Convergence}
+\begin{itemize}
+  \item What happens if $n \to \infty$.
+\end{itemize}
+\begin{theorem}
+Markov inequality
+
+Let $X$ be a random variable such that $P(X \geq 0) = 1$ (i.e. $X$ gets only
+positive values). Then, for every number $t > 0$
+$$P(x > t) \leq \frac{E(X)}{t}$$
+% TODO: Left out plot in notes 6 page 1. Is it needed?
+\textbf{Proof:} Consider only case where $X$ is discrete random variable.
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+E(X) & = \sum_X x f(x) \\
+& = \sum_{x<t}x f(x) + \sum_{x \geq t} x f(x) \\
+\end{array}
+\end{equation*}
+Because $X \geq 0$, both terms are positive
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+E(X) & \geq \sum_{X \geq t}xf(x) \geq \sum_{X \geq t} t f(x) = t
+\underbrace{\sum_{X \geq t} f(x)}_{P(X\geq t)} \\
+& = t \cdot P(X\geq t) \\
+& \\
+E(X) & \geq t \cdot P(X\geq t) || :t ~~ (>0)\\
+\frac{E(X)}{t} & \geq P(X\geq t)
+\end{array}
+\end{equation*}
+\end{theorem}
+\begin{example} Let $X$ be a non-negative random variable with $E(X) = 1$
+$$P(X \geq 100) \leq \frac{E(X)}{100} = 0.01$$
+\end{example}
+\begin{theorem} Chebyshev's inequality
+
+Let $X$ be a random variable such that $Var(X)$ exists. Then for every number
+$t > 0$
+$$P(\abs{X-E(X)} \geq t) \leq \frac{\sigma^2}{t^2}$$
+\textbf{Proof:} Let $Y=(X-E(X))^2$. Now $P(Y \geq 0) = 1$ and $E(Y) = Var(X)$
+$$P(\abs{X - E(X)} \geq t) = P(Y \geq t^2) \leq \frac{E(Y)}{t^2}$$
+$$P(\abs{X - E(X)} \geq t) \leq \frac{Var(X)}{t^2}$$
+\end{theorem}
+\begin{example} If $Var(X) = \sigma^2$ and we select $t=3\sigma$
+$$P(\abs{X-E(X)} \geq 3 \sigma) \leq \frac{\sigma^2}{(3\sigma)^2} =
+\frac{1}{9}$$
+\end{example}
 \end{document}
