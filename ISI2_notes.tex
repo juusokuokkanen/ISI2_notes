@@ -1096,7 +1096,7 @@ P(n(1 - X_{(n)}) \geq t) = \underbrace{1 - e^{-t}}_{\text{Exponential(1) cdf}}
 \end{array}
 \end{equation*}
 %TODO: Plot it notes 6 page 7. Is it needed?
-\textbf{Illustration: } See script \verb#MaxOfUniforms.R#
+\textbf{Illustration: } See R-script \verb#MaxOfUniforms.R#
 
 How fast does the convergence occur, i.e. how large does the $n$ need to be to
 have $n(1 - X_{(n)}) \sim Exponential(1)$?
@@ -1109,5 +1109,110 @@ The approximation looks quite nice already, when $n \geq 10$. But notice the
 behaviour in the tails. Especially $n(1-X_{(n)})$ is bounded to interval
 $[0,n]$.
 %TODO: Was there some text that was left out of notes in notes 6 page 7 end?
+\end{example}
+\begin{theorem} (The central limit theorem (CTL) (Keskeinen raja-arvolause))
+
+Let $X_1, X_2,\ldots$ be a sequence of i.i.d. random variables with finite
+$E(X) = \mu$ and finite variance $Var(X) = \sigma^2 > 0$. Let $\bar{X}_n =
+\sum_{i=1}^n X_i$. Let $G_{Z_n}(z)$ denote the cdf of
+$$Z_n = \frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} =
+\frac{\bar{X}_n-\overbrace{\mu}^{E(\bar{X}_n)}}{\underbrace{\sigma/\sqrt{n}}_{sd(\bar{X}_n)}}$$
+Then $\lim_{n \to \infty}G_{Z_n}{z} = \underbrace{\int_{-\infty}^z
+\underbrace{\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\ud y}_{N(0,1) \text{
+pdf}}}_{N(0,1) \text{ cdf}}$
+That is: $Z_n$ has limited standard normal distribution, meaning $Z_n
+\xrightarrow{d} N(0,1)$. Equivalently, $\bar{X}
+\xrightarrow{d} N(\mu,\sigma^2/n)$.
+\textbf{Notes:}
+\begin{itemize}
+  \item We assume only finite $\mu$ and $\sigma^2$ and end up to normlity.
+  \item The rate of convergence is affected by the original distribution of
+  $X_i$
+  \begin{itemize}
+    \item The closer the distribution of $X$ is the Normal curve, the faster the
+    convergence is.
+    \item The rate needs to be evaluated case by case.
+  \end{itemize}
+  \item Provides an all purpose approximation og the distribution of sums of
+  i.i.d. random variables.
+\end{itemize}
+\textbf{Proof: } See Casella & Berger pages 237-238.
+
+\textbf{Illustration: } See R-script \verb#unifmean.R#. Script takes $M=10000$
+samples using each of the following sample sizes $n=1,2,3,4,5,6$ from a
+Uniform(0,10) population, and demonstrates the distribution of $\bar{X}$ using a
+histogram and compares it to $N(\mu, \sigma^2/n)$ distribution. Expected value
+and variance of Uniform(0,10) population are
+$$\mu = \frac{b-a}{2} = \frac{10}{2} = 5$$
+$$\sigma^2 = \frac{1}{12}(b-a)^2 = \frac{(10-0)^2}{12} = \frac{100}{12} =
+\frac{25}{3}$$
+The visual evaluation of histogram gives an impression that the approximation is
+good already when $n > 4$. However, we are usually interested in the behaviour
+in the tails, which needs more careful evaluation, e.g. compute the
+0.95\textsuperscript{th} quartile of the Normal distribution. Check which
+proportion of the simulated samples had the mean above this quartile. The
+proportion should be close to 0.05 if the approximation is good.
+%TODO: In notes, is said that this is left as an exercise. Is this needed?
+\end{theorem}
+\begin{theorem}(Slutsky)
+If $X_n \xrightarrow{d} X$ and if $Y_n \xrightarrow{P} a$, where a is a
+constant, then
+\begin{itemize}
+  \item[a)] $Y_n X_n \xrightarrow{d} aX$
+  \item[b)] $X_n + Y_n \xrightarrow{d} X + a$
+\end{itemize}
+\textbf{Note} Proof for this is not shown.
+\end{theorem}
+\begin{example}
+(Normal approximation with estimated variance)
+
+The central limit theorem said that under mild conditions
+$$\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} \xrightarrow{d} N(0,1)$$
+However, $\sigma^2$ is often unknown, but can be unbiasedly and consistently
+estimated by $s_n^2 = \frac{1}{n-1}\sum(X_i-\bar{X}_n)^2$. It can also be shown
+that (see Casella & Berger example 5.5.3 and exercise  3.32)
+$$\frac{\sigma}{s_n} \xrightarrow{P} 1$$
+\textbf{Note}
+$$\frac{\sqrt{n}(\bar{X}_n-\mu)}{s_n} =
+\underbrace{\frac{\sigma^2}{s_n}}_{\frac{\sigma}{s_n} \xrightarrow{P}
+1}\underbrace{\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma^2}}_{\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}
+\xrightarrow{d} N(0,1)} \xrightarrow{d} N(0,1)$$
+So even tough the variance is estimated, $\frac{\bar X - \mu}{s / \sqrt{n}}$
+converges to a normal distribution. However, intuitively, the convergence should
+be more slow than when $\sigma$ is known.
+% TODO: There was also mention that this was left as an exercise. Is is still
+% exercise?
+\end{example}
+\chapter{Estimation}
+In estimation, we want to use sample $X_1, \ldots, X_n$ to make inference on an
+unknown population parameter $\theta$. It means that we want to find a statistic
+$T(\bm X)$ that somewhat optimally captures the information of the sample on the
+parameter of interest, $\theta$.
+
+Most commonly. $\theta$ is the population mean, but it can also be related to
+population variance,covariance, median, maximum ect. Very often the population
+parameters, especially the mean, is not a scalar number, but it's function of
+some known characteristics of sampled units $i$, and therefore $\theta$ includes
+parameters of that function.
+
+\begin{example} Simple linear regression
+
+%TODO: Is this example good? Wrote something based on the stuff given in notes.
+%TODO: Plot in notes 7 page 4 left out. Is it needed?
+Consider case of simple linear regression, where $X$ is a fixed known
+predictor, and $Y$ is a random variable we want to predict with values of $X$.
+The model can be of following for
+$$Y_i = \mu(X_i) + e_i$$
+Where $\mu(X_i)$ is a fixed mean of $Y$
+$$\mu_i = \mu(X_i) = \beta_0 + \beta_1 X_i$$
+and $e_i$ is the random error related to value of $Y_i$
+$$e_i \sim N(0, \sigma^2)$$
+This would mean that distribution of $Y_i$ would be
+$$Y_i \sim N(\mu(x_i), \sigma^2)$$
+In this case, we are interested in estimating the the regression coefficients
+$$\bm \theta = 
+\begin{bmatrix}
+\beta_0 \\ \beta_1
+\end{bmatrix}$$
 \end{example}
 \end{document}
