@@ -1280,7 +1280,7 @@ For more formal discussion on the topic, see Casella & Berger section 6.2.
 \begin{definition} Let $f(\bm x, \bm \theta)$ denote the joint pdf or pmf of
 the sample $\bm X = X_1, \ldots, X_n$. Then Given that $\bm X = \bm x$ has been
 observed, the function of $\theta$ defined by
-$$L(\bm \theta | \bm x) = \f(\bm x | \theta)$$
+$$L(\bm \theta | \bm x) = f(\bm x | \theta)$$
 is called the likelihood function (uskottavuusfunktio).
 
 \textbf{Note }We do not assume $X_1,\ldots,X_n$ to be independent.
@@ -1350,5 +1350,56 @@ $$\bm X \sim N(\bm \mu, \bm \Sigma) \text{, where } \mu = \begin{bmatrix}
 The likelihood of this model for observation $\bm x = \begin{bmatrix}
 6 \\ 5 \\ 4
 \end{bmatrix}$ has been illustrated in R-script \verb#MVNlikelihood.R#.
+
+\textbf{Note } The likelihood function is not a pdf as a function of $\theta$.
+Therefore we say, that $\tehta_1$ is more plausible than $\theta_2$ (not more
+probable). Note also, that $\theta$ is thought to be fixed, therefore it makes
+no sense to specify a pdf for it. (In Bayesian statistics, $\theta$ is thought to
+be random.)
 \end{example}
+
+%TODO: Should following be a definition or something rather than a section?
+\section{The likelihood principle}
+If $\bm x$ and $\bm y$ are two observed sample points such that $L(\theta |
+\bm x)$ is proportional to $L(\theta | \bm y)$, that is there exists a constant
+$C(\bm x, \bm y)$ such that
+$$L(\theta | \bm x) = C(\bm x, \bm y)L(\theta | \bm y)~ \text{ for all }
+\theta$$
+then the conclusions drawn from $\bm x$ and $\bm y$ should be identical.
+\textbf{Note} $C(\bm x, \bm y)$ may be different for different $(\bm x, \bm y)$
+pairs, but does not dependent on $\theta$.
+
+\section{Point estimation}
+\begin{definition}
+A point estimator is any function $W(X_1,\ldots,X_n)$. That is, any statistic is
+a point estimator.
+\end{definition}
+\begin{itemize}
+  \item We now first consider the methods to find estimators and there after
+  consider criteria to evaluate, whether the estimators are good or bad.
+  \item[\textbf{Note}] Estimator is a function of the sample $X_1,\ldots,X_n$
+  and estimate is the numerical value the estimator got after the sample was
+  actually taken.
+  \begin{itemize}
+    \item[$\rightarrow$] Estimator is a random variable, and estimate is its
+    realized value in the sample.
+  \end{itemize}
+  \item Often, there is a natural, intuitive candidate fro a point estimator,
+  e.g. $\bar X$ is a intuitive choice for a point estimator of $\mu$.
+\end{itemize}
+%TODO: In notes, this was a subsection (3.2.1). Should it be here?
+\section{Estimating the population mean using least squares}
+Based on theorem \ref{theoremXbarSigma}, the ordinary least squares estimator of
+parameter $\mu$ using observed sample values $y_1, \ldots, y_n$ is found by
+$$min_\theta \sum_{i=1}^n (y_i-\theta)^2$$
+The solution is $\theta = \bar y$ %TODO: In notes was \bar X.
+The approach also generalized to cases where $E(Y_i)$ is a function of a fixed
+variable $x_i$. Consider a model $Y_i = \beta_0 + \beta_1 x_i + \epsilon_i$,
+where $Y_i$ is a random variable and $x_i$ is another fixed observable variable.
+We can $\beta_0$ %TODO: How was this sentense suposed to be formed?
+such that $E(\epsilon_i) = 0$ and 
+$$E(Y_i) = E(\underbrace{\beta_0 + \beta_1 x_i}_{\text{fixed}} +
+\underbrace{\epsilon_i}_{E(\epsilon_i) = 0}) = \beta_0 + \beta_1 x_i = E(Y_i
+| x_i) = \mu(x_i, \bm \beta)$$
+
 \end{document}
