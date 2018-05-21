@@ -1401,5 +1401,26 @@ such that $E(\epsilon_i) = 0$ and
 $$E(Y_i) = E(\underbrace{\beta_0 + \beta_1 x_i}_{\text{fixed}} +
 \underbrace{\epsilon_i}_{E(\epsilon_i) = 0}) = \beta_0 + \beta_1 x_i = E(Y_i
 | x_i) = \mu(x_i, \bm \beta)$$
+Parameters $\bm \beta$ are ``second order'' parameters. They quantify the
+(assumed) linear relationship between $x_i$ and $E(Y_i)$. Using the idea of
+theorem \ref{theoremXbarSigma}, $\bm \beta$ can be estimated using
+$$min_{\beta_0, \beta_1} \sum_{i=1}^n (y_i-(\beta_0 + \beta_1 x_i))^2$$
+The solutions are
+$$\widehat{\beta_1} = \frac{\sum(x_i - \bar x)(y_i - \bar y)}{\sum(y_i -
+\bar y)^2} \text{ and } \widehat{\beta_0} = \bar y - \beta_1 \bar x$$
 
+\begin{itemize}
+  \item A more general formulation results by defining
+  $$\bm X = \begin{bmatrix} 1 & X_1 \\ \vdots & \vdots \\ 1 & X_n
+  \end{bmatrix}, ~ 
+  \bm Y = \begin{bmatrix} Y_1 \\ \vdots \\ Y_n \end{bmatrix}, ~
+  \bm \beta = \begin{bmatrix} \beta_0 \\ \beta_1 \end{bmatrix}, ~
+  \bm \epsilon = \begin{bmatrix} \epsilon_1 \\ \vdots \\ \epsilon_n
+  \end{bmatrix}, ~$$ 
+  and then the model is $\bm Y = \bm X'\bm \beta + \bm \epsilon$
+  \item The least squares estimator of $\bm \beta$ is found by minimizing
+  $$\bm \epsilon' \bm \epsilon = (\bm y - \bm X' \bm \beta)(bm y - \bm X' \bm \beta)$$
+  \item The solution is $\widehat{\bm \beta} = (\bm X' \bm X)^{-1}\bm X' \bm y$
+  \item This is a general solution for the multiple regression case as well.
+\end{itemize}
 \end{document}
