@@ -1215,4 +1215,64 @@ $$\bm \theta =
 \beta_0 \\ \beta_1
 \end{bmatrix}$$
 \end{example}
+\begin{example}
+Lets consider a random variable
+\begin{equation*}
+\renewcommand{\arraystretch}{1.3}
+Y_i = \left\{
+\begin{array}{rl}
+1 & \text{if tree $i$ is dead} \\
+0 & \text{if tree $i$ is alive}
+\end{array} \right.
+\end{equation*}
+Parameter of interest might be the probability of a tree being dead.
+$$Y_i \sim Bernoulli(p), ~ \theta = p$$
+If we also know the age of the tree, and it is justified to assume that older
+trees are more commonly dead than younger trees, then
+$$Y_i \sim Bernoulli(p_i)$$
+$$p_i = \beta_0 + \beta_1 \text{Age}_i, ~ 
+\rightarrow \bm \theta = 
+\begin{bmatrix}
+\beta_0 \\ \beta_1
+\end{bmatrix}$$
+%TODO: Left out plot in notes 7 page 4. is it needed?
+Because $\beta_0 + \beta_1 \text{Age}_i$ is not restricted to
+$\left[0,1\right]$, a better model uses some function for $p(\text{Age}_i)$.
+Most commonly we use
+$$log\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 \text{Age}_i$$
+Which is a logit transformation $[0,1] \rightarrow \ureal$. This provides us
+with logistic regression.
+\textbf{Note:} See also example 1.2 and 1.3 in \verb#notes.pdf#
+\end{example}
+\section{Two principles}
+A sufficient statistic (tyhjentävä statistiikka) for a population parameter
+$\theta$ is such statistic $T(\bm X)$, that in certain sense it captures all
+the information about $\theta$ contained in the sample.
+%TODO: Figure out if these sould be sections of definitions or other.
+\section{The sufficient principle}
+If $T(\bm X)$ is a sufficient statistic for $\theta$, then any inference about
+$\theta$ should depend on $\bm X$ only through the value of $T(\bm X)$.
+\begin{definition} A statistic $T(\bm X)$ is sufficient statistic for $\theta$
+if the conditional distribution of the sample given $T(\bm X) [\bm X | T(\bm
+X)]$ does not depend on $\theta$.
+\end{definition}
+\begin{example}
+Let $X_1,\ldots,X_n$ be i.i.d. from $N(\mu, \sigma^2)$ population, where
+$\sigma^2$ is known. Now the sample mean $\bar X$ is a sufficient statistic for
+$\mu$.
+
+That is, if we have the complete data and you know only the sample mean, we both
+still have all information on $\mu$ the sample includes. However, if a third
+person knows only $min(\bm X)$, $max(\bm X)$ and $median(\bm X)$, he still does
+not have much information on $\mu$ as you have when you know $\bar X$.
+
+If also $\sigma^2$ is unknown, then
+$\bm T(\bm X) = \begin{bmatrix}
+\bar X \\ s^2
+\end{bmatrix}$ is sufficient for $\bm \theta = \begin{bmatrix}
+\mu \\ \sigma^2
+\end{bmatrix}$
+
+For more formal discussion on the topic, see Casella & Berger section 6.2.
+\end{example}
 \end{document}
