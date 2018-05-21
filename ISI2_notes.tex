@@ -1275,4 +1275,80 @@ $\bm T(\bm X) = \begin{bmatrix}
 
 For more formal discussion on the topic, see Casella & Berger section 6.2.
 \end{example}
+
+\section{The likelihood function}
+\begin{definition} Let $f(\bm x, \bm \theta)$ denote the joint pdf or pmf of
+the sample $\bm X = X_1, \ldots, X_n$. Then Given that $\bm X = \bm x$ has been
+observed, the function of $\theta$ defined by
+$$L(\bm \theta | \bm x) = \f(\bm x | \theta)$$
+is called the likelihood function (uskottavuusfunktio).
+
+\textbf{Note }We do not assume $X_1,\ldots,X_n$ to be independent.
+\end{definition}
+\begin{itemize}
+  \item If $\bm X$ is a discrete random vector, then
+  $$L(\bm \theta | \bm X) = P_\theta(\bm X = \bm x)$$
+  \item If we compare the likelihood at two parameter points $\theta = \theta_1$
+  and $\theta = \theta_2$, and find out that
+  $$P_{\theta_1}(\bm X = \bm x) = L(\theta_1 | \bm x) > L(\theta_2 | \bm
+  x) = P_{\theta_2}(\bm X = \bm x)$$
+  then the sample we observed is more likely to have occurred when $\theta =
+  \theta_1$ than when $\theta =\theta_2$.
+  \begin{itemize}
+    \item[$\rightarrow$] $\theta_1$ is more plausible (uskottava) value for
+    $\theta$ than $\theta_2$.
+  \end{itemize}
+  \item If $X$ is a continuous, real valued random variable, then for a small
+  value $\epsilon$
+  $$P_\theta(X - \epsilon < X < X + \epsilon) \approx 2 \epsilon f(X, \theta)
+  = 2 \epsilon L(\theta | X)$$
+  %TODO: Left out plot and text related to it on notes 8 page 2. Are they
+  % needed?
+  therefore
+  $$LR = \frac{P_{\theta_1}(X - \epsilon < X < X + \epsilon)}{P_{\theta_2}(X -
+  \epsilon < X < X + \epsilon)} \approx \frac{L(\theta_1 | X)}{L(\theta_2 | X)}$$
+  \begin{itemize}
+    \item[$\rightarrow$] If the $LR > 1$, then the sample was more likely to
+    occur when $\theta = \theta_1$, and if $LR < 1$, then the sample was more
+    likely to occur when $\theta = \theta_2$.
+  \end{itemize}
+\end{itemize}
+\begin{example}
+Let $X$ have negative binomial distribution. The Negative binomial distribution
+specifies the pmf for the number of successes before a fixed number of a
+failures ($r$) in a series of Bernoulli trials with success probability $p$. The
+pmf
+$$P(X=x |r,p) = {{r+x-1}\choose x} p^r (1-p)^x, ~ \text{where } x=0,1,\ldots
+\text{ and } 0 \leq p \leq 1$$
+Consider an experiment where $r=3$ and it was observed that $X=2$. The
+likelihood as a function of $\theta = p$
+$$L(p | 2) = P_p(X=2) = {4 \choose 2}p^3(1-p)^2$$
+\begin{itemize}
+    \item[$\rightarrow$] The likelihood is a 5\textsuperscript{th} order
+    polynomial with respect to $p$.
+\end{itemize}
+In general, if $X=x$ has been observed,
+$$L(p | x) = P_p(X=x) = {3+x-1 \choose 2}p^3(1-p)^x$$
+in which case the likelihood is a polynomial of order $x+3$.
+\end{example}
+\begin{example} Let $\bm X_{3 \times 1}$ have 3-variate normal distribution so
+that all components have a common, unknown mean of $\mu$ and a known, common
+variance $\sigma^2 = 3.69$. In addition, $cov(X_1, X_2)=2.25$ and $cov(X_1,
+X_3) = cov(X_2, X_3) = 0$.
+
+This kind of situation could stem from a grouped structure of the data: $X_1$
+and $X_2$ might belong to the same group (e.g. school class) and $X_3$ may
+originate from another group. That is
+$$\bm X \sim N(\bm \mu, \bm \Sigma) \text{, where } \mu = \begin{bmatrix}
+\mu \\ \mu \\ \mu
+\end{bmatrix} \text{ and }
+\bm \Sigma = \begin{bmatrix}
+3.69 & 2.25 & 0 \\
+2.25 & 3.69 & 0 \\
+0 & 0 & 3.69 
+\end{bmatrix}$$
+The likelihood of this model for observation $\bm x = \begin{bmatrix}
+6 \\ 5 \\ 4
+\end{bmatrix}$ has been illustrated in R-script \verb#MVNlikelihood.R#.
+\end{example}
 \end{document}
