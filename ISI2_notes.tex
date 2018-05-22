@@ -801,7 +801,7 @@ If $X$ and $Y$ are independent, continuous random variables with pdf's $f_X(x)$
 and $f_Y(y)$, then the pdf of the sum $Z = x + Y$ is
 $$f_Z(z) = \int_{-\infty}^\infty f_X(w)f_Y(z-w) \ud w$$
 \end{theorem}
-\textbf{Proof: } See Casella & Berger, p 215-216.
+\textbf{Proof: } See Casella \& Berger, p 215-216.
 
 \textbf{Illustration: } See example 1.20 of \verb#notes.pdf#
   %TODO: Two plots in the end of notes 4 page 7 left out. Needed?
@@ -894,7 +894,7 @@ freedom ($T \sim t_p$) if $T$ has the pdf
 $$f_T(t) =
 \frac{\Gamma(\frac{p+1}{2})}{\Gamma(\frac{p}{2})}\frac{1}{(p\pi)^{1/2}}\frac{1}{(1+t^2/p)^{(p+1)/2}}$$
 \end{theorem}
-\textbf{Proof:} See Casella & Berger, p.223-224.
+\textbf{Proof:} See Casella \& Berger, p.223-224.
 
 \textbf{Illustration:} File \verb#normalchi.R#
 \begin{itemize}
@@ -1136,7 +1136,7 @@ That is: $Z_n$ has limited standard normal distribution, meaning $Z_n
   \item Provides an all purpose approximation og the distribution of sums of
   i.i.d. random variables.
 \end{itemize}
-\textbf{Proof: } See Casella & Berger pages 237-238.
+\textbf{Proof: } See Casella \& Berger pages 237-238.
 
 \textbf{Illustration: } See R-script \verb#unifmean.R#. Script takes $M=10000$
 samples using each of the following sample sizes $n=1,2,3,4,5,6$ from a
@@ -1170,7 +1170,7 @@ The central limit theorem said that under mild conditions
 $$\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} \xrightarrow{d} N(0,1)$$
 However, $\sigma^2$ is often unknown, but can be unbiasedly and consistently
 estimated by $s_n^2 = \frac{1}{n-1}\sum(X_i-\bar{X}_n)^2$. It can also be shown
-that (see Casella & Berger example 5.5.3 and exercise  3.32)
+that (see Casella \& Berger example 5.5.3 and exercise  3.32)
 $$\frac{\sigma}{s_n} \xrightarrow{P} 1$$
 \textbf{Note}
 $$\frac{\sqrt{n}(\bar{X}_n-\mu)}{s_n} =
@@ -1273,11 +1273,13 @@ $\bm T(\bm X) = \begin{bmatrix}
 \mu \\ \sigma^2
 \end{bmatrix}$
 
-For more formal discussion on the topic, see Casella & Berger section 6.2.
+For more formal discussion on the topic, see Casella \& Berger section 6.2.
 \end{example}
 
 \section{The likelihood function}
-\begin{definition} Let $f(\bm x, \bm \theta)$ denote the joint pdf or pmf of
+\begin{definition} 
+\label{defLikelihood1}
+Let $f(\bm x, \bm \theta)$ denote the joint pdf or pmf of
 the sample $\bm X = X_1, \ldots, X_n$. Then Given that $\bm X = \bm x$ has been
 observed, the function of $\theta$ defined by
 $$L(\bm \theta | \bm x) = f(\bm x | \theta)$$
@@ -1352,7 +1354,7 @@ The likelihood of this model for observation $\bm x = \begin{bmatrix}
 \end{bmatrix}$ has been illustrated in R-script \verb#MVNlikelihood.R#.
 
 \textbf{Note } The likelihood function is not a pdf as a function of $\theta$.
-Therefore we say, that $\tehta_1$ is more plausible than $\theta_2$ (not more
+Therefore we say, that $\theta_1$ is more plausible than $\theta_2$ (not more
 probable). Note also, that $\theta$ is thought to be fixed, therefore it makes
 no sense to specify a pdf for it. (In Bayesian statistics, $\theta$ is thought to
 be random.)
@@ -1419,8 +1421,254 @@ $$\widehat{\beta_1} = \frac{\sum(x_i - \bar x)(y_i - \bar y)}{\sum(y_i -
   \end{bmatrix}, ~$$ 
   and then the model is $\bm Y = \bm X'\bm \beta + \bm \epsilon$
   \item The least squares estimator of $\bm \beta$ is found by minimizing
-  $$\bm \epsilon' \bm \epsilon = (\bm y - \bm X' \bm \beta)(bm y - \bm X' \bm \beta)$$
+  $$\bm \epsilon' \bm \epsilon = (\bm y - \bm X' \bm \beta)'(\bm y - \bm X' \bm
+  \beta)$$
   \item The solution is $\widehat{\bm \beta} = (\bm X' \bm X)^{-1}\bm X' \bm y$
   \item This is a general solution for the multiple regression case as well.
 \end{itemize}
+The least squares method is optimal and intuitive way to find the estimators for
+population mean. However, it does not provide tools to estimate other parameters
+of distribution. For that purpose, we will next present three other approaches 
+for parameter estimation in general case:
+\begin{itemize}
+  \item The method of moments
+  \item Maximum likelihood
+  \item Bayesian approach
+\end{itemize}
+\section{The method of moments}
+\begin{itemize}
+  \item This method dates back to late 1800's.
+\end{itemize}
+Let $X_1,\ldots,X_n$ be a sample from population with pmf or pdf $f(x |
+\theta_1,\ldots,\theta_k)$. The method of moments (momenttimenetelmä), moment
+matching, finds estimates of $\theta_1,\ldots,\theta_k$ by equating the first
+$k$ sample moments to the corresponding population moments. \\
+
+\textbf{Define}
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{ll}
+m_1 = \frac{1}{n}\sum_{i=1}^n x_i & \mu_1' = E(X^1)\\
+m_2 = \frac{1}{n}\sum_{i=1}^n x_i^2 & \mu_2' = E(X^2)\\
+\vdots & \vdots \\
+m_k = \frac{1}{n}\sum_{i=1}^n x_i^k & \mu_k' = E(X^k)\\
+\end{array}
+\end{equation*}
+\begin{itemize}
+  \item The population moments will typically be functions of $\bm \theta$,
+$\mu_j'(\theta_1, \ldots, \theta_k)$
+	\item The moment estimator $(\tilde{\theta}_1,\ldots,\tilde{\theta}_k)$ of
+	$(\theta_1, \ldots, \theta_k)$ is found by solving the following system of
+	equations for $(\theta_1, \ldots, \theta_k)$
+	\begin{equation*}
+	\renewcommand{\arraystretch}{1.3}
+	\left\{
+	\begin{array}{l}
+	m_1 = \mu_1'(\bm \theta) \\
+	m_2 = \mu_2'(\bm \theta) \\
+	\vdots \\
+	m_k = \mu_k'(\bm \theta) \\
+	\end{array} \right.
+	\end{equation*}
+\end{itemize}
+\begin{example}
+Let $X_1,\ldots,X_n$ be i.i.d. with $X_i \sim N(\mu, \sigma^2)$, and both $\mu$
+and $\sigma^2$ are unknown.
+\begin{equation*}
+\renewcommand{\arraystretch}{1.3}
+\begin{array}{ll}
+m_1 = \bar X & m_2 = \frac{1}{n}\sum_{i=1}^n X_i^2 \\
+\mu_1' = \mu & \mu_2' = E(X^2) = \mu^2 + \sigma^2
+\end{array}
+\end{equation*}
+\textbf{Recall} $Var(X) = E(X^2) - (E(X))^2 \rightarrow E(X^2) = Var(X) +
+(E(X))^2 = \sigma^2 + \mu^2$
+Following system of equation needs to be solved for $\mu$ and $\sigma^2$
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{l}
+\left\{
+\begin{array}{l}
+\bar X = \mu \\
+\frac{1}{n}\sum X^2 = \mu^2 + \sigma^2 \\
+\end{array} \right. \\ \\
+\left\{
+\begin{array}{l}
+\bar X - \mu = 0 \\
+\frac{1}{n}\sum X^2 - \mu^2 - \sigma^2 = 0 \\
+\end{array} \right. \\
+\end{array}
+\end{equation*}
+We get 
+$$\tilde \mu = \bar X$$
+$$\tilde \sigma^2 = \underbrace{\frac{1}{n}\sum(X_i - \bar X)}_{\text{Biased
+estimator}} \neq \underbrace{\frac{1}{n-1}\sum(X_i - \bar X)^2}_{\text{Unbiased
+estimator}}$$
+But the bias vanishes as $n \to \infty$.
+
+This example was easy, since the system of equations we needed to solve was
+linear.
+\end{example}
+\begin{example} A numerical solution
+
+Let $X_1,\ldots,X_n$ be i.i.d. from the Weibull($a$,$b$) distribution, which has
+the pdf
+$$f(x) = \frac{a}{b}\left(\frac{x}{b}\right)^{a-1}e^{-(x/b)^a} ~ \text{ where
+} 0 < x < \infty \text{ and } a,b > 0$$
+where $a$ is called te shape parameter and $b$ is called the scale parameter.
+
+The first two moments are
+$$E(X) = \int_0^\infty f(x)x \ud x = \ldots = b
+\Gamma\left(1+\frac{1}{a}\right)$$
+$$E(X^2) = \int_0^\infty f(x)x^2 \ud x = \ldots = b^2
+\Gamma\left(1+\frac{2}{a}\right)$$
+where $\Gamma(z) = \int_0^\infty z^{u-1}e^{-z}\ud z$ cannot be written in closed
+form, but can be well approximated using function gamma in R.
+
+The moment-matching system of equations is
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\left\{
+\begin{array}{l}
+\frac{1}{n} \sum x_i - b
+\Gamma\left(1+\frac{1}{a}\right) = 0 \\
+\frac{1}{n}\sum X^2 - b^2
+\Gamma\left(1+\frac{2}{a}\right) = 0 \\
+\end{array} \right. \\
+\end{equation*}
+This is nonlinear with respect to $a$!
+
+We solve it for $a$ and $b$ using the Gauss-Newton method, which is a
+multivariate generalization of the Newton-Raphson method. Example in R-script
+\verb#WeibullMoment.R# generates first a random sample of size 30 from
+Weibull(2,10) population. Using the generalized sample, it finds the moment
+estimates of $a$, $b$ numerically using R-function NRnum.
+
+The observed sample moments are
+$$m_1 = \bar X = 9.604, ~ m_2 = \frac{1}{n}\sum x^2 = 113.22$$
+We solve
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\left\{
+\begin{array}{l}
+9.604 - b
+\Gamma\left(1+\frac{1}{a}\right) = 0 \\
+113.22 - b^2
+\Gamma\left(1+\frac{2}{a}\right) = 0 \\
+\end{array} \right. \\
+\end{equation*}
+for $(a,b)$ ($\bm \theta = \begin{bmatrix}a & b\end{bmatrix}^T$). We use $a'=1$
+and $b'=9.60$ as starting values, and we get
+$$\tilde a = 2.21 ~ \tilde b = 10.84$$
+\end{example}
+\section{Newton-Raphson}
+Consider function $f(a) = 0$, which needs to be solved for $a$.
+%TODO: Left out a plot on notes 9, page 5
+\begin{itemize}
+  \item[1.] Start with some guess $a'$, compute $f(a')$ and $f'(a')$ to
+  approximate $f(a)$ by a linear function. Find $a$ such that the approximator
+  = 0.
+   \item[2.] Set the solution as $a'$ and repeat step 1.
+\end{itemize}
+If the initial guess $a'$ was good enough and $f$ is continuous and
+differentiable, we will find the approximate solution within few iteration.
+
+Gauss-Newton generalized this to vector valued $\bm a$ and $\bm x$. The
+algorithm has been implemented in R-function NRnum of package lmfor. The
+function evaluates also the required derivatives $\frac{\ud f(\bm x)}{\ud
+\theta_i}$ numerically.
+\section{Maximum likelihood}
+Definition \ref{defLikelihood1} defined the likelihood as
+$$L(\bm \theta | \bm x) = f(\bm x | \theta)$$
+where
+$$\bm \theta = \begin{bmatrix}
+\theta_1 \\ \vdots \\ \theta_k
+\end{bmatrix}$$
+\textbf{Note} For i.i.d. data $X_1, \ldots, X_n$ from population $f(x |
+\theta)$, the likelihood simplifies to
+$$L(\bm \theta | \bm x) = \prod_{i=1}^n f(\bm x | \theta)$$
+\begin{definition}
+For each sample point $\bm x$, let $\hat{\bm \theta}(\bm x)$ be a parameter
+value at which $L(\bm \theta | \bm x)$ attains its maximum value as a function
+of $\bm \theta$, with $\bm x$ fixed. A maximum likelihood estimator of $\bm
+\theta$ based on sample $\bm x$ is this function $\hat{\bm \theta}(\bm x)$. The
+maximum likelihood estimate (ML estimate) is the numerical value of that
+function in the data point we have.
+%TODO: Are all the x's capitals or lower case? (or are some capitals and some
+% lower case?)
+
+\textbf{Note} We use abbreviation MLE for both ML estimator and ML estimate.
+\end{definition}
+\begin{itemize}
+  \item MLE is the parameter point for which the observed sample is most likely.
+  \item The MLE also fulfills some optimality criteria, which will be discussed
+  later.
+  \item How to find MLE?
+  \begin{itemize}
+    \item If $L(\bm \theta | \bm x)$ is differentiable with respect to  all
+    $\theta_i$, then the candidates for MLE are the values that solve
+    $$\frac{\ud}{\ud \theta_i} L(\bm \theta | \bm x) = 0, ~ i=1,\ldots,k$$
+    \item These together with the boundaries of the parameter space provide
+    candidates of MLE.
+    \item Of the candidates the one that gives the maximum
+    value of $L(\bm \theta | \bm x)$ is the MLE.
+  \end{itemize}
+\end{itemize}
+\begin{example} Example ML1
+\label{exampleML1}
+Let $X_1,\ldots,X_n$ be i.i.d. from $N(\theta,1)$, meaning only the population
+mean $\theta$ is unknown.
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{rl}
+L(\theta, \bm x) & = \prod_{i=1}^n \frac{1}{(2\pi)^{1/2}}e^{-\frac{1}{2}(x_i -
+\theta)^2} \\
+& = \frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}\sum_{i=1}^n(x_i -
+\theta)^2} \\
+\frac{\ud}{\ud \theta}L(\theta | \bm x) & = \frac{1}{(2\pi)^{n/2}}e^{-\frac{1}{2}\sum_{i=1}^n(x_i -
+\theta)^2}(-\frac{1}{2})\sum_{i=1}^n(-2(x_i - \theta)) \\
+& = L(\theta | \bm x) \sum_{i=1}^n(x_i-\theta)
+\end{array}
+\end{equation*}
+$\frac{\ud}{\ud \theta}L(\theta | \bm x) = 0$ if
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{lll}
+\text{either } & L(\theta | \bm x) = 0 & \text{A} \\
+\text{or} & \sum_{i=1}^n(x_i - \theta) = 0 & \text{B}
+\end{array}
+\end{equation*}
+But if $L(\theta | \bm x) = f(\bm x | \theta) > 0$
+\begin{itemize}
+    \item[$\to$] There is no solution for A.
+\end{itemize}
+B gives
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{l}
+\sum(x_i - \theta) = 0 \\
+\sum x_i - \sum \theta = 0 \\
+\sum x_i - n \theta = 0 <=> \hat \theta = \frac{\sum x_i}{n} = \bar x
+\end{array}
+\end{equation*}
+So the sample mean, which is the least squares and moment estimator for the
+population mean is also the ML estimator for the population mean.
+
+To confirm that $\bar X$ is the MLE, we still ned to make sure that
+\begin{itemize}
+  \item[1)] $\bar x$ is the maximum, not minimum
+  \item[2)] The boundaries of the support of $\theta$ do not provide higher
+  value of $\theta$
+\end{itemize}
+We can conclude that
+\begin{itemize}
+  \item[1)] This is maximum because
+  $$\frac{\ud^2}{\ud \theta^2} L(\theta | \bm x)_{\theta=\bar x} < 0$$
+  \item[2)] We can notice that
+  $$\lim_{\theta \to \infty} L(\theta | \bm x) = \lim_{\theta \to
+  -\infty}L(\theta | \bm x) = 0$$
+  and $L(\bar x | \bm x) > 0$.
+\end{itemize}
+%TODO: Left out two plots at end of notes 9 page 8. Are they needed?
+\end{example}
 \end{document}
