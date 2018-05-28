@@ -1875,6 +1875,93 @@ in R-function nll. The script provides following resulting estimates.
 \widehat{ln(\sigma^2)} = 2.35 \to \hat \sigma^2 = 10.47 & \text{True: } 4 \\
 \end{array}
 \end{equation*}
-
 \end{example}
+
+\section{Bayes estimators}
+
+In the Bayesian approach, the fundamental difference to the previous methods is
+to think the parameters $\bm \theta$ as random variable (vector), not as fixed
+quantity.
+
+\begin{itemize}
+  \item The variability of $\bm \theta$ in the population is described by some
+  distribution called the prior distribution.
+  \begin{itemize}
+    \item It is the belief of the experimenter about $\bm \theta$, and is
+    formulated before the data are seen.
+    \item This prior is updated with the data $\bm x$ to get the posterior
+    distribution of $\bm \theta$
+    %TODO: Left out plot in notes 11 page 4. Is it needed?
+  \end{itemize}
+  \item There are two main reasons to use Bayesian approach:
+  \begin{itemize}
+    \item[1.] We may be willing to combine the information we already have on
+    $\theta$ with the new information we get from the data.
+    \item[2.] We do not actually believe on the prior, but we use the Bayesian
+    approach because it provides tools for estimation in the situation where
+    e.g. ML is very tricky.
+    \begin{itemize}
+    \item[-] Especially, the Bayesian computational methods provide
+    estimation tools for such cases.
+  	\end{itemize}
+  \end{itemize}
+  \item Let $\pi(\bm \theta)$ be the prior pdf and let $f(\bm x | \bm \theta)$
+  be the sampling pdf of the data $\bm x$.
+  \begin{itemize}
+    \item The posterior distribution is the conditional distribution of $\bm
+    \theta$ given the sample $\bm x$
+    $$\pi(\bm \theta | \bm x) = \frac{f(\bm x | \bm \theta)\pi(\bm
+    \theta)}{m(\bm x)}$$
+    where $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud \theta $
+   \end{itemize}
+   \textbf{Note} $\theta$ means both the random variable and it's realized value
+   here. %TODO: was \theta suposed to be bolded? (so it's random vector?)
+\end{itemize}
+\begin{example} Bayes 1 (Binomial Bayes)
+
+Let $X_1,\ldots,X_n$ be i.i.d. Bernoulli($p$). Then
+$$\sum X_i \sim Binomial(n,p)$$
+Assume that prior of the $p$ is the $Beta(\alpha, \beta)$ distribution with some
+values of $\alpha$ and $\beta$, which are set before the data are seen. The
+joint pdf of $(y,p)$ is
+$$f(y,p) = \underbrace{f(y | p)}_{Binomial} \underbrace{\pi(p)}_{Beta} =
+\left[{n\choose
+y}p^y(1-p)^{n-p}\right]\left[\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}\right]$$
+
+$$={n \choose y}
+\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}$$
+The marginal pdf of $Y$ is
+$$f(y) = \int_{0}^{1}f(y,p)\ud p = {n \choose
+p}\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} \frac{\Gamma(y
++ \alpha)\Gamma(n-y+\beta)}{\Gamma(n+\alpha+\beta)}$$
+which is called the beta-binomial pdf. The posterior distribution is
+$$f(p | y) = \frac{f(y,p)}{f(y)}=\frac{\Gamma(n+\alpha+\beta)}{\Gamma(y +
+\alpha)\Gamma(n-y+\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}$$
+which is the Beta($y+\alpha$,$n-y+\beta$).
+
+A natural point estimator of $p$ is the expected value $E(p | \bm x)$ of
+posterior distribution:
+$$\hat p_\beta = \frac{y-\alpha}{\alpha+\beta+n}$$
+It is a weighted mean of the prior mean $\frac{\alpha}{\alpha+\beta}$ and the
+ML-estimator $\frac{y}{n}$:
+$$\frac{n}{\alpha+\beta+n}\frac{y}{n}+\frac{\alpha+\beta}{\alpha+\beta+n}\frac{\alpha}{\alpha+\beta}
+= w \frac{y}{n}+(1-w)\frac{\alpha}{\alpha+\beta}, \text{ where }
+w=\frac{n}{\alpha+\beta+n} \in [0,1]$$
+\textbf{Note} The Beta distribution is the conjugate prior for the Binomial
+distribution, because the posterior distribution belongs to the same family. The
+use of conjugate priors leads to mathematically beautiful results, but are
+not otherwise justified by any theory.
+\end{example}
+\begin{itemize}
+  \item In the conditional distribution
+  $$\pi(\bm \theta | \bm x) = \frac{f(\bm x | \bm \theta)\pi(\theta)}{m(\bm
+  x)}$$
+  the denominator $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud
+  \theta$ is hard to compute in general case.
+  \begin{itemize}
+    \item The modern computational methods, so called Markov chain Monte Carlo
+    (MCMC) methods allow simulation of observations from $\pi(\bm \theta | \bm
+    x)$ without the need to evaluate $m(\bm x)$.
+  \end{itemize}
+\end{itemize}
 \end{document}
