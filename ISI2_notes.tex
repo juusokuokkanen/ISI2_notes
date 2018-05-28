@@ -2052,5 +2052,58 @@ $$E(\hat \sigma^2) = E\left(\frac{n-1}{n}s^2\right) = \frac{n-1}{n}E(s^2) =
 \frac{n-1}{n}\sigma^2$$
 Now $E(\hat \sigma^2)- \sigma^2 = \frac{n-1}{n}\sigma^2 - \sigma^2 \neq 0$,
 meaning $\hat \sigma^2$ is a unbiased estimator of $\sigma^2$.
+
+The variance of $\hat\sigma^2$ is
+$$Var(\hat\sigma^2) = Var(\frac{n-1}{n}s^2) = \left(\frac{n-1}{n}\right)^2
+Var(s^2) = \frac{2(n-1)}{n^2}\sigma^4$$
+The MSE of $\hat \sigma^2$ is
+$$E(\hat \sigma^2 - \sigma^2)^2 = variance + bias^2 = \frac{2(n-1)}{n^2}\sigma^4
++ \left(\frac{n-1}{n}\sigma^2 - \sigma^2 \right)^2 = \frac{2n-1}{n^2}\sigma^2$$
+$$\underbrace{E(\hat \sigma^2 - \sigma^2)^2}_{MSE(\hat\sigma^2)} =
+\frac{2n-1}{n^2}\sigma^2 < \frac{2\sigma^4}{n-1} =
+\underbrace{E(s^2-\sigma^2)^2}_{MSE(s^2)}$$
+$$\frac{2n-1}{n^2} = \frac{2-\frac{1}{n}}{n} < \frac{2}{n-1}$$
+$\to$ Allowing bias in the estimator of $\sigma^2$ leads to gain in terms of
+MSE.
+\begin{itemize}
+  \item The bias is negative $\to$ ML underestimates the variance on average.
+  \item In general, MSE is justified choice to evaluate estimators of location
+  parameters, but not the scale parameters.
+\end{itemize}
+\end{example}
+It is often impossible to find a single estimator that is best in terms of MSE.
+In addition, the bias of an estimator is often seen as a severe problem, or
+inconvenience. Therefore, we often restrict consideration in the class of
+unbiased estimatros. In that class
+$$E_\theta(E-\theta)^2 = Var_\theta(W)$$
+Therefore, form among unbiased estimators, we should select the one with the
+lowest variance.
+\begin{definition}
+An estimator $W^*$ is the best unbiased estimator (BUE) of $\tau(\theta)$, if it
+satisfies $E_\theta(W^*)=\tau(\theta)$ for all $\theta$ and for any other
+estimator $W$ with $E_\theta(W)=\tau(\theta)$ we have
+$$Var_\theta(\tau^*) \leq Var_\theta(W) \text{ for all } \theta$$
+$W^*$ is also called uniform minimum variance unbiased estimator of
+$\tau(\theta)$ (UMVUE).
+\end{definition}
+\begin{example}
+Let $X_1,\ldots,X_n$ be i.i.d. Poisson($\lambda$) and let $\bar X$ and $s^2$ be
+the sample mean and sample variance respectively. Recall that in
+Poisson($\lambda$) population $E(X) = Var(X) = \lambda$. Therefore, both $\bar
+X$ and $s^2$ are unbiased estimators of $\lambda$. Which one to select?
+$$Var_\lambda(\bar X) = \frac{\lambda}{n}$$
+$$Var_\lambda(s^2) = \ldots \text{ long calculation }$$
+Conclution however will be, that $Var_\lambda(\bar X) \leq Var_\lambda(s^2)$ for
+all $\lambda$. So, from among these two candidates, $\bar X$ should be selected.
+But is $\bar X$ really the best?
+
+We could construct infintely many unbiased estimators as weighted mean of $\bar
+X$ and $s^2$:
+$$W_W = w \bar X + (1-w)s^2 \text{ where } w \in [0,1]$$
+Could some selection of w lead to smaller variance than $Var(\bar X) =
+\frac{\lambda}{n}$? Or is there some other estimator that has $Var(w) =
+\frac{\lambda}{n}$?
+%TODO: Left out the $\hat \lambda = \bar X$ at notes 12 page 8 end. Is it
+% needed?
 \end{example}
 \end{document}
