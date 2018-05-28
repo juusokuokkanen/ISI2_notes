@@ -1333,7 +1333,9 @@ In general, if $X=x$ has been observed,
 $$L(p | x) = P_p(X=x) = {3+x-1 \choose 2}p^3(1-p)^x$$
 in which case the likelihood is a polynomial of order $x+3$.
 \end{example}
-\begin{example} Let $\bm X_{3 \times 1}$ have 3-variate normal distribution so
+\begin{example} 
+\label{exampleGropedData1}
+Let $\bm X_{3 \times 1}$ have 3-variate normal distribution so
 that all components have a common, unknown mean of $\mu$ and a known, common
 variance $\sigma^2 = 3.69$. In addition, $cov(X_1, X_2)=2.25$ and $cov(X_1,
 X_3) = cov(X_2, X_3) = 0$.
@@ -1510,7 +1512,7 @@ This example was easy, since the system of equations we needed to solve was
 linear.
 \end{example}
 \begin{example} A numerical solution
-
+\label{exampleMomentsWeibull1}
 Let $X_1,\ldots,X_n$ be i.i.d. from the Weibull($a$,$b$) distribution, which has
 the pdf
 $$f(x) = \frac{a}{b}\left(\frac{x}{b}\right)^{a-1}e^{-(x/b)^a} ~ \text{ where
@@ -1616,6 +1618,7 @@ function in the data point we have.
 \end{itemize}
 \begin{example} Example ML1
 \label{exampleML1}
+
 Let $X_1,\ldots,X_n$ be i.i.d. from $N(\theta,1)$, meaning only the population
 mean $\theta$ is unknown.
 \begin{equation*}
@@ -1670,5 +1673,145 @@ We can conclude that
   and $L(\bar x | \bm x) > 0$.
 \end{itemize}
 %TODO: Left out two plots at end of notes 9 page 8. Are they needed?
+\end{example}
+%TODO: Left out notes 10 page 1. Is it needed?
+\begin{itemize}
+\item In most cases, the solution of the estimation problem becomes easier if
+the natural logarithm of the likelihood is used instead of likelihood.
+\item The maximum of $L(\bm \theta | \bm x)$ and $ln(L(\bm \theta | \bm x))$
+coincide (are at the same point $\bm \theta$) because $ln$-function is
+increasing on $(0, \infty)$.
+\end{itemize}
+%TODO: Left out plot at notes 10 page 2. Is it needed?
+\begin{example}
+Example ML2 (Bernoulli MLE)
+
+Let $X_1,\ldots,X_n ~ Bernoulli(p)$, i.i.d.
+$$L(p | \bm x) = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = (*)$$
+Recall that
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\text{PMF}: f(x_i | p) = \left\{
+\begin{array}{ll}
+p & \text{if } x_i = 1 \text{ (success)} \\
+1-p & \text{if } x_i = 0 \text{ (failure)} \\
+\end{array} \right. \\
+\end{equation*}
+
+$$(*) = p^{\sum x_i}(1-p)^{\sum(1-x_i)} = p^{\sum x_i}(1-p)^{n-\sum x_i}$$
+The log-likelihood is
+$$ln(L(p | \bm x)) = ln(p^{\sum x_i}(1-p)^{n-\sum x_i}) = \sum x_i ln(p) +
+(n-\sum x_i)ln(1-p)$$
+$$\frac{\ud}{\ud p}ln(L) = \sum x_i \frac{1}{p}+(n-\sum x_i)\frac{-1}{1-p} =
+\ldots = \frac{\sum x_i - np}{p(1-p)}$$
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{ll}
+\frac{\ud}{\ud p}ln(L) = 0 \\
+\frac{\sum x_i - np}{p(1-p)} = 0 & || \cdot p(1-p) \neq 0 \\
+\sum x_i - np = 0 \\
+p = \frac{\sum x_i}{n} = \bar x
+\end{array}
+\end{equation*}
+Check that this is a global maximum and $ln(L(\bar x)) > ln(L(0))$ and
+$ln(L(\bar x)) > ln(L(1))$ to confirm that the solution is also the MLE.
+\end{example}
+\begin{example}
+Example ML3 (MLE in dependent sample)
+
+Recall the grouped data example \ref{exampleGropedData1}, where $Y \sim N(\bm
+\mu, \bm \Sigma)$. Assume that $Y$ has been observed to be $\bm y =
+\begin{bmatrix}6 \\ 5 \\ 4\end{bmatrix} ~(\bar y = 5)$. Assume (unrealistically)
+that $\bm \Sigma$ is known to be
+$$\bm \Sigma = \begin{bmatrix}
+3.69 & 2.25 & 0 \\
+2.25 & 3.69 & 0 \\
+0 & 0 & 3.69 
+\end{bmatrix}$$
+We want to estimate parameter $\theta$ of the unknown vector $\bm \mu =
+\begin{bmatrix}\theta \\ \theta \\ \theta \end{bmatrix}$ (i.e. we assume that
+all three components of $\bm \mu$ have the common mean of $\theta$). The
+likelihood is directly the pdf of the multivariate normal distribution and the
+log-likelihood is the natural logarithm of that.
+
+R-script \verb#MVNMLE.R# does the estimation. Define the likelihood as we did
+previously in the R-script \verb#MVNLikelihood.R#. Find the value of $\theta$
+that maximizes the likelihood.
+%TODO: Left out plot in notes 10 page 4. Is it needed?
+
+\textbf{1.} Simple solution (for demonstration). Compute $L(\theta)$ for values
+$\theta=(0, 0.001, 0.002,\ldots,10)$ and select the one that provides the
+highest value.  This direct search or grid search algorithm have the estimate 
+$\hat \theta = 4.831 < \bar y = 5$, because the independent $Y_3 = 4$ gets more
+weight in estimation than the two mutually dependent elements $\begin{bmatrix}
+Y_1  \\ Y_2 \end{bmatrix} = \begin{bmatrix} 6 \\ 5 \end{bmatrix}$. Therefore 
+$\hat \theta$ is shrunken towards $Y_1 = 4$ compared to $\bar y = 5$.
+
+\textbf{2.} We solved this also using function mle of R-package stats4.
+\begin{itemize}
+  \item[1.] Define a R-function that evaluates the negative log-likelihood
+  $-ln(L)$; call it e.g. nll.
+  \item[2.] Specify some good starting values of the parameters in a named list.
+  \item[3.] Make a call to mle: \verb#mle(nll, start=list(theta=5))#
+  $\to$ gives $\hat \theta = 4.831081$.
+\end{itemize}
+\textbf{Note} To get more stable and faster solution, you could also provide
+analytical derivative of the function you used
+
+\textbf{Note} mle gives only the candidate of MLE, so you are responsible for
+checking that it really is the MLE.
+\end{example}
+
+\begin{itemize}
+  \item If $\bm \theta = (\theta_1, \theta_2,\ldots,\theta_k)$ is
+  multidimensional, then we need to maximize the $ln(L)$ with respect to all
+  components $\theta_i$ simultaneously.
+  \item If the log-likelihood is differentiable with respect to all $\theta_i$,
+  we hust need to find the practical derivatives of $ln(L)$ (or L) with respect
+  to all $\theta_i$ and set them to 0
+  \begin{itemize}
+    \item[$\to$] We get system of $k$ equations.
+  \end{itemize}
+\end{itemize}
+\begin{example} Example ML4
+Let $X_1,X_2,\ldots,X_n$ be i.i.d. form $N(\theta, \sigma^2)$ population, and
+let both $\theta$ and $\sigma^2$ be unknown. Now
+$$L(\theta, \sigma^2 | \bm x) = \frac{1}{(2\pi
+\sigma^2)}^{n/2}e^{\frac{1}{2}\sum(x_i - \theta)^2/\sigma^2}$$
+$$ln(L(\theta, \sigma^2 | \bm x)) = -\frac{n}{2}ln(2\pi) -
+\frac{n}{2}ln(\sigma^2) - \frac{1}{2}\frac{\sum(x_i-\theta)^2}{\sigma^2}$$
+The ML equations becomes
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\left\{
+\begin{array}{l}
+\frac{\ud}{\ud \theta}ln(L(\theta, \sigma^2 | \bm x)) =
+\frac{1}{\sigma^2}\sum(x_i - \theta)\\
+\frac{\ud}{\ud \sigma^2}ln(L(\theta, \sigma^2 | \bm x)) =
+-\frac{n}{2\sigma^2}+\frac{1}{2\sigma^4}\sum(x_i - \theta)^2 \end{array} \right.
+\\
+\end{equation*}
+Setting these to 0 and solving for $\bm \theta = \begin{bmatrix}
+\theta \\ \sigma^2 \end{bmatrix}$ gives 
+$$\hat \theta = \bar x \text{ and } \sigma^2 = \frac{1}{n}\sum(x_i-\bar x)^2$$
+These are the candidates for the MLE, but it can be shown that they are also the
+MLE's. See Casella \& Berger p.322 for more formal argumentation.
+\end{example}
+The so called invariance property of MLE's is highly useful in making
+restrictions to the parameters. Suppose that the distribution is indexed using
+$\theta$, but we want to estimated a function of it, $\tau(\theta)$.
+
+\begin{theorem}
+If $\hat\theta$ is the MLE of $\theta$, and $\tau(\theta)$ is any function of
+$\theta$, then $\tau(\hat \theta)$ is the MLE of $\tau(\theta)$.
+
+\textbf{Proof:} See Casella \& Berger, p.320.
+\end{theorem}
+\begin{example}
+Recall the the Weibull population from the example \ref{exampleMomentsWeibull1}
+for which we eatimated the parameters $a$ and $b$ using the method of moments.
+Because $a$ and $b$ are both positive, it is convenient to reparametrize the pdf
+in terms of $ln(a)$ and $ln(b)$.
 \end{example}
 \end{document}
