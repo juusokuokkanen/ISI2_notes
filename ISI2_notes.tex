@@ -1963,5 +1963,38 @@ not otherwise justified by any theory.
     (MCMC) methods allow simulation of observations from $\pi(\bm \theta | \bm
     x)$ without the need to evaluate $m(\bm x)$.
   \end{itemize}
+  %TOOD: Left out some of the stuff in the begining of notes 12 page 1 since
+  % recap. Not needed?
+  \item The most simple MCMC method is the Metropolis algorithm. (Denote
+  $f(x|\theta)\pi(\theta)$ by $a(\theta)$)
+  \begin{itemize}
+    \item[1.] Choose an arbitrary starting point $\theta_0$ form $\Theta$ (the
+    sample space of $\theta$). Choose an arbitrary symmetric pdf (the proposal
+    density) $g(\theta_{t+1} | \theta_t)$, which suggests the new value of
+    $\theta$ ($\theta_{t+1}$) given the previous value $\theta_t$. Usually we
+    use $N(\theta_t | \sigma^2)$ as the proposal density.
+    \item[2.] At each iteration t
+    \begin{itemize}
+      \item[2.1] Generate a candidate of $\theta$: $\theta'$ using
+      $g(\theta_{t+1}| \theta_t)$.
+      \item[2.2] Compute the acceptance ratio
+      $$\alpha = \frac{a(\theta')}{a(\theta_t)}$$
+      \item[2.3] If $\alpha < 1$, then accept $\theta'$ as $\theta_{t+1}$ with
+      probability $alpha$.
+      %TODO: Left out a plot in notes 11 page 1 end. Is it needed?
+    \end{itemize}
+    Repeat until a desired sample size has been obtained.
+  \end{itemize}
 \end{itemize}
+\begin{example} Bayes 2
+
+Consider a sample $\bm x' = \begin{bmatrix} 9.76 & 9.08 & 16.23 & 10.28 & 10.51
+\end{bmatrix}$. The aim is to estimate the population mean $\theta$. We use
+restrictive prior for it:
+$$\pi(\theta) \sim Uniform(7, 13)$$
+In R-script \verb#Bayes.R# there is function postProfile that implements
+function $a(\theta)$. $N(\theta_t, 1)$ is used as $g(\theta_{t+1} | \theta_t )$.
+We generate a sample size of $n=10000$ and use the posterior sample mean as the
+point estimate of $\theta$.
+\end{example}
 \end{document}
