@@ -1997,4 +1997,60 @@ function $a(\theta)$. $N(\theta_t, 1)$ is used as $g(\theta_{t+1} | \theta_t )$.
 We generate a sample size of $n=10000$ and use the posterior sample mean as the
 point estimate of $\theta$.
 \end{example}
+\textbf{Notes}
+\begin{itemize}
+  \item MCMC methods require only that $\pi(\theta)f(\bm x | \theta)$ can be
+  evaluated.
+  \item The sample generated from the posterior is not independent: the sequence
+  $\theta_1,\ldots, \theta_t,\ldots,\theta_N$ has autocorrelation so that
+  successive values are dependent.
+  \item Commonly used MCMC methods are the Metropolis-Hastings-algorithm and the
+  Gibbs sampler.
+\end{itemize}
+\section{Methods for evaluating estimators}
+\begin{definition}
+The mean squared error (MSE) of an estimator $W$ of parameter $\theta$ is the
+function of $\theta$ defined by
+$$E_\theta(W-\theta)^2$$
+\end{definition}
+\begin{itemize}
+  \item In general, any increasing function of the aboslute distancec
+  $\abs{W-\theta}$ is a reasonable measure for the quality of $W$ (e.g. mean
+  absolute error $E_\theta(W-\theta)$), but MSE is 1) mathematically factorable
+  and 2) has the interpretation
+  $$E_\theta(W-\theta)^2 = Var_\theta(W)+(E_\theta(W-\theta))^2$$
+  $$MSE = variance + bias^2$$
+\end{itemize}
+\begin{definition}
+The bias of the point estimator $W$ is the difference
+$$Bias_\theta(W) = E_\theta(W) - \theta$$
+\end{definition}
+\begin{itemize}
+  \item Estimator $W$ is said to be unbiased if $Bias_\theta(W) = 0$ for all
+  $\theta$
+  \item MSE as a criterion for an estimator leads to estimators that have small
+  bias and variance.
+\end{itemize}
+\begin{example} (Normal MSE)
+
+Let $X_1,\ldots,X_n$ be i.i.d. N($\mu, \sigma^2$). The statistics $\bar x$ and
+$s^2$ are unbiased estimators of $\mu$ and $\sigma^2$ since
+$$E(\bar x) - \mu = \mu - \mu = 0$$
+$$E(s^2) = \sigma^2 \to E(s^2) - \sigma^2 = 0$$
+\textbf{Note} These results are true even if the population is not normally
+distributed.
+
+The MSE of these estimators are
+
+$$(*)~MSE(\bar X) = E(\bar X - \mu)^2 = Var(\bar X) = \frac{\sigma^2}{n}$$
+$$(**)~MSE(s^2) = E(s^2 - \sigma^2)^2 = Var(s^2)= \ldots =
+\frac{2\sigma^4}{n-1}$$
+Note that (*) did not require normality, but (**) did. An alternative estimator
+for $\sigma^2$ is the MLE/moment estimator
+$$\hat \sigma^2 = \frac{1}{n}(X_i - \bar X)^2 = \frac{n-1}{n}s^2$$
+$$E(\hat \sigma^2) = E\left(\frac{n-1}{n}s^2\right) = \frac{n-1}{n}E(s^2) =
+\frac{n-1}{n}\sigma^2$$
+Now $E(\hat \sigma^2)- \sigma^2 = \frac{n-1}{n}\sigma^2 - \sigma^2 \neq 0$,
+meaning $\hat \sigma^2$ is a unbiased estimator of $\sigma^2$.
+\end{example}
 \end{document}
