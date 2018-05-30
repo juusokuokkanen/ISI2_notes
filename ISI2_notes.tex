@@ -2165,7 +2165,9 @@ $$Var_\theta(W(\bm X)) \geq \frac{\left[cov\left(W(\bm X),
 $$=\frac{\left[\frac{\ud}{\ud \theta} E(W(\bm X))\right]^2}{E\left\{ \left[
  \frac{\ud}{\ud \theta} ln(f(X))\right]^2 \right\}}$$
 \end{theorem}
-\begin{corollary} (Cramer-Rao i.i.d. case)
+\begin{corollary}
+\label{corollaryCR1}
+(Cramer-Rao i.i.d. case)
 $$Var(W(\bm X)) \geq \frac{\left[\frac{\ud}{\ud \theta} E(W(\bm
 X))\right]^2}{n \cdot E_\theta\left\{ \left[ \frac{\ud}{\ud \theta} ln(f(X_i
 | \theta ))\right]^2 \right\}}$$
@@ -2174,7 +2176,32 @@ X))\right]^2}{n \cdot E_\theta\left\{ \left[ \frac{\ud}{\ud \theta} ln(f(X_i
 information.
 
 \textbf{Note}  Any candidate estimator satisfying $E_\theta[W(\bm X)] =
-\tau(\theta)$ and attaining the Cramer-Rao bound is the beast unbiased estimator
+\tau(\theta)$ and attaining the Cramer-Rao bound is the best unbiased estimator
 of $\tau(\theta)$.
 \end{corollary}
+\begin{lemma}
+\label{lemmaCB1}
+If $f(x | \theta)$ satisfies
+$$\frac{\ud}{\ud \theta} E_\theta\left[\frac{\ud}{\ud \theta} ln(f(x |
+\theta))\right] = \int \frac{\ud}{\ud \theta}\left\{
+\left[\frac{\ud}{\ud \theta} ln(f(x | \theta))\right]f(x | \theta)\right\} \ud
+x ~ (*)$$
+Then
+$$E_\theta\left\{ \left[ \frac{\ud}{\ud \theta} ln(f(\bm x |
+\theta))\right]^2\right\} = -E_\theta\left\{ \frac{\ud^2}{\ud \theta^2}
+ln(f(\bm x | \theta))\right\}$$
+Condition (*) is satisfied at least by the members of exponential family (e.g.
+Bernoulli, Binomial, Poisson, exponential, normal, gamma\ldots).
+\end{lemma}
+\begin{example} (Poisson case)
+
+The i.i.d. Poisson case where $\theta = \lambda$. Numerator of the Cramer-Rao
+bound is
+
+$$\frac{\ud}{\ud \lambda} E_\lambda(\bar x) = \frac{\ud}{\ud \lambda} \lambda
+= 1$$
+Denominator (of corollary \ref{corollaryCR1}) becomes
+$$nE_\lambda\left[\left( \frac{\ud}{\ud x} ln(f(x | \lambda)) \right)^2\right]$$
+By using lemma \ref{lemmaCB1} $$
+\end{example}
 \end{document}
