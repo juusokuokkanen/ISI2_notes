@@ -277,7 +277,7 @@ and correspondingly for $x \mid y$.
 	\renewcommand{\arraystretch}{1.6}
 	\begin{array}{ll}
 	P(\bm X \in A) = \idotsint\limits_A f(\bm x) \ud x_1 \ldots \ud x_n &
-	f: \ureal^2 \to \ureal
+	f: \ureal^n \to \ureal
 	\end{array}
 	\end{equation*}
 	where $f(\bm x)$ is a joint pdf.
@@ -290,22 +290,23 @@ and correspondingly for $x \mid y$.
 	\end{equation*}
 	where $f(\bm x)$ is a joint pmf.
 
-\item Let $g(\bm x)$ be a transformation $g: \ureal^2 \to \ureal$. Then, the
+\item Let $g(\bm x)$ be a transformation $g: \ureal^n \to \ureal$. Then, the
 	expected value is
 	\begin{equation*}
 	\renewcommand{\arraystretch}{1.6}
 	E(g(\bm X)) = \left\{
 	\begin{array}{ll}
-	\int_{-\infty}^\infty \ldots \int_{-\infty}^\infty x f(x) \ud x_1 \ldots \ud
-	x_n & \text{if $\bm X$ is continuous} \\
-	\mathop{\sum\ldots\sum}_{\bm X \in \ureal^2}g(\bm x)f(\bm x)& \text{if $\bm X$
+	\int_{-\infty}^\infty \ldots \int_{-\infty}^\infty g(\bm x) f(x) \ud x_1 \ldots
+	\ud x_n & \text{if $\bm X$ is continuous} \\
+	\mathop{\sum\ldots\sum}_{\bm X \in \ureal^n}g(\bm x)f(\bm x)& \text{if $\bm X$
 	is discrete} \end{array} \right.
 	\end{equation*}
 	\item Let us partition the $n$-variate random vector $\bm X$ as follows:
 	$$\bm X = \left(\begin{matrix}\bm X_1 \\ \bm X_2\end{matrix}\right)$$
-	where $\bm X_1$ has lenght $k$ and $\bm X_2$ has length $n-k$. 
+	where $\bm X_1$ has lenght $k$ and $\bm X_2$ has length $n-k$.
+	\begin{itemize}
 	\item The joint pdf
-	of $\bm X$ can be written as
+	of $\bm X$ can be written equivalently as
 	$$f(\bm x) = f(\bm x_1, \bm x_2)$$ 
 	%TODO: In notes, X_1 and X_2 normal random variables. Is this correct?
 	\item The marginal density of $\bm X_1$ is
@@ -357,11 +358,10 @@ variance-covariance matrix.
 
 Var(\bm x)_{n \times n} & = 
 \begin{bmatrix}
-Var(X_1) & cov(X_1, X_2) & cov(X_1, X_3) & \hdots & cov(X_1, X_n) \\
-cov(X_2, X_1) & Var(X_2) & cov(X_2, X_3) & \hdots & cov(X_2, X_n) \\
-cov(X_3, X_1) & cov(X_3, X_2) & Var(X_3) & \hdots & cov(X_3, X_n) \\
-\vdots & \vdots & \vdots & \ddots  & \vdots \\
-cov(X_n, X_1) & cov(X_n, X_2) & cov(X_n, X_3) & \hdots & Var(X_n) \\
+Var(X_1) & cov(X_1, X_2)  & \hdots & cov(X_1, X_n) \\
+cov(X_2, X_1) & Var(X_2)  & \hdots & cov(X_2, X_n) \\
+\vdots & \vdots & \ddots  & \vdots \\
+cov(X_n, X_1) & cov(X_n, X_2)  & \hdots & Var(X_n) \\
 \end{bmatrix} \\ \\
  & = 
  
@@ -380,11 +380,10 @@ cov(\bm x_2, \bm x_1')_{(n-k) \times k}& Var(\bm x_2)_{(n-k) \times (n-k)}
 
 corr(\bm x)_{n \times n} & = 
 \begin{bmatrix}
-1 & corr(X_1, X_2) & corr(X_1, X_3) & \hdots & corr(X_1, X_n) \\
-corr(X_2, X_1) & 1 & corr(X_2, X_3) & \hdots & corr(X_2, X_n) \\
-corr(X_3, X_1) & corr(X_3, X_2) & 1 & \hdots & corr(X_3, X_n) \\
-\vdots & \vdots & \vdots & \ddots  & \vdots \\
-corr(X_n, X_1) & corr(X_n, X_2) & corr(X_n, X_3) & \hdots & 1 \\
+1 & corr(X_1, X_2) & \hdots & corr(X_1, X_n) \\
+corr(X_2, X_1) & 1 & \hdots & corr(X_2, X_n) \\
+\vdots & \vdots & \ddots  & \vdots \\
+corr(X_n, X_1) & corr(X_n, X_2) & \hdots & 1 \\
 \end{bmatrix}
 \end{array}
 \end{equation*}
@@ -417,7 +416,7 @@ $$E(\bm X_1 \mid \bm X_2) = \bm \mu_1 + \bm \Sigma_{12} \bm
 $$Var(\bm X_1 \mid \bm X_2) = \bm \Sigma_1 - \bm \Sigma_{12} \bm \Sigma_2^{-1}
 \bm \Sigma_{21}$$
 \item[\bf{Note:}] $Var(\bm X_1 \mid \bm X_2) \leq Var(\bm X_1)$
-
+\end{itemize}
 \end{itemize}
 
 \section{Computing using expected values and variances}
@@ -436,8 +435,8 @@ E(X + c) = E(X)+c \\
 E(XY) = E(X)E(Y) & \text{Only if $X \indep Y$.} \\
 E(g(X)) = g(E(X)) & \text{Only in some special cases, like when $g(X)$ }\\
 &\text{is a linear transformation.} \\
-Var(X+Y) = Var(X)+Var(Y)+2cov(X,Y) \\
-Var(X-Y) = Var(X)+Var(Y)-2cov(X,Y) \\
+Var(X+Y) = Var(X)+Var(Y)+2 \cdot cov(X,Y) \\
+Var(X-Y) = Var(X)+Var(Y)-2 \cdot cov(X,Y) \\
 Var(aX) = a^2 \cdot Var(X) \\
 cov(X, Y+Z) = cov(X,Y)+cov(X,Z) \\
 cov(aX,bY) = ab\cdot cov(XY) \\
@@ -467,7 +466,7 @@ cov(\bm a' \bm X, \bm b' \bm Y) = \bm a' cov(\bm X, \bm Y) \bm b
 \label{defRandomSamples1}
 Random variables $X_1,..,X_n$ are called random sample of size $n$ from
 population $f(x)$, if $X_1,\ldots,X_n$ are mutually independent random variables
-and the marginal pdf/pmf if each $X_i$ is the same function $f(x)$.
+and the marginal pdf/pmf of each $X_i$ is the same function $f(x)$.
 Alternatively, $X_1,\ldots,X_n$ are called independent and identically
 distributed random variables (i.i.d.) with pdf/pmf $f(x)$.
 \end{definition}
@@ -476,7 +475,7 @@ $\bm X = \begin{bmatrix}X_1 & \hdots & X_n \end{bmatrix}^T$
 \begin{itemize}
 \item If follows from the mutual independence, of $X_1,\ldots,X_n$ that the
 joint pdf or pmf of $\bm X$ is
-$$f(x_1,\ldots,x_2) = f(x_1)f(x_2)\ldots f(x_n) = \prod_{i=1}^n f(x_i)$$
+$$f(x_1,\ldots,x_n) = f(x_1)f(x_2)\ldots f(x_n) = \prod_{i=1}^n f(x_i)$$
 \item All univariate marginal distributions $f(x_i)$ are the same by definition
 \ref{defRandomSamples1}.
 \end{itemize}
@@ -485,7 +484,7 @@ Let $X_1,\ldots,X_n$ be a random sample from $Exponential(\beta)$ population.
 $X_i$ specifies the time until failure for $n$ identical cellphones. The
 exponential pdf is
 $$f(x_i) = \frac{1}{\beta}e^{-x_i/\beta}$$ %TODO: Is the x_i correct?(note 2 p6)
-The joint pdf pf the sample is
+The joint pdf of the sample is
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
@@ -523,7 +522,7 @@ x_n}_{\substack{\text{Identical to original integral except that} \\
 \end{equation*}
 \end{example}
 A much more simpler solution: notice that $P(X_i > 2) = 1 - F(2) =
-e^{-1/\beta}$. Because $X_i$'s are independent, then also events $(X_i > 2)$ are
+e^{-2/\beta}$. Because $X_i$'s are independent, then also events $(X_i > 2)$ are
 independent event, and so
 $$P(\text{All } X_i > 2) = \prod_{i=1}^n P(X_i > 2) = (e^{-2/\beta})^n =
 e^{-2n/\beta}$$
@@ -544,12 +543,12 @@ grouped data.
 Dependent data are modeled by assuming that random vectors $\bm
 X_1,\ldots,\bm X_n$ are vectors of appropriate length, and there are $n$
 independent realizations of them in the data. Quite often $n=1$ and each
-replicate to $\bm X_1$, which is a rather long vector.
+replicate provides an element to $\bm X_1$, which is a rather long vector.
 %TODO: Illustration about data points left out in notes 3, page 2. Is it needed?
 \begin{example} % TODO: Remark about see exercise 7.4 of ISI1 left out. Is it
 % needed? If so, see actual number of new notes.
 \label{exampleSpatialData1}
-Let $\bm X = \begin{bmatrix} X(u_1) & X(u_2) & X(u_3) \end{bmatrix}^T$ include
+Let $\bm X_1 = \begin{bmatrix} X(u_1) & X(u_2) & X(u_3) \end{bmatrix}^T$ include
 random variables $X$ at locations $u_1$, $u_2$ and $u_3$. Assume that $\bm X_1$
 is normally distributed and the correlation $\rho_{ij} = corr(X(u_i), X(u_j))$
 depends only on the spatial distance $s_{ij} = \lVert u_i - u_j \rVert$ between
@@ -593,9 +592,9 @@ Let
 \end{array}
 \end{equation*}
 
-The joint pdf of $\bm X$ is 3 variate normal distribution with mean $\bm \mu$
+The joint pdf of $\bm X_1$ is 3 variate normal distribution with mean $\bm \mu$
 and variance $\bm \Sigma$ 
-$$f(x_1 \mid \bm \mu, \bm \Sigma) = \frac{1}{\sqrt{(2\pi)^3}}
+$$f(\bm x_1 \mid \bm \mu, \bm \Sigma) = \frac{1}{\sqrt{(2\pi)^3}}
 \lvert \bm \Sigma \rvert^{-1/2}e^{\frac{1}{2}(\bm x_1 - \bm \mu)'\bm \Sigma^{-1}(\bm x_1 - \bm
 \mu)}$$
 \end{example}
@@ -653,7 +652,7 @@ Also other like sample mean, variance, standard deviation, quartiles etc.
 \begin{example} Let $\bm X$ be a random sample of size 5 from $Exponential(2)$
 population. R script \verb#statistics.R# illustrates the distributions of
 $min(\bm X)$, $max(\bm X)$, $median(\bm X)$ and $mean(\bm X)$ through
-simulation. Script repeates the sampling from Exponential distribution $M=10000$
+simulation. Script repeats the sampling from Exponential distribution $M=10000$
 times and illustrates the distribution of the above mentioned sample statistic
 when $n=5$.
 \end{example}
@@ -670,7 +669,7 @@ $$S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i-\bar X)^2$$
 \begin{itemize}
   \item The sample standard deviation is the statistic defined by $S =
   \sqrt{S^2}$.
-  \item The observed values of these random variables are denoted by $\bar X$,
+  \item The observed values of these random variables are denoted by $\bar x$,
   $s^2$ and $s$.
 \end{itemize}
 \begin{theorem}
@@ -692,14 +691,14 @@ X^2)-(E(\bm X))^2}} %TODO: Is this correct (in notes, \bm X and X mixed in
 
 \begin{lemma} Let $X_1,\ldots,X_n$ be a random sample form a population and the
 $g(X)$ be a function such that $E(g(X_i))$ and $Var(g(X_i))$ exist. Then
-$$E\left[\sum_{i=1}^ng(X_i)\right] = n\cdot E(g(X_i))$$
+$$E\left[\sum_{i=1}^ng(X_i)\right] = n\cdot E(g(X_1))$$
 and
-$$Var(\sum_{i=1}^n g(X_i)) = n \cdot Var(g(X_i))$$
+$$Var(\sum_{i=1}^n g(X_i)) = n \cdot Var(g(X_1))$$
 \textbf{Proof} 
 
 $$E(\sum g(X_i)) = \sum E(g(X_i)) = *$$
 Because $X_i$'s are identically distributed
-$$*=nE(g(X_i))$$
+$$*=nE(g(X_1))$$
 
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
@@ -755,7 +754,7 @@ cov(X_2, X_1) & Var(X_2)  & \hdots & cov(X_2, X_n) \\
 \vdots & \vdots & \ddots  & \vdots \\
 cov(X_n, X_1) & cov(X_n, X_2) & \hdots & Var(X_n) \\
 \end{bmatrix} \\
-Var(\sum X_i) = \sum\sum cov(X_i, X_j)
+Var(\sum X_i)& = \sum\sum cov(X_i, X_j)
 \end{array}
 \end{equation*}
 
@@ -778,7 +777,7 @@ variance $\sigma^2 < \infty$. Then
 \end{equation*}
 \end{theorem}
 \begin{itemize}
-  \item Proof for a and b are familiar from ISI1 course. Proof of c applier the theorem
+  \item Proof for a and b are familiar from ISI1 course. Proof of c applies the theorem
 \ref{theoremXbarSigma} and is left as an exercise. %TODO: Still an exercise?
 \item[\bf{Note:}] Because $E(\bar X)= \mu$, the statistic $\bar X$ is said to be
 an unbiased estimator (harhaton estimaattori) of population mean $\mu$. Also 
@@ -799,22 +798,22 @@ population has the $Uniform(0,10)$ distribution and $n=10$.
 \begin{theorem}\label{theoremConvolutionFormula1} (Convolution formula)
 
 If $X$ and $Y$ are independent, continuous random variables with pdf's $f_X(x)$
-and $f_Y(y)$, then the pdf of the sum $Z = x + Y$ is
+and $f_Y(y)$, then the pdf of the sum $Z = X + Y$ is
 $$f_Z(z) = \int_{-\infty}^\infty f_X(w)f_Y(z-w) \ud w$$
 \end{theorem}
-\textbf{Proof: } See Casella \& Berger, p 215-216.
+\textbf{Proof: } See Casella \& Berger, p. 215-216.
 
 \textbf{Illustration: } See example 1.20 of \verb#notes.pdf#
   %TODO: Two plots in the end of notes 4 page 7 left out. Needed?
 
-\textbf{Note:} To compute the complete distribution of a sum $Z = \sum_{i=1}^n$,
-where $X_i$'s do not need to be identically distributed, but they are
+\textbf{Note:} To compute the complete distribution of a sum $Z = \sum_{i=1}^n
+X_i$, where $X_i$'s do not need to be identically distributed, but they are
 independent, we need to apply theorem \ref{theoremConvolutionFormula1}
 iteratively. E.g. to find the distribution of $X_1 + X_2 + X_3$, you may first
 find the distribution of $Z = X_1 + X_2$ using theorem
 \ref{theoremConvolutionFormula1} and thereafter use theorem
-\ref{theoremConvolutionFormula1} again to find the pdf of $Z + X_3$. This is not
-trivial in very general case, but there are easier ways to do this, e.g. when
+\ref{theoremConvolutionFormula1} again to find the pdf of $Z + X_3$. This is
+not trivial in very general case, but there are easier ways to do this, e.g. when
 $X_i$'s are identically distributed and independent (i.i.d).
 
 However, recall that in any case, the moments are easy
@@ -841,26 +840,26 @@ distribution and let $\bar X = \frac{1}{n}\sum_{i=1}^n X_i$ and $S^2 =
 \end{theorem}
 \textbf{Note:} The chi-squared distribution with $p$ degrees of freedom has the
 pdf
-$$f_X(x)= \frac{1}{\underbrace{\Gamma(p/2)}_{\text{Gamma
--function}}}X^{p/2-1}e^{-x/2}$$
+$$f_X(x)= \frac{1}{\Gamma(p/2)2^{p/2}}X^{p/2-1}e^{-x/2}$$
 \begin{itemize}
   \item Gamma -function: $\Gamma(z) = \int_0^\infty x^{z-1}e^{-x}\ud x$
 \end{itemize}
 \begin{lemma}
+\label{lemmaChiRV1}
 We use notation $\chi_p^2$ for a chi-squared random variables with $p$ degrees
 of freedom
 \begin{itemize}
-  \item If $Z$ is a $N(0,1)$ random variable, then $Z^2 \sim \chi_1^2$, that is,
-  the square of a standard normal random variable is a chi-squared random
+  \item[a)] If $Z$ is a $N(0,1)$ random variable, then $Z^2 \sim \chi_1^2$, that
+  is, the square of a standard normal random variable is a chi-squared random
   variable. %TODO: Is Z^2 \chi_p^2 or \chi_1^2?
-  \item If $X_1,\ldots,X_n$ are independent and $X_i \sim \chi_{p_i}^2$ then
+  \item[b)] If $X_1,\ldots,X_n$ are independent and $X_i \sim \chi_{p_i}^2$ then
   $\sum X_i \sim \chi_{\sum p_i}^2$. That is, independent chi-squared random
   variables add to a chi-squared random variable, and the degrees of freedom
   also add.
 \end{itemize}
 \end{lemma}
 \begin{example}
-Illustrate the result of theorem \ref{theoremSumOfRVs1} using R-script. In file
+Illustrate the result of lemma \ref{lemmaChiRV1} using R-script. In file
 \verb#normalchi.R#, we implement the following:
 
 Repeat M times
@@ -879,7 +878,7 @@ where $\mu = E(\bar X)$ and $\sigma / \sqrt{n} = Var(\bar X)$.
   \item This transformation could be used to make inference on $\mu$ using the
   observed $\bar x$, if $\sigma^2$ is known.
   \item However, that is not the case, and therefore we use $\frac{\bar X -
-  \mu}{\sigma / \sqrt{n}}$ which can also be written as
+  \mu}{S / \sqrt{n}}$ which can also be written as
   $$\frac{(\bar X - \mu)/(\sigma / \sqrt{n})}{\sqrt{S^2 / \sigma^2}}$$
   where $(\bar X - \mu)/(\sigma / \sqrt{n}) \sim N(0,1)$ and
   $\sqrt{S^2 / \sigma^2} \sim \chi_{n-1}^2$.
@@ -895,12 +894,12 @@ freedom ($T \sim t_p$) if $T$ has the pdf
 $$f_T(t) =
 \frac{\Gamma(\frac{p+1}{2})}{\Gamma(\frac{p}{2})}\frac{1}{(p\pi)^{1/2}}\frac{1}{(1+t^2/p)^{(p+1)/2}}$$
 \end{theorem}
-\textbf{Proof:} See Casella \& Berger, p.223-224.
+\textbf{Proof:} See Casella \& Berger, p. 223-224.
 
-\textbf{Illustration:} File \verb#normalchi.R#
+\textbf{Illustration:} R-script \verb#normalchi.R#
 \begin{itemize}
   \item We use samples of sizes $3,4,\ldots,100$ and $M=10000$.
-  \item Plot empirical histogram of $\frac{\bar X - \mu}{s/\sqrt{n}}$
+  \item Plot empirical histogram of $\frac{\bar X - \mu}{S/\sqrt{n}}$
   \item Compare to $t_{n-1}$ distribution and to $N(0,\sigma^2)$.
   \item $\mu=5$ and $\sigma^2 = 3^2$. %TODO: Is this enough information?
   \item Because $S^2 \to \sigma^2$ as $n$ increases, the difference between
@@ -920,13 +919,13 @@ Let $\bm X$ be a random sample from $N(\mu_X,\sigma_X^2)$ and let $\bm Y$ be a
 random sample from $N(\mu_Y,\sigma_Y^2)$. If we were interested in comparing the
 variability in these two populations, a quality of interest would be
 $\sigma_X^2/\sigma_Y^2$. Information about $\sigma_X^2/\sigma_Y^2$ is contained
-in $s_X^2/s_Y^2$; ratio of the sample variances.
+in $S_X^2/S_Y^2$; ratio of the sample variances.
 
 The F-distribution allows this comparison by giving te distribution for random
 variable
-$$\frac{s_X^2/s_Y^2}{\sigma_X^2/\sigma_Y^2} =
-\frac{s_X^2/\sigma_X^2}{s_Y^2/\sigma_Y^2} $$
-where ratios $s_X^2/\sigma_X^2$ and $s_Y^2/\sigma_Y^2$ are independent, scaled
+$$\frac{S_X^2/S_Y^2}{\sigma_X^2/\sigma_Y^2} =
+\frac{S_X^2/\sigma_X^2}{S_Y^2/\sigma_Y^2} $$
+where ratios $S_X^2/\sigma_X^2$ and $S_Y^2/\sigma_Y^2$ are independent, scaled
 $\chi^2$-distributed random variables. 
 \end{example}
 
@@ -934,7 +933,7 @@ $\chi^2$-distributed random variables.
 Let $\bm X_{n \times 1}$ be a random sample from a $N(\mu_X, \sigma_X^2)$
 population and let $\bm Y_{m \times 1}$ be a random sample from an independent
 $N(\mu_Y, \sigma_X^2)$ population. The random variable
-$$F = \frac{s_X^2/\sigma_X^2}{s_Y^2/\sigma_Y^2} $$
+$$F = \frac{S_X^2/\sigma_X^2}{S_Y^2/\sigma_Y^2} $$
 has the F-distribution with parameters (numerator and denominator degrees of
 freedom) $n-1$ and $m-1$. Equivalently, random variable $F$ has the
 F-distribution with $p$ and $q$ degrees of freedom $(F \sim F_{p,q})$ if $F$ has
@@ -944,7 +943,7 @@ $$f_F(x) =
 \end{definition}
 \textbf{Note:} \begin{itemize}
   \item[a)] If $X \sim F_{p,q}$, then $1/X \sim F_{q,p}$
-  \item[b)] If $X \sim t_q$, then $X^2 \sim \chi_1^2$ (recall that if $X \sim
+  \item[b)] If $X \sim t_q$, then $X^2 \sim F_{1,q}$ (recall that if $X \sim
   N(0,1)$, then $X^2 \sim \chi_1^2$)
 \end{itemize}
 \section{Convergence}
@@ -952,11 +951,11 @@ $$f_F(x) =
   \item What happens if $n \to \infty$.
 \end{itemize}
 \begin{theorem}
-Markov inequality
+(Markov inequality)
 
 Let $X$ be a random variable such that $P(X \geq 0) = 1$ (i.e. $X$ gets only
 positive values). Then, for every number $t > 0$
-$$P(x > t) \leq \frac{E(X)}{t}$$
+$$P(X > t) \leq \frac{E(X)}{t}$$
 % TODO: Left out plot in notes 6 page 1. Is it needed?
 \textbf{Proof:} Consider only case where $X$ is discrete random variable.
 \begin{equation*}
@@ -982,11 +981,11 @@ E(X) & \geq t \cdot P(X\geq t) || :t ~~ (>0)\\
 \begin{example} Let $X$ be a non-negative random variable with $E(X) = 1$
 $$P(X \geq 100) \leq \frac{E(X)}{100} = 0.01$$
 \end{example}
-\begin{theorem} Chebyshev's inequality
+\begin{theorem} (Chebyshev's inequality)
 
 Let $X$ be a random variable such that $Var(X)$ exists. Then for every number
 $t > 0$
-$$P(\abs{X-E(X)} \geq t) \leq \frac{\sigma^2}{t^2}$$
+$$P(\abs{X-E(X)} \geq t) \leq \frac{Var(X)}{t^2}$$
 \textbf{Proof:} Let $Y=(X-E(X))^2$. Now $P(Y \geq 0) = 1$ and $E(Y) = Var(X)$
 $$P(\abs{X - E(X)} \geq t) = P(Y \geq t^2) \leq \frac{E(Y)}{t^2}$$
 $$P(\abs{X - E(X)} \geq t) \leq \frac{Var(X)}{t^2}$$
@@ -1073,7 +1072,7 @@ Because sample is independent
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{lll}
 P(X_{(n)} < 1 - \epsilon) & = P(\text{All } X_i \leq 1 - \epsilon) \\
-& = \left[ \underbrace{P(X \leq 1 - \epsilon}_{F_X(1-\epsilon)} \right]^n & X
+& = \left[ \underbrace{P(X \leq 1 - \epsilon)}_{F_X(1-\epsilon)} \right]^n & X
 \sim Unif(0,1) \\
 & = (1 - \epsilon)^n & \lim_{n \to \infty} (1 - \epsilon)^n = 0 \\
 & \rightarrow X_{(n)} \xrightarrow{P} 1
@@ -1089,10 +1088,10 @@ for which $\lim_{n \to \infty} (1 - \frac{t}{n})^n = e^{-t}$.
 \begin{array}{ll}
 X_{(n)} \leq 1 - \frac{t}{n} \\
 X_{(n)} - 1 \leq - \frac{t}{n} & | \cdot (-1) \\
-1 - X_{(n)} \leq \frac{t}{n} & | \cdot n \\
-n(1 - X_{(n)}) \leq t \\
-P(n(1 - X_{(n)}) \leq t) = e^{-t} \\
-P(n(1 - X_{(n)}) \geq t) = \underbrace{1 - e^{-t}}_{\text{Exponential(1) cdf}}
+1 - X_{(n)} \geq \frac{t}{n} & | \cdot n \\
+n(1 - X_{(n)}) \geq t \\
+P(n(1 - X_{(n)}) \geq t) = e^{-t} \\
+P(n(1 - X_{(n)}) \leq t) = \underbrace{1 - e^{-t}}_{\text{Exponential(1) cdf}}
 \\
 \end{array}
 \end{equation*}
@@ -1103,7 +1102,7 @@ How fast does the convergence occur, i.e. how large does the $n$ need to be to
 have $n(1 - X_{(n)}) \sim Exponential(1)$?
 
 We generate $M=10000$ samples of each of the sample sizes $n=2,3,4,5,10,20$. For
-each sample, find $X_{(n)}$ and compute $y=n(1-X_(n))$. Plot the histogram if
+each sample, find $X_{(n)}$ and compute $y=n(1-X_(n))$. Plot the histogram of
 $y$ and compare to Exponential(1) pdf.
 
 The approximation looks quite nice already, when $n \geq 10$. But notice the
@@ -1118,12 +1117,13 @@ $E(X) = \mu$ and finite variance $Var(X) = \sigma^2 > 0$. Let $\bar{X}_n =
 \sum_{i=1}^n X_i$. Let $G_{Z_n}(z)$ denote the cdf of
 $$Z_n = \frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} =
 \frac{\bar{X}_n-\overbrace{\mu}^{E(\bar{X}_n)}}{\underbrace{\sigma/\sqrt{n}}_{sd(\bar{X}_n)}}$$
-Then $\lim_{n \to \infty}G_{Z_n}{z} = \underbrace{\int_{-\infty}^z
+Then $$\lim_{n \to \infty}G_{Z_n}{z} = \underbrace{\int_{-\infty}^z
 \underbrace{\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\ud y}_{N(0,1) \text{
-pdf}}}_{N(0,1) \text{ cdf}}$
+pdf}}}_{N(0,1) \text{ cdf}}$$
 That is: $Z_n$ has limited standard normal distribution, meaning $Z_n
 \xrightarrow{d} N(0,1)$. Equivalently, $\bar{X}
 \xrightarrow{d} N(\mu,\sigma^2/n)$.
+
 \textbf{Notes:}
 \begin{itemize}
   \item We assume only finite $\mu$ and $\sigma^2$ and end up to normlity.
@@ -1156,13 +1156,14 @@ proportion should be close to 0.05 if the approximation is good.
 %TODO: In notes, is said that this is left as an exercise. Is this needed?
 \end{theorem}
 \begin{theorem}(Slutsky)
+
 If $X_n \xrightarrow{d} X$ and if $Y_n \xrightarrow{P} a$, where a is a
 constant, then
 \begin{itemize}
   \item[a)] $Y_n X_n \xrightarrow{d} aX$
   \item[b)] $X_n + Y_n \xrightarrow{d} X + a$
 \end{itemize}
-\textbf{Note} Proof for this is not shown.
+Proof for this is not shown.
 \end{theorem}
 \begin{example}
 (Normal approximation with estimated variance)
@@ -1170,15 +1171,15 @@ constant, then
 The central limit theorem said that under mild conditions
 $$\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} \xrightarrow{d} N(0,1)$$
 However, $\sigma^2$ is often unknown, but can be unbiasedly and consistently
-estimated by $s_n^2 = \frac{1}{n-1}\sum(X_i-\bar{X}_n)^2$. It can also be shown
+estimated by $S_n^2 = \frac{1}{n-1}\sum(X_i-\bar{X}_n)^2$. It can also be shown
 that (see Casella \& Berger example 5.5.3 and exercise  3.32)
-$$\frac{\sigma}{s_n} \xrightarrow{P} 1$$
+$$\frac{\sigma}{S_n} \xrightarrow{P} 1$$
 \textbf{Note}
-$$\frac{\sqrt{n}(\bar{X}_n-\mu)}{s_n} =
-\underbrace{\frac{\sigma^2}{s_n}}_{\frac{\sigma}{s_n} \xrightarrow{P}
+$$\frac{\sqrt{n}(\bar{X}_n-\mu)}{S_n} =
+\underbrace{\frac{\sigma^2}{S_n}}_{\frac{\sigma}{S_n} \xrightarrow{P}
 1}\underbrace{\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma^2}}_{\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}
 \xrightarrow{d} N(0,1)} \xrightarrow{d} N(0,1)$$
-So even tough the variance is estimated, $\frac{\bar X - \mu}{s / \sqrt{n}}$
+So even tough the variance is estimated, $\frac{\bar X - \mu}{S / \sqrt{n}}$
 converges to a normal distribution. However, intuitively, the convergence should
 be more slow than when $\sigma$ is known.
 % TODO: There was also mention that this was left as an exercise. Is is still
@@ -1227,7 +1228,7 @@ Y_i = \left\{
 \end{array} \right.
 \end{equation*}
 Parameter of interest might be the probability of a tree being dead.
-$$Y_i \sim Bernoulli(p), ~ \theta = p$$
+$$Y_i \sim Bernoulli(p) ~\text{ and } \theta = p$$
 If we also know the age of the tree, and it is justified to assume that older
 trees are more commonly dead than younger trees, then
 $$Y_i \sim Bernoulli(p_i)$$
@@ -1238,7 +1239,8 @@ $$p_i = \beta_0 + \beta_1 \text{Age}_i, ~
 \end{bmatrix}$$
 %TODO: Left out plot in notes 7 page 4. is it needed?
 Because $\beta_0 + \beta_1 \text{Age}_i$ is not restricted to
-$\left[0,1\right]$, a better model uses some function for $p(\text{Age}_i)$.
+$\left[0,1\right]$, a better model uses some other function for
+$p(\text{Age}_i)$.
 Most commonly we use
 $$log\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 \text{Age}_i$$
 Which is a logit transformation $[0,1] \rightarrow \ureal$. This provides us
@@ -1269,7 +1271,7 @@ not have much information on $\mu$ as you have when you know $\bar X$.
 
 If also $\sigma^2$ is unknown, then
 $\bm T(\bm X) = \begin{bmatrix}
-\bar X \\ s^2
+\bar X \\ S^2
 \end{bmatrix}$ is sufficient for $\bm \theta = \begin{bmatrix}
 \mu \\ \sigma^2
 \end{bmatrix}$
