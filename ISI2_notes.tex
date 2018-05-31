@@ -1843,7 +1843,9 @@ In R-script \verb#WeibullMLEInvariance.R# $A = ln(a)$ and $B = ln(b)$.
 \end{array}
 \end{equation*}
 \end{example}
-\begin{example} Example ML6 (MLE in dependent data)
+\begin{example}
+\label{exampleMLESpatial1} 
+Example ML6 (MLE in dependent data)
 
 Recall exercise \ref{exampleSpatialData1} where we had spatial, multivariate
 normal data. Consider observations of $Y_i$ in the following 2-dimensional grid,
@@ -2240,7 +2242,9 @@ If $W_n$ is a sequence of estimators of $\theta$ satisfying
 for every $\theta$, then $W_n$ is a consistent sequence of estimators of
 $\theta$.
 \end{theorem}
-\begin{theorem} (Consistency of MLE's)
+\begin{theorem} 
+\label{theoremMLEConsistency1}
+(Consistency of MLE's)
 
 Let $X_1,X_2,\ldots$ be i.i.d. $f(X | \theta)$. Let $\hat\theta$ denote the MLE
 of $\theta$ and let $\tau(\theta)$ be a continuous function of $\theta$. Under
@@ -2252,7 +2256,101 @@ That is, $\tau(\hat\theta)$ is a consistent estimator of $\tau(\theta)$.
   consistent estimators of the population parameter (or the transformation of
   it).
 \end{itemize}
-
 \end{theorem}
+\begin{theorem} 
+\label{theoremAsEffMLE1}
+(Asymptotic efficiency of MLE)
+
+Under the conditions and definitions of theorem \ref{theoremMLEConsistency1}
+$$\sqrt{n}\left( \tau(\hat \theta) - \tau(\theta) \right) \xrightarrow{d}
+N(0, v(\theta))$$
+where $v(\theta)$ is the Rao-Cramer lower bound
+$$v(\theta) = \frac{[\tau'(\theta)]^2}{E_\theta\left\{ \left[ \frac{\ud}{\ud
+\theta} ln(f(\bm X | \theta)) \right]^2 \right\}}$$
+Therefore, we say that the MLE is asymptotically efficient (asymptoottisesti
+tehokas).
+
+\textbf{Proof: } See Casella \& Berger p. 472-473
+\end{theorem}
+\begin{example}
+Let $X_1,X_2,\ldots$ be i.i.d. N($\mu$,$\sigma^2$). Consider the MLE of
+$\sigma^2$
+$$\hat\sigma^2 = \frac{1}{n}\sum(X_i - \bar X)^2$$ The Fishers information is
+$$-E\left[\frac{\ud^2}{\ud(\sigma^2)^2} ln(L(\mu, \sigma^2 | \bm X)) \right] ~
+\text{ (Lemma\ref{lemmaCB1})}$$
+$$= \ldots = \frac{1}{2\sigma^4}$$
+%TODO: Left out remark about ``showing this left as exerise''
+$$\to Var(\sigma^2) = \frac{1}{1/2\sigma^4} = 2\sigma^4$$
+Therefore the ML estimator $\hat \sigma^2$ fulfills
+$$\sqrt{n}(\hat\sigma^2 - \sigma^2) \xrightarrow{d} N(0, 2\sigma^4)$$
+R-script \verb#AsEffOfMLE.R# demonstrates this for a $N(0,
+10\sqrt{(1/12)})$ for samples of size $n=(2,3,5,10,20,50,100,200,500)$
+\end{example}
+\begin{itemize}
+  \item[\textbf{Note}] To use theorem \ref{theoremAsEffMLE1} with real data, one
+  should know the true value of $\theta$, because $Var_\theta(\tau(\hat\theta))$
+  is a function of $\theta$.
+  \item The large sample variance of a ML estimator is given data $\bm x$ can be
+  approximated as follows:
+  \begin{itemize}
+	\item Let
+	$$I_n(\theta) = E_\theta\left[ \left( \frac{\ud}{\ud \theta} ln(L(\theta| \bm
+	x))^2 \right) \right]$$
+	$$Var(\tau(\hat\theta)| \theta) \approx
+	\frac{\left[\tau'(\theta)\right]^2}{I_n(\theta)} =
+	\frac{\left[\tau'(\theta)\right]^2}{E_\theta\left[ -\frac{\ud^2}{\ud \theta^2}
+	ln(L(\theta | \bm x))\right]}$$
+	$$ \approx 
+	\frac{\left[\tau'(\theta)\right]^2 |_{\theta = \hat\theta}}{
+	-\frac{\ud^2}{\ud \theta^2} ln(L(\theta | \bm x))|_{\theta = \hat\theta}} 
+	= \widehat{Var_\theta}(\tau(\hat\theta))$$
+	\item It can be shown that this is a consistent estimator of
+	$Var_\theta(\tau(\hat\theta))$
+  \end{itemize}
+  \item The generalization to vector-values $\bm \theta_{p \times 1} =
+  \begin{bmatrix} \theta_1 \\ \theta_2 \\ \vdots \\ \theta_p \end{bmatrix}$
+  \begin{itemize}
+    \item The Fishers information matrix is a $p \times p$ matrix where element
+    $(i,j)$ is defines as
+    $$[I(\bm \theta)]_{ij} = E_\theta\left[ \frac{\ud}{\ud \theta_i}ln(f(\bm X
+    | \theta)) \frac{\ud}{\ud \theta_j}ln(f(\bm X
+    | \theta))\right]$$
+    %TODO: Is the theta suposed to be vector inside the expected value in
+    % previous equation?
+    \item The MLE of $\bm \theta = \tau(\bm \theta)$ has the variance
+    $[I(\theta)]^{-1}$, which can be approximated by using same approach that
+    was used in the case of scalar-valued $\theta$.
+  \end{itemize}
+\end{itemize}
+\begin{example}
+R-function mle() computes this approximation numerically. Recall the example
+\ref{exampleMLESpatial1} which used R-script \verb#MLESpatial.R#. 
+
+Function ccov(sol) returns this approximation
+$$\bm \theta = \begin{bmatrix}
+\mu \\ ln(\phi) \\ ln(\sigma^2)
+\end{bmatrix}$$
+$$\widehat{Var}(\hat \theta) = \begin{bmatrix}
+7.25 & 0.64 & -0.58 \\
+0.65 & 1.13 & -1.03 \\
+-0.58 & -1.03 & 1.00
+\end{bmatrix}$$
+Using function summary(sol) gives results
+\begin{table}[h]
+\caption{Correlations between the random variable pairs
+of example \ref{exampleSpatialData1}}
+\label{exampleSpatialData1Table1}
+\renewcommand{\arraystretch}{1.4}
+\renewcommand{\tabcolsep}{0.3cm}
+\begin{tabular}{c|c|c|c}
+& $\hat\theta$ & $sd(\hat \theta)$ & $\theta$ (true values) \\
+\hline
+$\mu$          & -1.87 & 2.69 & 0 \\
+$\ln(\phi)$    & -2.03 & 1.06 & -0.69 \\
+$ln(\sigma^2)$ & 2.34 & 1.00 & 1.38 \\
+\end{tabular}
+\end{table}
+\end{example}
+%TODO: Left out pages 6-8 from notes 12, since very little said about it.
 \end{document}
 
