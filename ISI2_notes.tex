@@ -2202,6 +2202,57 @@ $$\frac{\ud}{\ud \lambda} E_\lambda(\bar x) = \frac{\ud}{\ud \lambda} \lambda
 = 1$$
 Denominator (of corollary \ref{corollaryCR1}) becomes
 $$nE_\lambda\left[\left( \frac{\ud}{\ud x} ln(f(x | \lambda)) \right)^2\right]$$
-By using lemma \ref{lemmaCB1} $$
+By using lemma \ref{lemmaCB1}
+$$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
+ln(f(\bm x | \lambda))\right\}$$
+$$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
+ln(\frac{e^{-\lambda}\lambda^x}{x!})\right\}$$
+$$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
+-\lambda +x ln(\lambda)-lm(x!)\right\}$$
+$$=-nE_\lambda\left\{ \frac{\ud}{\ud \lambda}
+\left(-1+\frac{x}{\lambda}\right)\right\}$$
+$$=-nE_\lambda\left(-\frac{x}{\lambda^2}\right) = \frac{n}{\lambda^2}E(X) =
+\frac{n}{\lambda}$$
+Therefore
+$$Var_X(W(\bm X)) \geq \frac{1}{n/\lambda} = \frac{n}{\lambda}$$
+In the previous example we found that $Var(\bar X) = \frac{n}{\lambda}$. It is
+called the Cramer-Rao lower bound. Therefore $\bar X$ is the best unbiased
+estimator of $\lambda$.
 \end{example}
+\section{Asymptotic behaviour of estimators}
+\begin{definition}
+A sequence of estimators $W_n = W_n(X_1,\ldots,X_n)$ is consistent (tarkentuva,
+konsistentti) sequence of estimators of $\theta$ if
+$$W_n \xrightarrow{P} \theta$$
+\end{definition}
+\begin{example}
+Let $X_1,X_2,\ldots$ be an i.i.d. sample from the Uniform($a$,$b$) population.
+Let $W(\bm X)$ be the sample maximum $X_{(n)}$. As sample size increases,
+$X_{(n)} \xrightarrow{P} b$, therefore the sample maximum is a consistent
+estimator of population maximum $b$.
+\end{example}
+\begin{theorem}
+If $W_n$ is a sequence of estimators of $\theta$ satisfying
+\begin{itemize}
+  \item[i] $\lim_{n \to \infty} Var_\theta(W_n) = 0$
+  \item[ii] $\lim_{n \to \infty} Bias_\theta(W_n) = 0$
+\end{itemize}
+for every $\theta$, then $W_n$ is a consistent sequence of estimators of
+$\theta$.
+\end{theorem}
+\begin{theorem} (Consistency of MLE's)
+
+Let $X_1,X_2,\ldots$ be i.i.d. $f(X | \theta)$. Let $\hat\theta$ denote the MLE
+of $\theta$ and let $\tau(\theta)$ be a continuous function of $\theta$. Under
+mild regulatory conditions,
+$$\tau(\hat\theta) \xrightarrow{P}\tau(\theta)$$
+That is, $\tau(\hat\theta)$ is a consistent estimator of $\tau(\theta)$.
+\begin{itemize}
+  \item[$\to$] MLE estimators (or any continuous transformations of them) are
+  consistent estimators of the population parameter (or the transformation of
+  it).
+\end{itemize}
+
+\end{theorem}
 \end{document}
+
