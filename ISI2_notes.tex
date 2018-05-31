@@ -1285,14 +1285,14 @@ For more formal discussion on the topic, see Casella \& Berger section 6.2.
 Let $f(\bm x, \bm \theta)$ denote the joint pdf or pmf of
 the sample $\bm X = X_1, \ldots, X_n$. Then Given that $\bm X = \bm x$ has been
 observed, the function of $\theta$ defined by
-$$L(\bm \theta | \bm x) = f(\bm x | \theta)$$
+$$L(\bm \theta | \bm x) = f(\bm x | \bm \theta)$$
 is called the likelihood function (uskottavuusfunktio).
 
 \textbf{Note }We do not assume $X_1,\ldots,X_n$ to be independent.
 \end{definition}
 \begin{itemize}
   \item If $\bm X$ is a discrete random vector, then
-  $$L(\bm \theta | \bm X) = P_\theta(\bm X = \bm x)$$
+  $$L(\bm \theta | \bm X) = P_{\bm \theta}(\bm X = \bm x)$$
   \item If we compare the likelihood at two parameter points $\theta = \theta_1$
   and $\theta = \theta_2$, and find out that
   $$P_{\theta_1}(\bm X = \bm x) = L(\theta_1 | \bm x) > L(\theta_2 | \bm
@@ -1373,6 +1373,7 @@ $C(\bm x, \bm y)$ such that
 $$L(\theta | \bm x) = C(\bm x, \bm y)L(\theta | \bm y)~ \text{ for all }
 \theta$$
 then the conclusions drawn from $\bm x$ and $\bm y$ should be identical.
+
 \textbf{Note} $C(\bm x, \bm y)$ may be different for different $(\bm x, \bm y)$
 pairs, but does not dependent on $\theta$.
 
@@ -1391,7 +1392,7 @@ a point estimator.
     \item[$\rightarrow$] Estimator is a random variable, and estimate is its
     realized value in the sample.
   \end{itemize}
-  \item Often, there is a natural, intuitive candidate fro a point estimator,
+  \item Often, there is a natural, intuitive candidate for a point estimator,
   e.g. $\bar X$ is a intuitive choice for a point estimator of $\mu$.
 \end{itemize}
 %TODO: In notes, this was a subsection (3.2.1). Should it be here?
@@ -1399,7 +1400,7 @@ a point estimator.
 Based on theorem \ref{theoremXbarSigma}, the ordinary least squares estimator of
 parameter $\mu$ using observed sample values $y_1, \ldots, y_n$ is found by
 $$min_\theta \sum_{i=1}^n (y_i-\theta)^2$$
-The solution is $\theta = \bar y$ %TODO: In notes was \bar X.
+The solution is $\theta = \bar y$. %TODO: In notes was \bar X.
 The approach also generalized to cases where $E(Y_i)$ is a function of a fixed
 variable $x_i$. Consider a model $Y_i = \beta_0 + \beta_1 x_i + \epsilon_i$,
 where $Y_i$ is a random variable and $x_i$ is another fixed observable variable.
@@ -1506,7 +1507,11 @@ Following system of equation needs to be solved for $\mu$ and $\sigma^2$
 \end{equation*}
 We get 
 $$\tilde \mu = \bar X$$
-$$\tilde \sigma^2 = \underbrace{\frac{1}{n}\sum(X_i - \bar X)}_{\text{Biased
+$$\tilde \sigma^2 = \frac{1}{n}\sum X^2 - \bar X^2 =\frac{1}{n}\sum(X_i - \bar
+X)^2$$
+
+\textbf{Note:}
+$$\tilde \sigma^2 = \underbrace{\frac{1}{n}\sum(X_i - \bar X)^2}_{\text{Biased
 estimator}} \neq \underbrace{\frac{1}{n-1}\sum(X_i - \bar X)^2}_{\text{Unbiased
 estimator}}$$
 But the bias vanishes as $n \to \infty$.
@@ -1584,14 +1589,14 @@ function evaluates also the required derivatives $\frac{\ud f(\bm x)}{\ud
 \theta_i}$ numerically.
 \section{Maximum likelihood}
 Definition \ref{defLikelihood1} defined the likelihood as
-$$L(\bm \theta | \bm x) = f(\bm x | \theta)$$
+$$L(\bm \theta | \bm x) = f(\bm x | \bm \theta)$$
 where
 $$\bm \theta = \begin{bmatrix}
 \theta_1 \\ \vdots \\ \theta_k
 \end{bmatrix}$$
 \textbf{Note} For i.i.d. data $X_1, \ldots, X_n$ from population $f(x |
 \theta)$, the likelihood simplifies to
-$$L(\bm \theta | \bm x) = \prod_{i=1}^n f(\bm x | \theta)$$
+$$L(\bm \theta | \bm x) = \prod_{i=1}^n f(x_i | \bm \theta)$$
 \begin{definition}
 For each sample point $\bm x$, let $\hat{\bm \theta}(\bm x)$ be a parameter
 value at which $L(\bm \theta | \bm x)$ attains its maximum value as a function
@@ -1644,7 +1649,7 @@ $\frac{\ud}{\ud \theta}L(\theta | \bm x) = 0$ if
 \text{or} & \sum_{i=1}^n(x_i - \theta) = 0 & \text{B}
 \end{array}
 \end{equation*}
-But if $L(\theta | \bm x) = f(\bm x | \theta) > 0$
+But $L(\theta | \bm x) = f(\bm x | \theta) > 0$
 \begin{itemize}
     \item[$\to$] There is no solution for A.
 \end{itemize}
@@ -1694,11 +1699,14 @@ $$L(p | \bm x) = \prod_{i=1}^n p^{x_i}(1-p)^{1-x_i} = (*)$$
 Recall that
 \begin{equation*}
 \renewcommand{\arraystretch}{1.7}
-\text{PMF}: f(x_i | p) = \left\{
+\begin{array}{lll}
+\text{PMF}: f(x_i | p) & = \left\{
 \begin{array}{ll}
 p & \text{if } x_i = 1 \text{ (success)} \\
 1-p & \text{if } x_i = 0 \text{ (failure)} \\
 \end{array} \right. \\
+& = p^{x_i}(1-p)^{1-x_i} & 0 < p < 1 \text{ or } 0 \leq p \leq 1
+\end{array}
 \end{equation*}
 
 $$(*) = p^{\sum x_i}(1-p)^{\sum(1-x_i)} = p^{\sum x_i}(1-p)^{n-\sum x_i}$$
@@ -1771,20 +1779,21 @@ checking that it really is the MLE.
   multidimensional, then we need to maximize the $ln(L)$ with respect to all
   components $\theta_i$ simultaneously.
   \item If the log-likelihood is differentiable with respect to all $\theta_i$,
-  we hust need to find the practical derivatives of $ln(L)$ (or L) with respect
+  we just need to find the practical derivatives of $ln(L)$ (or L) with respect
   to all $\theta_i$ and set them to 0
   \begin{itemize}
     \item[$\to$] We get system of $k$ equations.
   \end{itemize}
 \end{itemize}
 \begin{example} Example ML4
+
 Let $X_1,X_2,\ldots,X_n$ be i.i.d. form $N(\theta, \sigma^2)$ population, and
 let both $\theta$ and $\sigma^2$ be unknown. Now
 $$L(\theta, \sigma^2 | \bm x) = \frac{1}{(2\pi
-\sigma^2)}^{n/2}e^{\frac{1}{2}\sum(x_i - \theta)^2/\sigma^2}$$
+\sigma^2)^{n/2}}e^{\frac{1}{2}\sum(x_i - \theta)^2/\sigma^2}$$
 $$ln(L(\theta, \sigma^2 | \bm x)) = -\frac{n}{2}ln(2\pi) -
 \frac{n}{2}ln(\sigma^2) - \frac{1}{2}\frac{\sum(x_i-\theta)^2}{\sigma^2}$$
-The ML equations becomes
+The ML equations become
 \begin{equation*}
 \renewcommand{\arraystretch}{1.7}
 \left\{
@@ -1917,7 +1926,8 @@ quantity.
     \theta$ given the sample $\bm x$
     $$\pi(\bm \theta | \bm x) = \frac{f(\bm x | \bm \theta)\pi(\bm
     \theta)}{m(\bm x)}$$
-    where $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud \theta $
+    where $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud \bm \theta
+    $
    \end{itemize}
    \textbf{Note} $\theta$ means both the random variable and it's realized value
    here. %TODO: was \theta suposed to be bolded? (so it's random vector?)
@@ -1931,7 +1941,7 @@ values of $\alpha$ and $\beta$, which are set before the data are seen. The
 joint pdf of $(y,p)$ is
 $$f(y,p) = \underbrace{f(y | p)}_{Binomial} \underbrace{\pi(p)}_{Beta} =
 \left[{n\choose
-y}p^y(1-p)^{n-p}\right]\left[\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}\right]$$
+y}p^y(1-p)^{n-y}\right]\left[\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}\right]$$
 
 $$={n \choose y}
 \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{y+\alpha-1}(1-p)^{n-y+\beta-1}$$
@@ -1959,10 +1969,10 @@ not otherwise justified by any theory.
 \end{example}
 \begin{itemize}
   \item In the conditional distribution
-  $$\pi(\bm \theta | \bm x) = \frac{f(\bm x | \bm \theta)\pi(\theta)}{m(\bm
+  $$\pi(\bm \theta | \bm x) = \frac{f(\bm x | \bm \theta)\pi(\bm \theta)}{m(\bm
   x)}$$
   the denominator $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud
-  \theta$ is hard to compute in general case.
+  \bm \theta$ is hard to compute in general case.
   \begin{itemize}
     \item The modern computational methods, so called Markov chain Monte Carlo
     (MCMC) methods allow simulation of observations from $\pi(\bm \theta | \bm
@@ -1984,8 +1994,9 @@ not otherwise justified by any theory.
       $g(\theta_{t+1}| \theta_t)$.
       \item[2.2] Compute the acceptance ratio
       $$\alpha = \frac{a(\theta')}{a(\theta_t)}$$
-      \item[2.3] If $\alpha < 1$, then accept $\theta'$ as $\theta_{t+1}$ with
-      probability $alpha$.
+      \item[2.3] If $\alpha \geq 1$, then accept the proposal and set
+      $\theta_{t+1}=\theta'$. If $\alpha < 1$, then accept $\theta'$ as
+      $\theta_{t+1}$ with probability $\alpha$.
       %TODO: Left out a plot in notes 11 page 1 end. Is it needed?
     \end{itemize}
     Repeat until a desired sample size has been obtained.
@@ -2019,7 +2030,7 @@ function of $\theta$ defined by
 $$E_\theta(W-\theta)^2$$
 \end{definition}
 \begin{itemize}
-  \item In general, any increasing function of the aboslute distancec
+  \item In general, any increasing function of the absolute distance
   $\abs{W-\theta}$ is a reasonable measure for the quality of $W$ (e.g. mean
   absolute error $E_\theta(W-\theta)$), but MSE is 1) mathematically factorable
   and 2) has the interpretation
@@ -2038,35 +2049,35 @@ $$Bias_\theta(W) = E_\theta(W) - \theta$$
 \end{itemize}
 \begin{example} (Normal MSE)
 
-Let $X_1,\ldots,X_n$ be i.i.d. N($\mu, \sigma^2$). The statistics $\bar x$ and
-$s^2$ are unbiased estimators of $\mu$ and $\sigma^2$ since
-$$E(\bar x) - \mu = \mu - \mu = 0$$
-$$E(s^2) = \sigma^2 \to E(s^2) - \sigma^2 = 0$$
+Let $X_1,\ldots,X_n$ be i.i.d. N($\mu, \sigma^2$). The statistics $\bar X$ and
+$S^2$ are unbiased estimators of $\mu$ and $\sigma^2$ since
+$$E(\bar X) - \mu = \mu - \mu = 0$$
+$$E(S^2) = \sigma^2 \to E(S^2) - \sigma^2 = 0$$
 \textbf{Note} These results are true even if the population is not normally
 distributed.
 
 The MSE of these estimators are
 
 $$(*)~MSE(\bar X) = E(\bar X - \mu)^2 = Var(\bar X) = \frac{\sigma^2}{n}$$
-$$(**)~MSE(s^2) = E(s^2 - \sigma^2)^2 = Var(s^2)= \ldots =
+$$(**)~MSE(S^2) = E(S^2 - \sigma^2)^2 = Var(S^2)= \ldots =
 \frac{2\sigma^4}{n-1}$$
 Note that (*) did not require normality, but (**) did. An alternative estimator
 for $\sigma^2$ is the MLE/moment estimator
-$$\hat \sigma^2 = \frac{1}{n}(X_i - \bar X)^2 = \frac{n-1}{n}s^2$$
-$$E(\hat \sigma^2) = E\left(\frac{n-1}{n}s^2\right) = \frac{n-1}{n}E(s^2) =
+$$\hat \sigma^2 = \frac{1}{n}(X_i - \bar X)^2 = \frac{n-1}{n}S^2$$
+$$E(\hat \sigma^2) = E\left(\frac{n-1}{n}S^2\right) = \frac{n-1}{n}E(S^2) =
 \frac{n-1}{n}\sigma^2$$
 Now $E(\hat \sigma^2)- \sigma^2 = \frac{n-1}{n}\sigma^2 - \sigma^2 \neq 0$,
-meaning $\hat \sigma^2$ is a unbiased estimator of $\sigma^2$.
+meaning $\hat \sigma^2$ is a biased estimator of $\sigma^2$.
 
 The variance of $\hat\sigma^2$ is
-$$Var(\hat\sigma^2) = Var(\frac{n-1}{n}s^2) = \left(\frac{n-1}{n}\right)^2
-Var(s^2) = \frac{2(n-1)}{n^2}\sigma^4$$
+$$Var(\hat\sigma^2) = Var(\frac{n-1}{n}S^2) = \left(\frac{n-1}{n}\right)^2
+Var(S^2) = \frac{2(n-1)}{n^2}\sigma^4$$
 The MSE of $\hat \sigma^2$ is
 $$E(\hat \sigma^2 - \sigma^2)^2 = variance + bias^2 = \frac{2(n-1)}{n^2}\sigma^4
 + \left(\frac{n-1}{n}\sigma^2 - \sigma^2 \right)^2 = \frac{2n-1}{n^2}\sigma^2$$
 $$\underbrace{E(\hat \sigma^2 - \sigma^2)^2}_{MSE(\hat\sigma^2)} =
 \frac{2n-1}{n^2}\sigma^2 < \frac{2\sigma^4}{n-1} =
-\underbrace{E(s^2-\sigma^2)^2}_{MSE(s^2)}$$
+\underbrace{E(S^2-\sigma^2)^2}_{MSE(S^2)}$$
 $$\frac{2n-1}{n^2} = \frac{2-\frac{1}{n}}{n} < \frac{2}{n-1}$$
 $\to$ Allowing bias in the estimator of $\sigma^2$ leads to gain in terms of
 MSE.
@@ -2079,32 +2090,32 @@ MSE.
 It is often impossible to find a single estimator that is best in terms of MSE.
 In addition, the bias of an estimator is often seen as a severe problem, or
 inconvenience. Therefore, we often restrict consideration in the class of
-unbiased estimatros. In that class
-$$E_\theta(E-\theta)^2 = Var_\theta(W)$$
+unbiased estimators. In that class
+$$E_\theta(W-\theta)^2 = Var_\theta(W)$$
 Therefore, form among unbiased estimators, we should select the one with the
 lowest variance.
 \begin{definition}
 An estimator $W^*$ is the best unbiased estimator (BUE) of $\tau(\theta)$, if it
 satisfies $E_\theta(W^*)=\tau(\theta)$ for all $\theta$ and for any other
 estimator $W$ with $E_\theta(W)=\tau(\theta)$ we have
-$$Var_\theta(\tau^*) \leq Var_\theta(W) \text{ for all } \theta$$
+$$Var_\theta(W*) \leq Var_\theta(W) \text{ for all } \theta$$
 $W^*$ is also called uniform minimum variance unbiased estimator of
 $\tau(\theta)$ (UMVUE).
 \end{definition}
 \begin{example}
-Let $X_1,\ldots,X_n$ be i.i.d. Poisson($\lambda$) and let $\bar X$ and $s^2$ be
+Let $X_1,\ldots,X_n$ be i.i.d. Poisson($\lambda$) and let $\bar X$ and $S^2$ be
 the sample mean and sample variance respectively. Recall that in
 Poisson($\lambda$) population $E(X) = Var(X) = \lambda$. Therefore, both $\bar
-X$ and $s^2$ are unbiased estimators of $\lambda$. Which one to select?
+X$ and $S^2$ are unbiased estimators of $\lambda$. Which one to select?
 $$Var_\lambda(\bar X) = \frac{\lambda}{n}$$
-$$Var_\lambda(s^2) = \ldots \text{ long calculation }$$
-Conclution however will be, that $Var_\lambda(\bar X) \leq Var_\lambda(s^2)$ for
+$$Var_\lambda(S^2) = \ldots \text{ long calculation }$$
+Conclusion however will be, that $Var_\lambda(\bar X) \leq Var_\lambda(S^2)$ for
 all $\lambda$. So, from among these two candidates, $\bar X$ should be selected.
 But is $\bar X$ really the best?
 
-We could construct infintely many unbiased estimators as weighted mean of $\bar
-X$ and $s^2$:
-$$W_W = w \bar X + (1-w)s^2 \text{ where } w \in [0,1]$$
+We could construct infinitely many unbiased estimators as weighted mean of $\bar
+X$ and $S^2$:
+$$W_W = w \bar X + (1-w)S^2 \text{ where } w \in [0,1]$$
 Could some selection of w lead to smaller variance than $Var(\bar X) =
 \frac{\lambda}{n}$? Or is there some other estimator that has $Var(w) =
 \frac{\lambda}{n}$?
@@ -2118,7 +2129,7 @@ Let $X_1,\ldots,X_n$ be a sample with pdf $f(\bm X | \theta)$ and let $W(\bm X)
 $$(*) ~ \frac{\ud}{\ud \theta}E_\theta(W(\bm X)) = \int_{\mathcal
 X}\frac{\ud}{\ud \theta} W(\bm x) f(\bm x | \theta) \ud \bm x$$
 and
-$$Var_\theta(\bm X) < \infty $$,
+$$Var_\theta(\bm X) < \infty $$
 then
 $$Var_\theta(W(\bm X)) \geq \frac{\left[\frac{\ud}{\ud \theta} E_\theta(W(\bm
 X))\right]^2}{E\left\{\left[ \frac{\ud}{\ud \theta} ln(f(\bm x | \theta))
@@ -2175,9 +2186,9 @@ $$=\frac{\left[\frac{\ud}{\ud \theta} E(W(\bm X))\right]^2}{E\left\{ \left[
 $$Var(W(\bm X)) \geq \frac{\left[\frac{\ud}{\ud \theta} E(W(\bm
 X))\right]^2}{n \cdot E_\theta\left\{ \left[ \frac{\ud}{\ud \theta} ln(f(X_i
 | \theta ))\right]^2 \right\}}$$
-\textbf{Note} The quantity $E_\theta\left\{ \left[ \frac{\ud}{\ud \theta} ln(f(X_i
-| \theta ))\right]^2 \right\}$ is called the information number or Fisher's
-information.
+\textbf{Note} The quantity $E_\theta\left\{ \left[ \frac{\ud}{\ud \theta}
+ln(f(\bm X | \theta ))\right]^2 \right\}$ is called the information number or
+Fisher's information.
 
 \textbf{Note}  Any candidate estimator satisfying $E_\theta[W(\bm X)] =
 \tau(\theta)$ and attaining the Cramer-Rao bound is the best unbiased estimator
@@ -2202,7 +2213,7 @@ Bernoulli, Binomial, Poisson, exponential, normal, gamma\ldots).
 The i.i.d. Poisson case where $\theta = \lambda$. Numerator of the Cramer-Rao
 bound is
 
-$$\frac{\ud}{\ud \lambda} E_\lambda(\bar x) = \frac{\ud}{\ud \lambda} \lambda
+$$\frac{\ud}{\ud \lambda} E_\lambda(\bar X) = \frac{\ud}{\ud \lambda} \lambda
 = 1$$
 Denominator (of corollary \ref{corollaryCR1}) becomes
 $$nE_\lambda\left[\left( \frac{\ud}{\ud x} ln(f(x | \lambda)) \right)^2\right]$$
@@ -2212,13 +2223,13 @@ ln(f(\bm x | \lambda))\right\}$$
 $$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
 ln(\frac{e^{-\lambda}\lambda^x}{x!})\right\}$$
 $$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
--\lambda +x ln(\lambda)-lm(x!)\right\}$$
+-\lambda +x \cdot ln(\lambda)-ln(x!)\right\}$$
 $$=-nE_\lambda\left\{ \frac{\ud}{\ud \lambda}
 \left(-1+\frac{x}{\lambda}\right)\right\}$$
 $$=-nE_\lambda\left(-\frac{x}{\lambda^2}\right) = \frac{n}{\lambda^2}E(X) =
 \frac{n}{\lambda}$$
 Therefore
-$$Var_X(W(\bm X)) \geq \frac{1}{n/\lambda} = \frac{n}{\lambda}$$
+$$Var_X(W(\bm X)) \geq \frac{1}{n/\lambda} = \frac{\lambda}{n}$$
 In the previous example we found that $Var(\bar X) = \frac{n}{\lambda}$. It is
 called the Cramer-Rao lower bound. Therefore $\bar X$ is the best unbiased
 estimator of $\lambda$.
@@ -2238,8 +2249,8 @@ estimator of population maximum $b$.
 \begin{theorem}
 If $W_n$ is a sequence of estimators of $\theta$ satisfying
 \begin{itemize}
-  \item[i] $\lim_{n \to \infty} Var_\theta(W_n) = 0$
-  \item[ii] $\lim_{n \to \infty} Bias_\theta(W_n) = 0$
+  \item[i)] $\lim_{n \to \infty} Var_\theta(W_n) = 0$
+  \item[ii)] $\lim_{n \to \infty} Bias_\theta(W_n) = 0$
 \end{itemize}
 for every $\theta$, then $W_n$ is a consistent sequence of estimators of
 $\theta$.
@@ -2248,7 +2259,7 @@ $\theta$.
 \label{theoremMLEConsistency1}
 (Consistency of MLE's)
 
-Let $X_1,X_2,\ldots$ be i.i.d. $f(X | \theta)$. Let $\hat\theta$ denote the MLE
+Let $X_1,X_2,\ldots$ be i.i.d. $f(x | \theta)$. Let $\hat\theta$ denote the MLE
 of $\theta$ and let $\tau(\theta)$ be a continuous function of $\theta$. Under
 mild regulatory conditions,
 $$\tau(\hat\theta) \xrightarrow{P}\tau(\theta)$$
@@ -2297,7 +2308,7 @@ R-script \verb#AsEffOfMLE.R# demonstrates this for a $N(0,
   \begin{itemize}
 	\item Let
 	$$I_n(\theta) = E_\theta\left[ \left( \frac{\ud}{\ud \theta} ln(L(\theta| \bm
-	x))^2 \right) \right]$$
+	x)) \right)^2 \right]$$
 	$$Var(\tau(\hat\theta)| \theta) \approx
 	\frac{\left[\tau'(\theta)\right]^2}{I_n(\theta)} =
 	\frac{\left[\tau'(\theta)\right]^2}{E_\theta\left[ -\frac{\ud^2}{\ud \theta^2}
@@ -2314,14 +2325,14 @@ R-script \verb#AsEffOfMLE.R# demonstrates this for a $N(0,
   \begin{itemize}
     \item The Fishers information matrix is a $p \times p$ matrix where element
     $(i,j)$ is defines as
-    $$[I(\bm \theta)]_{ij} = E_\theta\left[ \frac{\ud}{\ud \theta_i}ln(f(\bm X
-    | \theta)) \frac{\ud}{\ud \theta_j}ln(f(\bm X
+    $$[I(\bm \theta)]_{ij} = E_\theta\left[ \frac{\ud}{\ud \bm \theta_i}ln(f(\bm
+    X | \theta)) \frac{\ud}{\ud \bm \theta_j}ln(f(\bm X
     | \theta))\right]$$
     %TODO: Is the theta suposed to be vector inside the expected value in
     % previous equation?
     \item The MLE of $\bm \theta = \tau(\bm \theta)$ has the variance
-    $[I(\theta)]^{-1}$, which can be approximated by using same approach that
-    was used in the case of scalar-valued $\theta$.
+    $[I(\bm \theta)]^{-1}$, which can be approximated by using same approach
+    that was used in the case of scalar-valued $\theta$.
   \end{itemize}
 \end{itemize}
 \begin{example}
@@ -2334,7 +2345,7 @@ $$\bm \theta = \begin{bmatrix}
 \end{bmatrix}$$
 $$\widehat{Var}(\hat \theta) = \begin{bmatrix}
 7.25 & 0.64 & -0.58 \\
-0.65 & 1.13 & -1.03 \\
+0.64 & 1.13 & -1.03 \\
 -0.58 & -1.03 & 1.00
 \end{bmatrix}$$
 Using function summary(sol) gives results
