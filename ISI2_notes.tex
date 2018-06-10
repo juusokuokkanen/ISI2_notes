@@ -134,15 +134,15 @@ $$F_X(x) = P(X \leq x),~\text{where } -\infty < x < \infty$$
 \end{itemize}
 \item Cdf is useful in calculation of any probabilities; for example
 $$P(a < X \leq b) = F(b) - F(a)$$
-\item [\bf{Note:}] Be careful with $<$ and $\leq$ when working with discreate
+\item [\bf{Note:}] Be careful with $<$ and $\leq$ when working with discrete
 random variables.
-\item The probability density function (pdf for short) is defined for
-continuous random variable as
+\item The probability density function (pdf for short) is defined for a
+continuous random variable $X$ as
 $$f_X(x) = F'(x) = \frac{\ud F_X(x)}{\ud x}, ~ -\infty < x < \infty$$
 and
 $$\int_{-\infty}^x f_X(t)\ud t = F_X(x)$$
-\item The probability mass function (pmf for short) is defined for discrete
-random variables as
+\item The probability mass function (pmf for short) is defined for a discrete
+random variable $X$ as
 $$f_X(x) = P(X=x)$$
 $$F_X(x) = \sum_{k=1}^x f_X(k)$$
 \end{itemize}
@@ -151,7 +151,7 @@ $$F_X(x) = \sum_{k=1}^x f_X(k)$$
   \item Consider a monotonic function $g: \mathcal{X} \to \mathcal{Y}$
   \item $Y = g(X)$ is also a random variable; function $g$ is called an
   transformation (muunnos).
-  \item If $g(x)$ is a increasing function of $x$, then
+  \item If $g(x)$ is an increasing function of $x$, then
   $$F_Y(y) = F_X(g^{-1}(y))$$
   \item If $g(x)$ is a decreasing function of $x$, then
   $$F_Y(y) = 1 - F_X(g^{-1}(y))$$
@@ -201,7 +201,7 @@ sd(X) = \sqrt{Var(X)} = \sigma_X
   $$f_{X,Y}(x,y)=P(X=x, Y=y)$$
   \item For two continuous random variables, we define the joint pdf
   $f_{X,Y}(x,y)$ as
-  $$P((X,Y) \in A) = \iint\limits_A f(x,y) \ud x \ud y$$
+  $$P((X,Y) \in A) = \iint\limits_A f_{X,Y}(x,y) \ud x \ud y$$
   \item The expected value for transformation
 $g(X,Y) : \ureal^2 \to \ureal$ (for example, \\ $g(X,Y) = XY$ or
 $g(X,Y) =
@@ -224,7 +224,7 @@ and correspondingly for $Y$.
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
-f(y \mid x)  = \frac{f_{X,Y}(x,y)}{f_X(x)} & \text{(for both discrete and
+f_{X,Y}(y \mid x)  = \frac{f_{X,Y}(x,y)}{f_X(x)} & \text{(for both discrete and
 continuous random variables)}
 \end{array}
 \end{equation*}
@@ -235,7 +235,7 @@ and correspondingly for $x \mid y$.
   \item Random variables are said to be independent ($X \indep Y$) if
   $$f_{X,Y}(x,y) = f_X(x)f_Y(y)$$
   \item For independent random variables, conditional distribution $y \mid x$ is 
-  $$f(y \mid x) = f_y(y)$$
+  $$f(y \mid x) = f_Y(y)$$
   regardless of the value of $x$.
 \end{itemize}
 
@@ -256,11 +256,11 @@ and correspondingly for $x \mid y$.
 	\item[\bf{Note:}] $cov(X,X) = Var(X)$
 	%TODO: Small plot left out. Notes 1, page 8.
 	\item[\bf{Note:}] If $X \indep Y$, then $cov(X,Y) = 0$, but if $cov(X,Y) = 0$,
-	it does not mean $X$ and $Y$ are necessarily independent.
+	it does not necessarily mean that $X$ and $Y$ are independent.
 \end{itemize}
 \section{Random vectors}
 \begin{itemize}
-  \item Random vectors generalize the bivariate random variables to a
+  \item Random vectors generalize the bivariate random variables to the
   $n$-variate case.
   	\begin{equation*}
 	\renewcommand{\arraystretch}{1.6}
@@ -285,7 +285,7 @@ and correspondingly for $x \mid y$.
 	\begin{equation*}
 	\renewcommand{\arraystretch}{1.6}
 	\begin{array}{ll}
-	P(\bm X \in A) = \sum \ldots \sum f(\bm x)
+	P(\bm X \in A) = \substack{\sum \ldots \sum\\A} f(\bm x)
 	\end{array}
 	\end{equation*}
 	where $f(\bm x)$ is a joint pmf.
@@ -296,8 +296,8 @@ and correspondingly for $x \mid y$.
 	\renewcommand{\arraystretch}{1.6}
 	E(g(\bm X)) = \left\{
 	\begin{array}{ll}
-	\int_{-\infty}^\infty \ldots \int_{-\infty}^\infty g(\bm x) f(x) \ud x_1 \ldots
-	\ud x_n & \text{if $\bm X$ is continuous} \\
+	\int_{-\infty}^\infty \ldots \int_{-\infty}^\infty g(\bm x) f(\bm x) \ud x_1
+	\ldots \ud x_n & \text{if $\bm X$ is continuous} \\
 	\mathop{\sum\ldots\sum}_{\bm X \in \ureal^n}g(\bm x)f(\bm x)& \text{if $\bm X$
 	is discrete} \end{array} \right.
 	\end{equation*}
@@ -324,19 +324,19 @@ and correspondingly for $x \mid y$.
 	%TODO: Left out notes 2 page 2 stuff about pdf and pmf sample spaces and plots,
 	% since they are little out of context in notes. Are they needed?
 	
-	\item The conditional pdf/pmf for $\bm X_2 \mid \bm X_1$ is
-	$$f(\bm X_2 \mid \bm X_1) = \frac{f(\bm X_1, \bm X_2)}{f(\bm X_2)}$$
+	\item The conditional pdf/pmf for $\bm X_1 \mid \bm X_2$ is
+	$$f(\bm X_1 \mid \bm X_2) = \frac{f(\bm X_1, \bm X_2)}{f(\bm X_2)}$$
 	
 	%TODO: Left out plots and table visualization from notes 2 page 2 (end), are
 	% they needed?
 	
-	\item Expected value of random vectors is defined as vector
+	\item Expected value of a random vector is a vector
 	
 	\begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
 
-E(\bm x) = 
+E(\bm X) = 
 \begin{bmatrix}
 E(X_1) \\ E(X_2) \\ \vdots \\ E(X_n)
 \end{bmatrix}_{n \times 1} = 
@@ -356,7 +356,7 @@ variance-covariance matrix.
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
 
-Var(\bm x)_{n \times n} & = 
+Var(\bm X)_{n \times n} & = 
 \begin{bmatrix}
 Var(X_1) & cov(X_1, X_2)  & \hdots & cov(X_1, X_n) \\
 cov(X_2, X_1) & Var(X_2)  & \hdots & cov(X_2, X_n) \\
@@ -366,8 +366,8 @@ cov(X_n, X_1) & cov(X_n, X_2)  & \hdots & Var(X_n) \\
  & = 
  
 \begin{bmatrix}
-Var(\bm x_1)_{k \times k} & cov(\bm x_1, \bm x_2')_{k \times (n-k)} \\ 
-cov(\bm x_2, \bm x_1')_{(n-k) \times k}& Var(\bm x_2)_{(n-k) \times (n-k)}
+Var(\bm X_1)_{k \times k} & cov(\bm X_1, \bm X_2')_{k \times (n-k)} \\ 
+cov(\bm X_2, \bm X_1')_{(n-k) \times k}& Var(\bm X_2)_{(n-k) \times (n-k)}
 \end{bmatrix}
 \end{array}
 \end{equation*}
@@ -378,7 +378,7 @@ cov(\bm x_2, \bm x_1')_{(n-k) \times k}& Var(\bm x_2)_{(n-k) \times (n-k)}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
 
-corr(\bm x)_{n \times n} & = 
+corr(\bm X)_{n \times n} & = 
 \begin{bmatrix}
 1 & corr(X_1, X_2) & \hdots & corr(X_1, X_n) \\
 corr(X_2, X_1) & 1 & \hdots & corr(X_2, X_n) \\
@@ -393,7 +393,7 @@ corr(X_n, X_1) & corr(X_n, X_2) & \hdots & 1 \\
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{lll}
 
-E(\bm x) = 
+E(\bm X) = 
 \bm \mu =
 \begin{bmatrix}
 \bm \mu_1 \\ \bm \mu_2 \\
@@ -401,7 +401,7 @@ E(\bm x) =
 
  & \text{ and } & 
  
- Var(\bm x)_{n \times n} = 
+ Var(\bm X)_{n \times n} = 
 \bm \Sigma =
 \begin{bmatrix}
 \bm \Sigma_1 & \bm \Sigma_{12} \\
@@ -444,7 +444,7 @@ Var(X+a) = Var(X) \\
 %TODO: Plot in notes 2 page 5 left out
 cov(X+a,Y+b) = cov(X,Y) \\
 E(X) = E_Y\left[E_{X\mid Y}(X \mid Y)\right] \\
-Var(X) = E_Y\left[Var_{X\mid Y}(X \mid Y)\right]+Var_Y\left[Var_{X\mid Y}(X \mid
+Var(X) = E_Y\left[Var_{X\mid Y}(X \mid Y)\right]+Var_Y\left[E_{X\mid Y}(X \mid
 Y)\right]
 \end{array}
 \end{equation*}
@@ -459,7 +459,7 @@ Var(\bm a' \bm X) = \bm a' Var(\bm X) \bm a & \text{Compare to }Var(aX) = a^2
 cov(\bm a' \bm X, \bm b' \bm Y) = \bm a' cov(\bm X, \bm Y) \bm b
 \end{array}
 \end{equation*}
-{\bf Note: } These equations need to be remembered by hearth!
+{\bf Note: } These equations need to be remembered by heart!
 
 \chapter{Random samples}
 \begin{definition}
@@ -467,8 +467,8 @@ cov(\bm a' \bm X, \bm b' \bm Y) = \bm a' cov(\bm X, \bm Y) \bm b
 Random variables $X_1,..,X_n$ are called random sample of size $n$ from
 population $f(x)$, if $X_1,\ldots,X_n$ are mutually independent random variables
 and the marginal pdf/pmf of each $X_i$ is the same function $f(x)$.
-Alternatively, $X_1,\ldots,X_n$ are called independent and identically
-distributed random variables (i.i.d.) with pdf/pmf $f(x)$.
+Alternatively, $X_1,\ldots,X_n$ are called {\it independent and identically
+distributed random variables} (i.i.d.) with pdf/pmf $f(x)$.
 \end{definition}
 \textbf{Note:} Sample $X_1,\ldots,X_n$ can also be denoted by $\bm X$, where
 $\bm X = \begin{bmatrix}X_1 & \hdots & X_n \end{bmatrix}^T$
@@ -521,7 +521,7 @@ x_n}_{\substack{\text{Identical to original integral except that} \\
 \end{array}
 \end{equation*}
 \end{example}
-A much more simpler solution: notice that $P(X_i > 2) = 1 - F(2) =
+A much simpler solution: notice that $P(X_i > 2) = 1 - F(2) =
 e^{-2/\beta}$. Because $X_i$'s are independent, then also events $(X_i > 2)$ are
 independent event, and so
 $$P(\text{All } X_i > 2) = \prod_{i=1}^n P(X_i > 2) = (e^{-2/\beta})^n =
@@ -543,7 +543,8 @@ grouped data.
 Dependent data are modeled by assuming that random vectors $\bm
 X_1,\ldots,\bm X_n$ are vectors of appropriate length, and there are $n$
 independent realizations of them in the data. Quite often $n=1$ and each
-replicate provides an element to $\bm X_1$, which is a rather long vector.
+replicate provides an element to $\bm X_1$, which is a rather long vector (e.g.
+spatial data or time series).
 %TODO: Illustration about data points left out in notes 3, page 2. Is it needed?
 \begin{example} % TODO: Remark about see exercise 7.4 of ISI1 left out. Is it
 % needed? If so, see actual number of new notes.
@@ -557,7 +558,7 @@ locations $u_i$ and $u_j$.
 The marginal means and variances of $X(u_i)$ are $E(X(u_i))=\mu$ for all $i$ and
 $Var(X(u_i)) = \sigma^2$ for all $i$. Consider case where $u_1 = (1,0)$, $u_2 =
 (0,0)$, $u_3=(0,2)$ and $\rho_{ij} = e^{-s_{ij}/2}$. Correlations and
-covariances related to different random variables can be seen on table
+covariances related to different random variables can be seen on Table
 \ref{exampleSpatialData1Table1}.
 
 \begin{table}[h]
@@ -599,7 +600,7 @@ $$f(\bm x_1 \mid \bm \mu, \bm \Sigma) = \frac{1}{\sqrt{(2\pi)^3}}
 \mu)}$$
 \end{example}
 \textbf{Note:} In random sample, we assume that $X_1,\ldots,X_n$ are identically
-distributed. In the case of random vectors, whis is specified by saying that the
+distributed. In the case of random vectors, this is specified by saying that the
 marginal distributions of the elements of $\bm X_i$ are identical.
 
 \textbf{Note:} We can also have independent replicates of random vectors, e.g.
@@ -628,7 +629,8 @@ the sample size $n$ is large compared to the size of population, but may be
 unimportant if $N >> n$. In this course, we are considering only sampling
 according to definition \ref{defRandomSamples1}.
 
-Random samples can be summarized to a well defined summary called statistic.
+Random samples can be summarized to a well defined summary called
+{\it statistic}.
 
 \begin{definition}
 Let $\bm X = X_1,\ldots,X_n$ be a random sample of size $n$ from population
@@ -647,7 +649,8 @@ of $Y$ is called the sampling distribution of $Y$ (otantajakauma).
 \text{Sample median} & median(\bm X) \\
 \end{array}
 \end{equation*}
-Also other like sample mean, variance, standard deviation, quartiles etc.
+\ldots and sample mean, sample variance, sample standard deviation,
+sample quartiles etc.
 
 \begin{example} Let $\bm X$ be a random sample of size 5 from $Exponential(2)$
 population. R script \verb#statistics.R# illustrates the distributions of
@@ -689,7 +692,7 @@ X^2)-(E(\bm X))^2}} %TODO: Is this correct (in notes, \bm X and X mixed in
 %TODO: Plot at notes 4 page 3 left out. Is it needed?
 \end{theorem}
 
-\begin{lemma} Let $X_1,\ldots,X_n$ be a random sample form a population and the
+\begin{lemma} Let $X_1,\ldots,X_n$ be a random sample form a population and let
 $g(X)$ be a function such that $E(g(X_i))$ and $Var(g(X_i))$ exist. Then
 $$E\left[\sum_{i=1}^ng(X_i)\right] = n\cdot E(g(X_1))$$
 and
@@ -711,10 +714,10 @@ Var(\sum g(X_i)) & = E\left[ \sum g(X_i) - E(\sum g(X_i)) \right]^2 \\
 With $t_i$, we can get following
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
-\begin{array}{l}
-E(\sum t_i \sum t_i) \\
-= E(\sum t_i^2 + \substack{\sum\sum\\i \neq j} t_i t_j) \\
-= \sum E(t_i^2) + \substack{\sum\sum\\i \neq j}E(t_i t_j)
+\begin{array}{ll}
+E(\sum t_i)^2 &=E(\sum t_i \sum t_i) \\
+&= E(\sum t_i^2 + \substack{\sum\sum\\i \neq j} t_i t_j) \\
+&= \sum E(t_i^2) + \substack{\sum\sum\\i \neq j}E(t_i t_j)
 \end{array}
 \end{equation*}
 which we can expand back to original equation
@@ -732,7 +735,9 @@ E(g(X_j)))\right]}_{\substack{\sum\sum\\i \neq j}E(t_i t_j)} \\
 independent}}} = n \cdot Var\left[g(X_1)\right]
 \end{array}
 \end{equation*}
+
 \end{lemma}
+
 \textbf{Note:} The proof of $E(\sum g(X_i))$ did not utilize the assumption of
 independence. Therefore it is valid also for dependent samples. The poof of
 $Var(\sum g(X_i))$ used the assumption of independence. Therefore it is not
@@ -747,7 +752,7 @@ valid for dependent samples.
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
 
-Var(\bm x) & = 
+Var(\bm X) & = 
 \begin{bmatrix}
 Var(X_1) & cov(X_1, X_2)  & \hdots & cov(X_1, X_n) \\
 cov(X_2, X_1) & Var(X_2)  & \hdots & cov(X_2, X_n) \\
@@ -760,7 +765,13 @@ Var(\sum X_i)& = \sum\sum cov(X_i, X_j)
 
 \item That is, the sum of all elements of matrix $Var(\bm X)$.
 \item[\textbf{Note:}] This extends the rule
-$$Var(X_1 + X_2) = Var(X_1)+Var(X_2)+2\cdot cov(X_1, X_2)$$
+\begin{equation*}
+\renewcommand{\arraystretch}{1.6}
+\begin{array}{ll}
+Var(X_1 + X_2) & = Var(X_1)+Var(X_2)+2\cdot cov(X_1, X_2) \\
+& = Var(X_1)+Var(X_2)+cov(X_1, X_2) + cov(X_2,X_1)
+\end{array}
+\end{equation*}
 to general sum $\sum X_i$.
 \end{itemize}
 \begin{theorem}
@@ -781,7 +792,8 @@ variance $\sigma^2 < \infty$. Then
 \ref{theoremXbarSigma} and is left as an exercise. %TODO: Still an exercise?
 \item[\bf{Note:}] Because $E(\bar X)= \mu$, the statistic $\bar X$ is said to be
 an unbiased estimator (harhaton estimaattori) of population mean $\mu$. Also 
-$S^2$ is an unbiased estimator of population variance $\sigma^2$.
+$S^2$ is an unbiased estimator of population variance $\sigma^2$, because
+$E(S^2) = \sigma^2$.
 \end{itemize}
 \begin{example}
 Illustrate these results through simulation. Intuitively, mean of an observed
@@ -794,7 +806,7 @@ x$, $(\bar x - \mu)^2$ and $s^2$ behave as $M \to \infty$.
 R-script \verb#demonstratebias.R# implements this by assuming that the
 population has the $Uniform(0,10)$ distribution and $n=10$.
 \end{example}
-\section{Distribution of sum}
+\section{Distribution of a sum}
 \begin{theorem}\label{theoremConvolutionFormula1} (Convolution formula)
 
 If $X$ and $Y$ are independent, continuous random variables with pdf's $f_X(x)$
@@ -873,15 +885,15 @@ Repeat M times
 \textbf{Note:} If $\bm X_n$ is a random sample from $N(\mu,\sigma^2)$
 population, then the random variable
 $$Z = \frac{\bar X - \mu}{\sigma / \sqrt{n}} \sim N(0,1)$$
-where $\mu = E(\bar X)$ and $\sigma / \sqrt{n} = Var(\bar X)$.
+where $\mu = E(\bar X)$ and $\sigma / \sqrt{n} = sd(\bar X)$.
 \begin{itemize}
-  \item This transformation could be used to make inference on $\mu$ using the
-  observed $\bar x$, if $\sigma^2$ is known.
+  \item This transformation could be used to make inference about $\mu$ using
+  the observed $\bar x$, if $\sigma^2$ was known.
   \item However, that is not the case, and therefore we use $\frac{\bar X -
   \mu}{S / \sqrt{n}}$ which can also be written as
   $$\frac{(\bar X - \mu)/(\sigma / \sqrt{n})}{\sqrt{S^2 / \sigma^2}}$$
   where $(\bar X - \mu)/(\sigma / \sqrt{n}) \sim N(0,1)$ and
-  $\sqrt{S^2 / \sigma^2} \sim \chi_{n-1}^2$.
+  $\sqrt{S^2 / \sigma^2} \sim \chi_{n-1}^2$. %TODO: Fix the error here.
 \end{itemize}
 \begin{theorem}
 Let $\bm X$ be a random sample from $N(\mu, \sigma^2)$. The random variable
@@ -898,12 +910,12 @@ $$f_T(t) =
 
 \textbf{Illustration:} R-script \verb#normalchi.R#
 \begin{itemize}
-  \item We use samples of sizes $3,4,\ldots,100$ and $M=10000$.
+  \item We use samples of sizes $3,4,\ldots,100$ and $M=10000$, where $X\sim
+  N(5,3^2)$.
   \item Plot empirical histogram of $\frac{\bar X - \mu}{S/\sqrt{n}}$
   \item Compare to $t_{n-1}$ distribution and to $N(0,\sigma^2)$.
-  \item $\mu=5$ and $\sigma^2 = 3^2$. %TODO: Is this enough information?
   \item Because $S^2 \to \sigma^2$ as $n$ increases, the difference between
-  $N(0,1)$ and $t_{n-1}$ becomes meaningless as $n \to \infty$.
+  $N(0,1)$ and $t_{n-1}$ vanishes as $n \to \infty$.
 \end{itemize}
 \textbf{Note:} $t_p$ has only $p$ moments. Especially $E(T_p) = 0$ if $p > 1$.
 %TODO: Was there someting that was left out of page in notes 5 page 3 end?
@@ -965,12 +977,12 @@ E(X) & = \sum_X x f(x) \\
 & = \sum_{x<t}x f(x) + \sum_{x \geq t} x f(x) \\
 \end{array}
 \end{equation*}
-Because $X \geq 0$, both terms are positive
+Because $P(X \geq 0)=1$, both terms are positive and
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{ll}
-E(X) & \geq \sum_{X \geq t}xf(x) \geq \sum_{X \geq t} t f(x) = t
-\underbrace{\sum_{X \geq t} f(x)}_{P(X\geq t)} \\
+E(X) & \geq \sum_{\mathcal X \geq t}xf(x) \geq \sum_{\mathcal X \geq t} t f(x) =
+t \underbrace{\sum_{X \geq t} f(x)}_{P(X\geq t)} \\
 & = t \cdot P(X\geq t) \\
 & \\
 E(X) & \geq t \cdot P(X\geq t) || :t ~~ (>0)\\
@@ -987,8 +999,8 @@ Let $X$ be a random variable such that $Var(X)$ exists. Then for every number
 $t > 0$
 $$P(\abs{X-E(X)} \geq t) \leq \frac{Var(X)}{t^2}$$
 \textbf{Proof:} Let $Y=(X-E(X))^2$. Now $P(Y \geq 0) = 1$ and $E(Y) = Var(X)$
-$$P(\abs{X - E(X)} \geq t) = P(Y \geq t^2) \leq \frac{E(Y)}{t^2}$$
-$$P(\abs{X - E(X)} \geq t) \leq \frac{Var(X)}{t^2}$$
+$$P(\abs{X - E(X)} \geq t) = P(Y \geq t^2) \leq \frac{E(Y)}{t^2}~\text{ (use
+Markov's inequality)}$$ $$P(\abs{X - E(X)} \geq t) \leq \frac{Var(X)}{t^2}$$
 \end{theorem}
 \begin{example} If $Var(X) = \sigma^2$ and we select $t=3\sigma$
 $$P(\abs{X-E(X)} \geq 3 \sigma) \leq \frac{\sigma^2}{(3\sigma)^2} =
@@ -1002,7 +1014,7 @@ $$\lim_{n \to \infty} P\left(|X_n-X| \geq \epsilon \right) = 0$$
 or equivalently
 $$\lim_{n \to \infty} P\left(|X_n-X| < \epsilon \right) = 1$$
 A commonly used notation for this kind of convergence is $X_n
-\xrightarrow{P} X$. The sequence $X_1,\ldots,X_n$ is not usually an i.i.d.
+\xrightarrow{p} X$. The sequence $X_1,\ldots,X_n$ is not usually an i.i.d.
 sample but e.g. a statistic based on a sample of size $n$. Also, $X$ is often a
 fixed constant, as it is in the following theorem.
 \end{definition}
@@ -1038,19 +1050,19 @@ constant as $n \to \infty$ is called consistency (konsistenssi).
 \textbf{Note} WLLN also justifies the use of a histogram from a large number of
 replicates as an approximation of the true density as $n \to \infty$. This is
 because every class of the histogram gives $P(c_1 \leq x < c_1) = F(c_2) -
-F(c_1).$ Weather $x$ belongs to a class $[c_1, c_2[$ is a Bernoulli($p$)
+F(c_1).$ Wether $x$ belongs to a class $[c_1, c_2[$ is a Bernoulli($p$)
 distributed random variable with
 $$p = E(Y) = F(c_1) - F(c_2)$$
 
-\textbf{Note} Another way of specifying the law of large numbers is the strong
+\textbf{Note} Another version of the law of large numbers is the strong
 law of strong numbers (SLLN).
 $$P(\lim_{n \to \infty} \bar{X}_n = \mu) = 1.$$
-$\bar{X}$ converges to $\mu$ with probability 1, meaning almost sure
-convergence.
+$\bar{X}$ converges to $\mu$ with probability 1, meaning {\it almost sure
+convergence} (melkein varma konvergointi).
 \end{theorem}
 \begin{definition}
-A sequence of random variables converges in distribution to random variable $X$
-if
+A sequence of random variables converges in distribution (jakaumakonvergenoi) to
+random variable $X$ if
 $$\lim_{n \to \infty} F_{X_n}(x) = F_X(x)$$
 at all points of $x$ where $F_X(x)$ is a continuous cdf. Notation used for
 convergence in distribution is $X_n \xrightarrow{d} X$.
@@ -1067,21 +1079,21 @@ When $n \to \infty$, $X_{(n)} \to 1$ and as $X_{(n)} < 1$, we have for any
 $\epsilon > 0$
 $$P(|X_{(n)} - 1| \geq \epsilon) = P(1 - X_{(n)} \geq \epsilon) = P(X_{(n)}
 \leq 1 - \epsilon)$$
-Because sample is independent
+Because the sample is i.i.d.
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
 \begin{array}{lll}
-P(X_{(n)} < 1 - \epsilon) & = P(\text{All } X_i \leq 1 - \epsilon) \\
+P(X_{(n)} \leq  1 - \epsilon) & = P(\text{All } X_i \leq 1 - \epsilon) \\
 & = \left[ \underbrace{P(X \leq 1 - \epsilon)}_{F_X(1-\epsilon)} \right]^n & X
 \sim Unif(0,1) \\
 & = (1 - \epsilon)^n & \lim_{n \to \infty} (1 - \epsilon)^n = 0 \\
-& \rightarrow X_{(n)} \xrightarrow{P} 1
+& \rightarrow X_{(n)} \xrightarrow{p} 1
 \end{array}
 \end{equation*}
 % TODO: Are all needed taken from equations?
 Let us take $\epsilon = \frac{t}{n}$ to rewrite
 $P(X_{(n)} \leq 1 - \epsilon)$ as
-$$P(X_{(n)} \leq 1 - \frac{t}{n}) = (1-\frac{t}{n})^n$$
+$$P\left(X_{(n)} \leq 1 - \frac{t}{n}\right) = \left(1-\frac{t}{n}\right)^n$$
 for which $\lim_{n \to \infty} (1 - \frac{t}{n})^n = e^{-t}$.
 \begin{equation*}
 \renewcommand{\arraystretch}{1.6}
@@ -1110,31 +1122,31 @@ behaviour in the tails. Especially $n(1-X_{(n)})$ is bounded to interval
 $[0,n]$.
 %TODO: Was there some text that was left out of notes in notes 6 page 7 end?
 \end{example}
-\begin{theorem} (The central limit theorem (CTL) (Keskeinen raja-arvolause))
+\begin{theorem} The central limit theorem (CTL) (Keskeinen raja-arvolause)
 
 Let $X_1, X_2,\ldots$ be a sequence of i.i.d. random variables with finite
 $E(X) = \mu$ and finite variance $Var(X) = \sigma^2 > 0$. Let $\bar{X}_n =
-\sum_{i=1}^n X_i$. Let $G_{Z_n}(z)$ denote the cdf of
+\sum_{i=1}^n X_i$. Let $G_{n}(z)$ denote the cdf of
 $$Z_n = \frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} =
 \frac{\bar{X}_n-\overbrace{\mu}^{E(\bar{X}_n)}}{\underbrace{\sigma/\sqrt{n}}_{sd(\bar{X}_n)}}$$
-Then $$\lim_{n \to \infty}G_{Z_n}{z} = \underbrace{\int_{-\infty}^z
+Then $$\lim_{n \to \infty}G_{n}{z} = \underbrace{\int_{-\infty}^z
 \underbrace{\frac{1}{\sqrt{2\pi}}e^{-y^2/2}\ud y}_{N(0,1) \text{
 pdf}}}_{N(0,1) \text{ cdf}}$$
-That is: $Z_n$ has limited standard normal distribution, meaning $Z_n
+That is: $Z_n$ has limiting standard normal distribution: $Z_n
 \xrightarrow{d} N(0,1)$. Equivalently, $\bar{X}
 \xrightarrow{d} N(\mu,\sigma^2/n)$.
 
 \textbf{Notes:}
 \begin{itemize}
-  \item We assume only finite $\mu$ and $\sigma^2$ and end up to normlity.
+  \item We assume only finite $\mu$ and $\sigma^2$ and end up to normality.
   \item The rate of convergence is affected by the original distribution of
   $X_i$
   \begin{itemize}
-    \item The closer the distribution of $X$ is the Normal curve, the faster the
-    convergence is.
+    \item The closer the distribution of $X_i$ is the Normal curve, the faster
+    the convergence is.
     \item The rate needs to be evaluated case by case.
   \end{itemize}
-  \item Provides an all purpose approximation og the distribution of sums of
+  \item Provides an all purpose approximation of the distribution of sums of
   i.i.d. random variables.
 \end{itemize}
 \textbf{Proof: } See Casella \& Berger pages 237-238.
@@ -1152,7 +1164,8 @@ good already when $n > 4$. However, we are usually interested in the behaviour
 in the tails, which needs more careful evaluation, e.g. compute the
 0.95\textsuperscript{th} quartile of the Normal distribution. Check which
 proportion of the simulated samples had the mean above this quartile. The
-proportion should be close to 0.05 if the approximation is good.
+proportion should be close to 0.05 if the approximation is good. This is left as
+an exercise.
 %TODO: In notes, is said that this is left as an exercise. Is this needed?
 \end{theorem}
 \begin{theorem}(Slutsky)
@@ -1173,15 +1186,15 @@ $$\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma} \xrightarrow{d} N(0,1)$$
 However, $\sigma^2$ is often unknown, but can be unbiasedly and consistently
 estimated by $S_n^2 = \frac{1}{n-1}\sum(X_i-\bar{X}_n)^2$. It can also be shown
 that (see Casella \& Berger example 5.5.3 and exercise  3.32)
-$$\frac{\sigma}{S_n} \xrightarrow{P} 1$$
+$$\frac{\sigma}{S_n} \xrightarrow{p} 1$$
 \textbf{Note}
 $$\frac{\sqrt{n}(\bar{X}_n-\mu)}{S_n} =
-\underbrace{\frac{\sigma^2}{S_n}}_{\frac{\sigma}{S_n} \xrightarrow{P}
+\underbrace{\frac{\sigma^2}{S_n}}_{\frac{\sigma}{S_n} \xrightarrow{p}
 1}\underbrace{\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma^2}}_{\frac{\sqrt{n}(\bar{X}_n-\mu)}{\sigma}
 \xrightarrow{d} N(0,1)} \xrightarrow{d} N(0,1)$$
 So even tough the variance is estimated, $\frac{\bar X - \mu}{S / \sqrt{n}}$
 converges to a normal distribution. However, intuitively, the convergence should
-be more slow than when $\sigma$ is known.
+be more slow than when $\sigma$ is known. Demonstration is left as an exercise.
 % TODO: There was also mention that this was left as an exercise. Is is still
 % exercise?
 \end{example}
@@ -1201,14 +1214,14 @@ parameters of that function.
 
 %TODO: Is this example good? Wrote something based on the stuff given in notes.
 %TODO: Plot in notes 7 page 4 left out. Is it needed?
-Consider case of simple linear regression, where $X$ is a fixed known
-predictor, and $Y$ is a random variable we want to predict with values of $X$.
-The model can be of following for
-$$Y_i = \mu(X_i) + e_i$$
-Where $\mu(X_i)$ is a fixed mean of $Y$
-$$\mu_i = \mu(X_i) = \beta_0 + \beta_1 X_i$$
-and $e_i$ is the random error related to value of $Y_i$
-$$e_i \sim N(0, \sigma^2)$$
+Consider case of simple linear regression, where $x$ is a fixed known
+predictor, and $Y$ is a random variable we want to predict with values of $x$.
+The model can be of the following form
+$$Y_i = \mu(x_i) + E_i$$
+Where $\mu(x_i)$ is a fixed mean of $Y$
+$$\mu_i = \mu(x_i) = \beta_0 + \beta_1 x_i$$
+and $E_i$ is the random error related to value of $Y_i$
+$$E_i \sim N(0, \sigma^2)$$
 This would mean that distribution of $Y_i$ would be
 $$Y_i \sim N(\mu(x_i), \sigma^2)$$
 In this case, we are interested in estimating the the regression coefficients
@@ -1218,7 +1231,7 @@ $$\bm \theta =
 \end{bmatrix}$$
 \end{example}
 \begin{example}
-Lets consider a random variable
+Let's consider a random variable
 \begin{equation*}
 \renewcommand{\arraystretch}{1.3}
 Y_i = \left\{
@@ -1243,47 +1256,49 @@ $\left[0,1\right]$, a better model uses some other function for
 $p(\text{Age}_i)$.
 Most commonly we use
 $$log\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 \text{Age}_i$$
-Which is a logit transformation $[0,1] \rightarrow \ureal$. This provides us
-with logistic regression.
+Which is a logit transformation $[0,1] \rightarrow \ureal$. This leads to binary
+logistic regression.
 \textbf{Note:} See also example 1.2 and 1.3 in \verb#notes.pdf#
 \end{example}
-\section{Two principles}
-A sufficient statistic (tyhjentävä statistiikka) for a population parameter
-$\theta$ is such statistic $T(\bm X)$, that in certain sense it captures all
-the information about $\theta$ contained in the sample.
+
+%\section{Two principles}
+%A sufficient statistic (tyhjentävä statistiikka) for a population parameter
+%$\theta$ is such statistic $T(\bm X)$, that in certain sense it captures all
+%the information about $\theta$ contained in the sample.
 %TODO: Figure out if these sould be sections of definitions or other.
-\section{The sufficient principle}
-If $T(\bm X)$ is a sufficient statistic for $\theta$, then any inference about
-$\theta$ should depend on $\bm X$ only through the value of $T(\bm X)$.
-\begin{definition} A statistic $T(\bm X)$ is sufficient statistic for $\theta$
-if the conditional distribution of the sample given $T(\bm X) [\bm X | T(\bm
-X)]$ does not depend on $\theta$.
-\end{definition}
-\begin{example}
-Let $X_1,\ldots,X_n$ be i.i.d. from $N(\mu, \sigma^2)$ population, where
-$\sigma^2$ is known. Now the sample mean $\bar X$ is a sufficient statistic for
-$\mu$.
+%\section{The sufficient principle}
+%If $T(\bm X)$ is a sufficient statistic for $\theta$, then any inference about
+%$\theta$ should depend on $\bm X$ only through the value of $T(\bm X)$.
+%\begin{definition} A statistic $T(\bm X)$ is sufficient statistic for $\theta$
+%if the conditional distribution of the sample given $T(\bm X) [\bm X | T(\bm
+%X)]$ does not depend on $\theta$.
+%\end{definition}
+%\begin{example}
+%Let $X_1,\ldots,X_n$ be i.i.d. from $N(\mu, \sigma^2)$ population, where
+%$\sigma^2$ is known. Now the sample mean $\bar X$ is a sufficient statistic for
+%$\mu$.
 
-That is, if we have the complete data and you know only the sample mean, we both
-still have all information on $\mu$ the sample includes. However, if a third
-person knows only $min(\bm X)$, $max(\bm X)$ and $median(\bm X)$, he still does
-not have much information on $\mu$ as you have when you know $\bar X$.
+%That is, if we have the complete data and you know only the sample mean, we
+% both still have all information on $\mu$ the sample includes. However, if a
+% third
+%person knows only $min(\bm X)$, $max(\bm X)$ and $median(\bm X)$, he still does
+%not have much information on $\mu$ as you have when you know $\bar X$.
 
-If also $\sigma^2$ is unknown, then
-$\bm T(\bm X) = \begin{bmatrix}
-\bar X \\ S^2
-\end{bmatrix}$ is sufficient for $\bm \theta = \begin{bmatrix}
-\mu \\ \sigma^2
-\end{bmatrix}$
+%If also $\sigma^2$ is unknown, then
+%$\bm T(\bm X) = \begin{bmatrix}
+%\bar X \\ S^2
+%\end{bmatrix}$ is sufficient for $\bm \theta = \begin{bmatrix}
+%\mu \\ \sigma^2
+%\end{bmatrix}$
 
-For more formal discussion on the topic, see Casella \& Berger section 6.2.
-\end{example}
+%For more formal discussion on the topic, see Casella \& Berger section 6.2.
+%\end{example}
 
 \section{The likelihood function}
 \begin{definition} 
 \label{defLikelihood1}
 Let $f(\bm x, \bm \theta)$ denote the joint pdf or pmf of
-the sample $\bm X = X_1, \ldots, X_n$. Then Given that $\bm X = \bm x$ has been
+the sample $\bm X = X_1, \ldots, X_n$. Then given that $\bm X = \bm x$ has been
 observed, the function of $\theta$ defined by
 $$L(\bm \theta | \bm x) = f(\bm x | \bm \theta)$$
 is called the likelihood function (uskottavuusfunktio).
@@ -1319,10 +1334,10 @@ is called the likelihood function (uskottavuusfunktio).
   \end{itemize}
 \end{itemize}
 \begin{example}
-Let $X$ have negative binomial distribution. The Negative binomial distribution
+Let $X$ have negative binomial distribution. The negative binomial distribution
 specifies the pmf for the number of successes before a fixed number of a
 failures ($r$) in a series of Bernoulli trials with success probability $p$. The
-pmf
+pmf is
 $$P(X=x |r,p) = {{r+x-1}\choose x} p^r (1-p)^x, ~ \text{where } x=0,1,\ldots
 \text{ and } 0 \leq p \leq 1$$
 Consider an experiment where $r=3$ and it was observed that $X=2$. The
@@ -1361,21 +1376,21 @@ The likelihood of this model for observation $\bm x = \begin{bmatrix}
 \textbf{Note } The likelihood function is not a pdf as a function of $\theta$.
 Therefore we say, that $\theta_1$ is more plausible than $\theta_2$ (not more
 probable). Note also, that $\theta$ is thought to be fixed, therefore it makes
-no sense to specify a pdf for it. (In Bayesian statistics, $\theta$ is thought to
-be random.)
+no sense to specify a pdf for it. In Bayesian statistics however, $\theta$ is
+thought to be random.
 \end{example}
 
 %TODO: Should following be a definition or something rather than a section?
-\section{The likelihood principle}
-If $\bm x$ and $\bm y$ are two observed sample points such that $L(\theta |
-\bm x)$ is proportional to $L(\theta | \bm y)$, that is there exists a constant
-$C(\bm x, \bm y)$ such that
-$$L(\theta | \bm x) = C(\bm x, \bm y)L(\theta | \bm y)~ \text{ for all }
-\theta$$
-then the conclusions drawn from $\bm x$ and $\bm y$ should be identical.
+%\section{The likelihood principle}
+%If $\bm x$ and $\bm y$ are two observed sample points such that $L(\theta |
+%\bm x)$ is proportional to $L(\theta | \bm y)$, that is there exists a constant
+%$C(\bm x, \bm y)$ such that
+%$$L(\theta | \bm x) = C(\bm x, \bm y)L(\theta | \bm y)~ \text{ for all }
+%\theta$$
+%then the conclusions drawn from $\bm x$ and $\bm y$ should be identical.
 
-\textbf{Note} $C(\bm x, \bm y)$ may be different for different $(\bm x, \bm y)$
-pairs, but does not dependent on $\theta$.
+%\textbf{Note} $C(\bm x, \bm y)$ may be different for different $(\bm x, \bm y)$
+%pairs, but does not dependent on $\theta$.
 
 \section{Point estimation}
 \begin{definition}
@@ -1383,7 +1398,7 @@ A point estimator is any function $W(X_1,\ldots,X_n)$. That is, any statistic is
 a point estimator.
 \end{definition}
 \begin{itemize}
-  \item We now first consider the methods to find estimators and there after
+  \item We first consider the methods to find estimators and there after
   consider criteria to evaluate, whether the estimators are good or bad.
   \item[\textbf{Note}] Estimator is a function of the sample $X_1,\ldots,X_n$
   and estimate is the numerical value the estimator got after the sample was
@@ -1401,21 +1416,22 @@ Based on theorem \ref{theoremXbarSigma}, the ordinary least squares estimator of
 parameter $\mu$ using observed sample values $y_1, \ldots, y_n$ is found by
 $$min_\theta \sum_{i=1}^n (y_i-\theta)^2$$
 The solution is $\theta = \bar y$. %TODO: In notes was \bar X.
-The approach also generalized to cases where $E(Y_i)$ is a function of a fixed
-variable $x_i$. Consider a model $Y_i = \beta_0 + \beta_1 x_i + \epsilon_i$,
+The approach also generalizes to cases where $E(Y_i)$ is a function of a fixed
+variable $x_i$. Recall the model $Y_i = \beta_0 + \beta_1 x_i + E_i$,
 where $Y_i$ is a random variable and $x_i$ is another fixed observable variable.
-We can $\beta_0$ %TODO: How was this sentense suposed to be formed?
-such that $E(\epsilon_i) = 0$ and 
+We can specify $\beta_0$ and $\beta_1$ %TODO: How was this sentense suposed to
+% be formed?
+such that $E(E_i) = 0$ and 
 $$E(Y_i) = E(\underbrace{\beta_0 + \beta_1 x_i}_{\text{fixed}} +
-\underbrace{\epsilon_i}_{E(\epsilon_i) = 0}) = \beta_0 + \beta_1 x_i = E(Y_i
+\underbrace{E_i}_{E(E_i) = 0}) = \beta_0 + \beta_1 x_i = E(Y_i
 | x_i) = \mu(x_i, \bm \beta)$$
 Parameters $\bm \beta$ are ``second order'' parameters. They quantify the
 (assumed) linear relationship between $x_i$ and $E(Y_i)$. Using the idea of
 theorem \ref{theoremXbarSigma}, $\bm \beta$ can be estimated using
 $$min_{\beta_0, \beta_1} \sum_{i=1}^n (y_i-(\beta_0 + \beta_1 x_i))^2$$
 The solutions are
-$$\widehat{\beta_1} = \frac{\sum(x_i - \bar x)(y_i - \bar y)}{\sum(y_i -
-\bar y)^2} \text{ and } \widehat{\beta_0} = \bar y - \beta_1 \bar x$$
+$$\widehat{\beta}_1 = \frac{\sum(x_i - \bar x)(y_i - \bar y)}{\sum(y_i -
+\bar y)^2} \text{ and } \widehat{\beta}_0 = \bar y - \widehat{\beta}_1 \bar x$$
 
 \begin{itemize}
   \item A more general formulation results by defining
@@ -1423,14 +1439,16 @@ $$\widehat{\beta_1} = \frac{\sum(x_i - \bar x)(y_i - \bar y)}{\sum(y_i -
   \end{bmatrix}, ~ 
   \bm Y = \begin{bmatrix} Y_1 \\ \vdots \\ Y_n \end{bmatrix}, ~
   \bm \beta = \begin{bmatrix} \beta_0 \\ \beta_1 \end{bmatrix}, ~
-  \bm \epsilon = \begin{bmatrix} \epsilon_1 \\ \vdots \\ \epsilon_n
+  \bm E = \begin{bmatrix} E_1 \\ \vdots \\ E_n
   \end{bmatrix}, ~$$ 
-  and then the model is $\bm Y = \bm X'\bm \beta + \bm \epsilon$
+  and then the model is $\bm Y = \bm X'\bm \beta + \bm \epsilon$. Now $\bm X$ is
+  a matrix of fixed values. $\bm Y$ and $\bm E$ are random vectors.
   \item The least squares estimator of $\bm \beta$ is found by minimizing
-  $$\bm \epsilon' \bm \epsilon = (\bm y - \bm X' \bm \beta)'(\bm y - \bm X' \bm
+  $$\bm E' \bm E = (\bm y - \bm X' \bm \beta)'(\bm y - \bm X' \bm
   \beta)$$
   \item The solution is $\widehat{\bm \beta} = (\bm X' \bm X)^{-1}\bm X' \bm y$
-  \item This is a general solution for the multiple regression case as well.
+  \item This is a general solution for the multiple regression case, where the
+  number of columns in $\bm X$ is higher than 2.
 \end{itemize}
 The least squares method is optimal and intuitive way to find the estimators for
 population mean. However, it does not provide tools to estimate other parameters
@@ -1525,7 +1543,7 @@ Let $X_1,\ldots,X_n$ be i.i.d. from the Weibull($a$,$b$) distribution, which has
 the pdf
 $$f(x) = \frac{a}{b}\left(\frac{x}{b}\right)^{a-1}e^{-(x/b)^a} ~ \text{ where
 } 0 < x < \infty \text{ and } a,b > 0$$
-where $a$ is called te shape parameter and $b$ is called the scale parameter.
+Here $a$ is called the shape parameter and $b$ is called the scale parameter.
 
 The first two moments are
 $$E(X) = \int_0^\infty f(x)x \ud x = \ldots = b
@@ -1533,7 +1551,7 @@ $$E(X) = \int_0^\infty f(x)x \ud x = \ldots = b
 $$E(X^2) = \int_0^\infty f(x)x^2 \ud x = \ldots = b^2
 \Gamma\left(1+\frac{2}{a}\right)$$
 where $\Gamma(z) = \int_0^\infty z^{u-1}e^{-z}\ud z$ cannot be written in closed
-form, but can be well approximated using function gamma in R.
+form, but can be well approximated using function \verb#gamma# in R.
 
 The moment-matching system of equations is
 \begin{equation*}
@@ -1552,7 +1570,7 @@ We solve it for $a$ and $b$ using the Gauss-Newton method, which is a
 multivariate generalization of the Newton-Raphson method. Example in R-script
 \verb#WeibullMoment.R# generates first a random sample of size 30 from
 Weibull(2,10) population. Using the generalized sample, it finds the moment
-estimates of $a$, $b$ numerically using R-function NRnum.
+estimates of $a$, $b$ numerically using R-function \verb#NRnum#.
 
 The observed sample moments are
 $$m_1 = \bar X = 9.604, ~ m_2 = \frac{1}{n}\sum x^2 = 113.22$$
@@ -1571,22 +1589,27 @@ for $(a,b)$ ($\bm \theta = \begin{bmatrix}a & b\end{bmatrix}^T$). We use $a'=1$
 and $b'=9.60$ as starting values, and we get
 $$\tilde a = 2.21 ~ \tilde b = 10.84$$
 \end{example}
-\section{Newton-Raphson}
+% /section{Newton-Raphson}
+% TODO: How to get shortbox working?
+\begin{shortbox}
 Consider function $f(a) = 0$, which needs to be solved for $a$.
 %TODO: Left out a plot on notes 9, page 5
 \begin{itemize}
   \item[1.] Start with some guess $a'$, compute $f(a')$ and $f'(a')$ to
-  approximate $f(a)$ by a linear function. Find $a$ such that the approximator
-  = 0.
+  approximate $f(a)$ by a linear function. Find $a$ such that the approximation
+  is 0.
    \item[2.] Set the solution as $a'$ and repeat step 1.
 \end{itemize}
 If the initial guess $a'$ was good enough and $f$ is continuous and
-differentiable, we will find the approximate solution within few iteration.
+differentiable, we will find good approximate of the solution within
+few iterations.
 
 Gauss-Newton generalized this to vector valued $\bm a$ and $\bm x$. The
-algorithm has been implemented in R-function NRnum of package lmfor. The
-function evaluates also the required derivatives $\frac{\ud f(\bm x)}{\ud
+algorithm has been implemented in R-function \verb#NRnum# of package
+\verb#lmfor#.
+The function evaluates also the required derivatives $\frac{\ud f(\bm x)}{\ud
 \theta_i}$ numerically.
+\end{shortbox}
 \section{Maximum likelihood}
 Definition \ref{defLikelihood1} defined the likelihood as
 $$L(\bm \theta | \bm x) = f(\bm x | \bm \theta)$$
@@ -1594,14 +1617,14 @@ where
 $$\bm \theta = \begin{bmatrix}
 \theta_1 \\ \vdots \\ \theta_k
 \end{bmatrix}$$
-\textbf{Note} For i.i.d. data $X_1, \ldots, X_n$ from population $f(x |
+For i.i.d. data $X_1, \ldots, X_n$ from population $f(x |
 \theta)$, the likelihood simplifies to
 $$L(\bm \theta | \bm x) = \prod_{i=1}^n f(x_i | \bm \theta)$$
 \begin{definition}
 For each sample point $\bm x$, let $\hat{\bm \theta}(\bm x)$ be a parameter
 value at which $L(\bm \theta | \bm x)$ attains its maximum value as a function
 of $\bm \theta$, with $\bm x$ fixed. A maximum likelihood estimator of $\bm
-\theta$ based on sample $\bm x$ is this function $\hat{\bm \theta}(\bm x)$. The
+\theta$ based on sample $\bm X$ is this function $\hat{\bm \theta}(\bm X)$. The
 maximum likelihood estimate (ML estimate) is the numerical value of that
 function in the data point we have.
 %TODO: Are all the x's capitals or lower case? (or are some capitals and some
@@ -1627,8 +1650,8 @@ function in the data point we have.
 \begin{example} Example ML1
 \label{exampleML1}
 
-Let $X_1,\ldots,X_n$ be i.i.d. from $N(\theta,1)$, meaning only the population
-mean $\theta$ is unknown.
+Let $X_1,\ldots,X_n$ be i.i.d. from $N(\theta,1)$, meaning that only the
+population mean $\theta$ is unknown.
 \begin{equation*}
 \renewcommand{\arraystretch}{1.7}
 \begin{array}{rl}
@@ -1665,7 +1688,7 @@ B gives
 So the sample mean, which is the least squares and moment estimator for the
 population mean is also the ML estimator for the population mean.
 
-To confirm that $\bar X$ is the MLE, we still ned to make sure that
+To confirm that $\bar X$ is the MLE, we still need to make sure that
 \begin{itemize}
   \item[1)] $\bar x$ is the maximum, not minimum
   \item[2)] The boundaries of the support of $\theta$ do not provide higher
@@ -1687,8 +1710,8 @@ We can conclude that
 \item In most cases, the solution of the estimation problem becomes easier if
 the natural logarithm of the likelihood is used instead of likelihood.
 \item The maximum of $L(\bm \theta | \bm x)$ and $ln(L(\bm \theta | \bm x))$
-coincide (are at the same point $\bm \theta$) because $ln$-function is
-increasing on $(0, \infty)$.
+coincide (are at the same point $\bm \theta$) because $L(\bm \theta | \bm x)
+\geq 0$ and $ln$-function is increasing on $(0, \infty)$.
 \end{itemize}
 %TODO: Left out plot at notes 10 page 2. Is it needed?
 \begin{example}
@@ -1705,7 +1728,7 @@ Recall that
 p & \text{if } x_i = 1 \text{ (success)} \\
 1-p & \text{if } x_i = 0 \text{ (failure)} \\
 \end{array} \right. \\
-& = p^{x_i}(1-p)^{1-x_i} & 0 < p < 1 \text{ or } 0 \leq p \leq 1
+& = p^{x_i}(1-p)^{1-x_i} & 0 < p < 1
 \end{array}
 \end{equation*}
 
@@ -1762,7 +1785,7 @@ $\hat \theta$ is shrunken towards $Y_1 = 4$ compared to $\bar y = 5$.
 \textbf{2.} We solved this also using function mle of R-package stats4.
 \begin{itemize}
   \item[1.] Define a R-function that evaluates the negative log-likelihood
-  $-ln(L)$; call it e.g. nll.
+  $-ln(L)$; call it e.g. \verb#nll#.
   \item[2.] Specify some good starting values of the parameters in a named list.
   \item[3.] Make a call to mle: \verb#mle(nll, start=list(theta=5))#
   $\to$ gives $\hat \theta = 4.831081$.
@@ -1770,8 +1793,8 @@ $\hat \theta$ is shrunken towards $Y_1 = 4$ compared to $\bar y = 5$.
 \textbf{Note} To get more stable and faster solution, you could also provide
 analytical derivative of the function you used
 
-\textbf{Note} mle gives only the candidate of MLE, so you are responsible for
-checking that it really is the MLE.
+\textbf{Note} \verb#mle# gives only the candidate of MLE, so you are responsible
+for checking that it really is the MLE.
 \end{example}
 
 \begin{itemize}
@@ -1779,7 +1802,7 @@ checking that it really is the MLE.
   multidimensional, then we need to maximize the $ln(L)$ with respect to all
   components $\theta_i$ simultaneously.
   \item If the log-likelihood is differentiable with respect to all $\theta_i$,
-  we just need to find the practical derivatives of $ln(L)$ (or L) with respect
+  we just need to find the partial derivatives of $ln(L)$ (or L) with respect
   to all $\theta_i$ and set them to 0
   \begin{itemize}
     \item[$\to$] We get system of $k$ equations.
@@ -1862,15 +1885,15 @@ Recall exercise \ref{exampleSpatialData1} where we had spatial, multivariate
 normal data. Consider observations of $Y_i$ in the following 2-dimensional grid,
 $i=1,\ldots,25$.
 %TODO: Left out grid in notes 11 page 3. It's probably needed?
-$\bm Y = \begin{bmatrix} Y_1 \\ \vdots \\ Y_25 \end{bmatrix}$
+$\bm Y = \begin{bmatrix} Y_1 \\ \vdots \\ Y_{25} \end{bmatrix}$
 is generated by following model
 $$Y \sim N(\bm \mu, \bm \Sigma), \text{ where } 
 \bm \mu = \begin{bmatrix} \mu_1 \\ \vdots \\ \mu_{25} \end{bmatrix},
 \mu_i = 0 \text{ for all }i \text{, and } Var(Y_i) = \sigma_i^2 = 2^2 \text{
 for all }i$$
 $$corr(Y_i, Y_j) = exp^{-\phi s_ij} \text{, where } \phi = \frac{1}{2}$$
-and $s_ij$ is the euclidian distance between the location $i$ and $j$,
-$s_ij = ||u_i - u_j||$.
+and $s_{ij}$ is the euclidian distance between the location $i$ and $j$,
+$s_{ij} = ||u_i - u_j||$.
 
 Let us first generate the data and illustrate is graphically; see R-script
 \verb#MLESpatial.R#. Next, given the simulated data, let us estimate the
