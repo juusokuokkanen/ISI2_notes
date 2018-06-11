@@ -892,8 +892,7 @@ where $\mu = E(\bar X)$ and $\sigma / \sqrt{n} = sd(\bar X)$.
   \item However, that is not the case, and therefore we use $\frac{\bar X -
   \mu}{S / \sqrt{n}}$ which can also be written as
   $$\frac{(\bar X - \mu)/(\sigma / \sqrt{n})}{\sqrt{S^2 / \sigma^2}}$$
-  where $(\bar X - \mu)/(\sigma / \sqrt{n}) \sim N(0,1)$ and
-  $\sqrt{S^2 / \sigma^2} \sim \chi_{n-1}^2$. %TODO: Fix the error here.
+  where $(\bar X - \mu)/(\sigma / \sqrt{n}) \sim N(0,1)$ and the denominator is square root of scaled chi-square random variable: $\sqrt{\chi^2_{n-1}/(n-1)}$.
 \end{itemize}
 \begin{theorem}
 Let $\bm X$ be a random sample from $N(\mu, \sigma^2)$. The random variable
@@ -1902,7 +1901,7 @@ $i$) and $\phi$ (the parameter of correlation function).
 
 Because $\sigma^2 > 0$ and $\phi > 0$, we parametrize the likelihood function in
 terms of $ln(\sigma^2)$ and $ln(\phi)$, and define the negative log-likelihood
-in R-function nll. The script provides following resulting estimates.
+in R-function \verb#nll#. The script provides following resulting estimates.
 
 \begin{equation*}
 \renewcommand{\arraystretch}{1.7}
@@ -1949,8 +1948,8 @@ quantity.
     \theta$ given the sample $\bm x$
     $$\pi(\bm \theta | \bm x) = \frac{f(\bm x | \bm \theta)\pi(\bm
     \theta)}{m(\bm x)}$$
-    where $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud \bm \theta
-    $
+    where $m(\bm x) = \int_{\bm \Theta} f(\bm x | \bm \theta) \pi(\bm \theta)
+    \ud \bm \theta $ and $\bm \Theta$ is the sample space of $\bm \theta$.
    \end{itemize}
    \textbf{Note} $\theta$ means both the random variable and it's realized value
    here. %TODO: was \theta suposed to be bolded? (so it's random vector?)
@@ -1985,8 +1984,8 @@ ML-estimator $\frac{y}{n}$:
 $$\frac{n}{\alpha+\beta+n}\frac{y}{n}+\frac{\alpha+\beta}{\alpha+\beta+n}\frac{\alpha}{\alpha+\beta}
 = w \frac{y}{n}+(1-w)\frac{\alpha}{\alpha+\beta}, \text{ where }
 w=\frac{n}{\alpha+\beta+n} \in [0,1]$$
-\textbf{Note} The Beta distribution is the conjugate prior for the Binomial
-distribution, because the posterior distribution belongs to the same family. The
+\textbf{Note} The Beta distribution is said to be the {\it conjugate prior} for
+the Binomial distribution, because the posterior distribution belongs to the same family. The
 use of conjugate priors leads to mathematically beautiful results, but are
 not otherwise justified by any theory.
 \end{example}
@@ -1997,14 +1996,14 @@ not otherwise justified by any theory.
   the denominator $m(\bm x) = \int f(\bm x | \bm \theta) \pi(\bm \theta) \ud
   \bm \theta$ is hard to compute in general case.
   \begin{itemize}
-    \item The modern computational methods, so called Markov chain Monte Carlo
-    (MCMC) methods allow simulation of observations from $\pi(\bm \theta | \bm
-    x)$ without the need to evaluate $m(\bm x)$.
+    \item The modern computational methods, so called {\it Markov chain Monte
+    Carlo (MCMC)} methods allow simulation of observations from $\pi(\bm \theta
+    | \bm x)$ without the need to evaluate $m(\bm x)$.
   \end{itemize}
   %TOOD: Left out some of the stuff in the begining of notes 12 page 1 since
   % recap. Not needed?
-  \item The most simple MCMC method is the Metropolis algorithm. (Denote
-  $f(x|\theta)\pi(\theta)$ by $a(\theta)$)
+  \item The most simple MCMC method is the Metropolis algorithm. Denote
+  $f(x|\theta)\pi(\theta)$ by $a(\theta)$.
   \begin{itemize}
     \item[1.] Choose an arbitrary starting point $\theta_0$ form $\Theta$ (the
     sample space of $\theta$). Choose an arbitrary symmetric pdf (the proposal
@@ -2028,8 +2027,9 @@ not otherwise justified by any theory.
 \begin{example} Bayes 2
 
 Consider a sample $\bm x' = \begin{bmatrix} 9.76 & 9.08 & 16.23 & 10.28 & 10.51
-\end{bmatrix}$. The aim is to estimate the population mean $\theta$. We use
-restrictive prior for it:
+\end{bmatrix}$ from a normally distributed population. The aim is to estimate
+the population mean $\theta$.
+We use restrictive prior for it:
 $$\pi(\theta) \sim Uniform(7, 13)$$
 In R-script \verb#Bayes.R# there is function postProfile that implements
 function $a(\theta)$. $N(\theta_t, 1)$ is used as $g(\theta_{t+1} | \theta_t )$.
@@ -2055,7 +2055,7 @@ $$E_\theta(W-\theta)^2$$
 \begin{itemize}
   \item In general, any increasing function of the absolute distance
   $\abs{W-\theta}$ is a reasonable measure for the quality of $W$ (e.g. mean
-  absolute error $E_\theta(W-\theta)$), but MSE is 1) mathematically factorable
+  absolute error $E_\theta(W-\theta)$), but MSE is 1) mathematically tractable
   and 2) has the interpretation
   $$E_\theta(W-\theta)^2 = Var_\theta(W)+(E_\theta(W-\theta))^2$$
   $$MSE = variance + bias^2$$
@@ -2107,7 +2107,7 @@ MSE.
 \begin{itemize}
   \item The bias is negative $\to$ ML underestimates the variance on average.
   \item In general, MSE is justified choice to evaluate estimators of location
-  parameters, but not the scale parameters.
+  parameters, but not of scale parameters.
 \end{itemize}
 \end{example}
 It is often impossible to find a single estimator that is best in terms of MSE.
@@ -2118,14 +2118,15 @@ $$E_\theta(W-\theta)^2 = Var_\theta(W)$$
 Therefore, form among unbiased estimators, we should select the one with the
 lowest variance.
 \begin{definition}
-An estimator $W^*$ is the best unbiased estimator (BUE) of $\tau(\theta)$, if it
-satisfies $E_\theta(W^*)=\tau(\theta)$ for all $\theta$ and for any other
+An estimator $W^*$ is the { \it best unbiased estimator (BUE)} of
+$\tau(\theta)$, if it satisfies $E_\theta(W^*)=\tau(\theta)$ for all $\theta$ and for any other
 estimator $W$ with $E_\theta(W)=\tau(\theta)$ we have
 $$Var_\theta(W*) \leq Var_\theta(W) \text{ for all } \theta$$
-$W^*$ is also called uniform minimum variance unbiased estimator of
+$W^*$ is also called { \it uniform minimum variance unbiased estimator} of
 $\tau(\theta)$ (UMVUE).
 \end{definition}
 \begin{example}
+\label{exampleBestEstimator1}
 Let $X_1,\ldots,X_n$ be i.i.d. Poisson($\lambda$) and let $\bar X$ and $S^2$ be
 the sample mean and sample variance respectively. Recall that in
 Poisson($\lambda$) population $E(X) = Var(X) = \lambda$. Therefore, both $\bar
@@ -2139,9 +2140,11 @@ But is $\bar X$ really the best?
 We could construct infinitely many unbiased estimators as weighted mean of $\bar
 X$ and $S^2$:
 $$W_W = w \bar X + (1-w)S^2 \text{ where } w \in [0,1]$$
-Could some selection of w lead to smaller variance than $Var(\bar X) =
+Could some selection of $w$ lead to smaller variance than $Var(\bar X) =
 \frac{\lambda}{n}$? Or is there some other estimator that has $Var(w) =
 \frac{\lambda}{n}$?
+% TODO: Did I miss something here?
+The following theorem gives light to this function.
 %TODO: Left out the $\hat \lambda = \bar X$ at notes 12 page 8 end. Is it
 % needed?
 \end{example}
@@ -2157,42 +2160,76 @@ then
 $$Var_\theta(W(\bm X)) \geq \frac{\left[\frac{\ud}{\ud \theta} E_\theta(W(\bm
 X))\right]^2}{E\left\{\left[ \frac{\ud}{\ud \theta} ln(f(\bm x | \theta))
 \right]^2\right\}}$$
-\textbf{Note} If $W(\bm X)$ is unbiased for $\theta$, then
-$$\left[\frac{\ud}{\ud \theta} E_\theta(W(\bm X))\right]^2 = 1 \text{ and }
-Var_\theta(W(\bm X)) \geq \frac{1}{E\left\{\left[ \frac{\ud}{\ud \theta} ln(f(\bm x | \theta))
+\textbf{Note} If $W(\bm X)$ is unbiased for $\theta$, then $E_\theta(W(\bm X))=
+\theta$ and  
+$$\left[\frac{\ud}{\ud \theta} E_\theta(W(\bm X))\right]^2 = 1
+\text{ and } Var_\theta(W(\bm X)) \geq \frac{1}{E\left\{\left[ \frac{\ud}{\ud \theta} ln(f(\bm x | \theta))
 \right]^2\right\}}$$
 \textbf{Note} Integral in condition (*) can be replaced by sum to apply the
 theorem to discrete random variables.
 
 \textbf{Proof: } Based on Cauchy-Schwarz inequality
-$$cov(X, Y)^2 \leq Var(X)Var(Y) ~ (1)$$
+$$\left[cov(X, Y)\right]^2 \leq Var(X)Var(Y)$$
 where $X=W(\bm X)$ and $Y=\frac{\ud}{\ud \theta} ln[f(\bm X | \theta)]$.
+Rearrange it as
+$$Var(X) \geq \frac{\left[cov(X,Y)\right]^2}{Var(Y)}, ~ (1)$$
 
 First note that
-$$(2)~ \frac{\ud}{\ud \theta}E_\theta(W(\bm X)) = \int_{\mathcal
-X}\frac{\ud}{\ud \theta} W(\bm X) f(\bm X | \theta) \ud \bm x ~ \text{ condition (*)}$$
-We multiply this by $1 = \frac{f(\bm X | \theta)}{f(\bm X | \theta)}$ and
-utilize $\frac{\ud ln(f(x))}{\ud x} = \frac{1}{f(x)}f'(x) =
-\frac{\frac{\ud}{\ud x}f(x)}{f(x)}$ to get 
-$$= \int_{\mathcal X}W(\bm X)\frac{\frac{\ud}{\ud \theta} f(\bm X |
-\theta)}{f(\bm X | \theta)} f(\bm X | \theta) \ud x $$
-Which we can write as an expected value of transformation
-$$ = E_\theta\left[W_\theta(\bm X) \frac{\ud ln(f(\bm X | \theta))}{\ud
-\bm X}\right] ~ (3)$$
-If we consider here $X=W_\theta(\bm X)$ and $Y=\frac{\ud ln(f(\bm X | \theta))}{\ud
-\bm X}$, we have
-$$E(Y) = E\left[\frac{\ud}{\ud \theta}ln(f(\bm X | \theta ) \right]$$
-and if we assume that $X = W_\theta(\bm X) = 1$, and utilize the equation (3),
-we get 
-$$ = E\left[1\cdot \frac{\ud}{\ud \theta} ln(f(\bm X | \theta))\right]$$
-we can write this equation then in the form of equation (2)
-$$=\frac{\ud}{\ud \theta} E_\theta(X) = \frac{\ud}{\ud \theta} 1  = 0 ~
-(4)$$
-Now, $E_\theta\left[W_\theta(\bm X) \frac{\ud ln(f(\bm X | \theta))}{\ud
-\bm X}\right] = cov(W(\bm X), \frac{\ud}{\ud \theta}ln(f(\bm X | \theta ))$.
-Also, because of (4), we also have
-$$(5) ~ Var_\theta\left[\frac{\ud}{\ud \theta} ln(f(\bm X | \theta))\right] =
-\underbrace{E\left[\left(\frac{\ud}{\ud \theta}ln(f(X))
+% Old version
+%$$(2)~ \frac{\ud}{\ud \theta}E_\theta(W(\bm X)) = \int_{\mathcal
+%X}\frac{\ud}{\ud \theta} W(\bm X) f(\bm X | \theta) \ud \bm x ~ \text{
+% condition (*)}$$ We multiply this by $1 = \frac{f(\bm X | \theta)}{f(\bm X | \theta)}$ and
+%utilize $\frac{\ud ln(f(x))}{\ud x} = \frac{1}{f(x)}f'(x) =
+%\frac{\frac{\ud}{\ud x}f(x)}{f(x)}$ to get 
+%$$= \int_{\mathcal X}W(\bm X)\frac{\frac{\ud}{\ud \theta} f(\bm X |
+%\theta)}{f(\bm X | \theta)} f(\bm X | \theta) \ud x $$
+%Which we can write as an expected value of transformation
+%$$ = E_\theta\left[W_\theta(\bm X) \frac{\ud ln(f(\bm X | \theta))}{\ud
+%\bm X}\right] ~ (3)$$
+%If we consider here $X=W_\theta(\bm X)$ and $Y=\frac{\ud ln(f(\bm X |
+%% \theta))}{\ud \bm X}$, we have
+%$$E(Y) = E\left[\frac{\ud}{\ud \theta}ln(f(\bm X | \theta ) \right]$$
+%and if we assume that $X = W_\theta(\bm X) = 1$, and utilize the equation (3),
+%we get 
+%$$ = E\left[1\cdot \frac{\ud}{\ud \theta} ln(f(\bm X | \theta))\right]$$
+%we can write this equation then in the form of equation (2)
+%$$=\frac{\ud}{\ud \theta} E_\theta(X) = \frac{\ud}{\ud \theta} 1  = 0 ~
+%(4)$$
+%Now, $E_\theta\left[W_\theta(\bm X) \frac{\ud ln(f(\bm X | \theta))}{\ud
+%\bm X}\right] = cov(W(\bm X), \frac{\ud}{\ud \theta}ln(f(\bm X | \theta ))$.
+
+%New version
+$$(2)~\frac{\ud}{\ud\theta}E_\theta(W(\bm X)) = \int_{\mathcal X} \frac{\ud}{\ud
+\theta}W(\bm x) f(\bm x | \theta) \ud \bm x$$
+$$= \int_{\mathcal X} W(\bm x)\frac{\ud}{\ud \theta} f(\bm x | \theta) \ud \bm
+x$$
+$$= \int_{\mathcal X} W(\bm x)\frac{\ud}{\ud \theta} f(\bm x | \theta)
+\underbrace{\frac{f(\bm x | \theta)}{f(\bm x | \theta)}}_{=1} \ud \bm x$$
+$$= \int_{\mathcal X} W(\bm x) \frac{\frac{\ud}{\ud \theta}f(\bm x |
+\theta)}{f(\bm x | \theta)} f(\bm x | \theta) \ud \bm x$$
+$$= E_\theta\left[W(\bm X) \frac{\frac{\ud}{\ud \theta}f(\bm X |
+\theta)}{f(\bm X | \theta)} \right] ~ \left\| ~ \frac{\ud ~ ln(f(\bm
+X))}{\ud \bm X} = \frac{f'(\bm X)}{f(\bm X)} \right.$$ 
+$$= E_\theta\left[W(\bm X) \frac{\ud ~ ln(f(\bm
+X | \theta))}{\ud \theta} \right] ~ (3)$$
+Recall the definition of covariance
+$$cov(X,Y) = E(XY)-E(X)E(Y)$$
+Use this with $X=W(\bm X)$ and $Y=\frac{\ud}{\ud \theta}ln\left(f(\bm X
+| \theta)\right)$. 
+
+Now
+$$E(Y) = E\left[\frac{\ud}{\ud \theta}ln\left( f(\bm X | \theta)
+\right)\right]$$
+$$=E\left[\underbrace{1}_{W(\bm X)} \frac{\ud}{\ud \theta}
+ln\left(f(\bm X | \theta \right)\right]$$ 
+$$=\frac{\ud}{\ud \theta}E_\theta(1) = 0, ~ (4)$$
+where we just applied (3) in the reverse direction. 
+
+Therefore
+$$cov\left( W(\bm X), \frac{\ud~ln(f(\bm X | \theta))}{\ud \theta} \right) =
+E_\theta\left( W(\bm X) \frac{\ud}{\ud~ ln(f(\bm X | \theta))} \right)=
+\frac{\ud}{\ud \theta}\left(E_\theta(W(\bm X))\right)$$ Also, because of (4),we
+have $$(5) ~ Var_\theta\left[\frac{\ud}{\ud \theta} ln(f(\bm X | \theta))\right] = \underbrace{E\left[\left(\frac{\ud}{\ud \theta}ln(f(X))
 \right)^2\right]}_{Var(Y) = E(Y^2) - \underbrace{\left[E(Y)\right]^2}_{=0
 \text{ because of (4)}}=E(Y^2)}$$
 Using (5) and (2) in (1) gives
@@ -2201,7 +2238,7 @@ $$Var_\theta(W(\bm X)) \geq \frac{\left[cov\left(W(\bm X),
 \theta))\right)\right]^2}{Var\left[\frac{\ud}{\ud \theta} ln(f(\bm X |
 \theta)) \right]}$$
 $$=\frac{\left[\frac{\ud}{\ud \theta} E(W(\bm X))\right]^2}{E\left\{ \left[
- \frac{\ud}{\ud \theta} ln(f(X))\right]^2 \right\}}$$
+ \frac{\ud}{\ud \theta} ln(f(\bm X))\right]^2 \right\}}$$
 \end{theorem}
 \begin{corollary}
 \label{corollaryCR1}
@@ -2224,7 +2261,7 @@ $$\frac{\ud}{\ud \theta} E_\theta\left[\frac{\ud}{\ud \theta} ln(f(x |
 \theta))\right] = \int \frac{\ud}{\ud \theta}\left\{
 \left[\frac{\ud}{\ud \theta} ln(f(x | \theta))\right]f(x | \theta)\right\} \ud
 x ~ (*)$$
-Then
+Then the denominator of Cramer-Rao bound becomes
 $$E_\theta\left\{ \left[ \frac{\ud}{\ud \theta} ln(f(\bm x |
 \theta))\right]^2\right\} = -E_\theta\left\{ \frac{\ud^2}{\ud \theta^2}
 ln(f(\bm x | \theta))\right\}$$
@@ -2253,20 +2290,20 @@ $$=-nE_\lambda\left(-\frac{x}{\lambda^2}\right) = \frac{n}{\lambda^2}E(X) =
 \frac{n}{\lambda}$$
 Therefore
 $$Var_X(W(\bm X)) \geq \frac{1}{n/\lambda} = \frac{\lambda}{n}$$
-In the previous example we found that $Var(\bar X) = \frac{n}{\lambda}$. It is
-called the Cramer-Rao lower bound. Therefore $\bar X$ is the best unbiased
-estimator of $\lambda$.
+In the example \ref{exampleBestEstimator1} we found that $Var(\bar X) =
+\frac{n}{\lambda}$. It is equal to the Cramer-Rao lower bound. Therefore
+$\bar X$ is the best unbiased estimator of $\lambda$.
 \end{example}
 \section{Asymptotic behaviour of estimators}
 \begin{definition}
 A sequence of estimators $W_n = W_n(X_1,\ldots,X_n)$ is consistent (tarkentuva,
 konsistentti) sequence of estimators of $\theta$ if
-$$W_n \xrightarrow{P} \theta$$
+$$W_n \xrightarrow{p} \theta$$
 \end{definition}
 \begin{example}
 Let $X_1,X_2,\ldots$ be an i.i.d. sample from the Uniform($a$,$b$) population.
 Let $W(\bm X)$ be the sample maximum $X_{(n)}$. As sample size increases,
-$X_{(n)} \xrightarrow{P} b$, therefore the sample maximum is a consistent
+$X_{(n)} \xrightarrow{p} b$, therefore the sample maximum is a consistent
 estimator of population maximum $b$.
 \end{example}
 \begin{theorem}
@@ -2285,7 +2322,7 @@ $\theta$.
 Let $X_1,X_2,\ldots$ be i.i.d. $f(x | \theta)$. Let $\hat\theta$ denote the MLE
 of $\theta$ and let $\tau(\theta)$ be a continuous function of $\theta$. Under
 mild regulatory conditions,
-$$\tau(\hat\theta) \xrightarrow{P}\tau(\theta)$$
+$$\tau(\hat\theta) \xrightarrow{p}\tau(\theta)$$
 That is, $\tau(\hat\theta)$ is a consistent estimator of $\tau(\theta)$.
 \begin{itemize}
   \item[$\to$] MLE estimators (or any continuous transformations of them) are
@@ -2313,7 +2350,7 @@ Let $X_1,X_2,\ldots$ be i.i.d. N($\mu$,$\sigma^2$). Consider the MLE of
 $\sigma^2$
 $$\hat\sigma^2 = \frac{1}{n}\sum(X_i - \bar X)^2$$ The Fishers information is
 $$-E\left[\frac{\ud^2}{\ud(\sigma^2)^2} ln(L(\mu, \sigma^2 | \bm X)) \right] ~
-\text{ (Lemma\ref{lemmaCB1})}$$
+\text{ (Lemma \ref{lemmaCB1})}$$
 $$= \ldots = \frac{1}{2\sigma^4}$$
 %TODO: Left out remark about ``showing this left as exerise''
 $$\to Var(\sigma^2) = \frac{1}{1/2\sigma^4} = 2\sigma^4$$
@@ -2347,7 +2384,7 @@ R-script \verb#AsEffOfMLE.R# demonstrates this for a $N(0,
   \begin{bmatrix} \theta_1 \\ \theta_2 \\ \vdots \\ \theta_p \end{bmatrix}$
   \begin{itemize}
     \item The Fishers information matrix is a $p \times p$ matrix where element
-    $(i,j)$ is defines as
+    $(i,j)$ is defined as
     $$[I(\bm \theta)]_{ij} = E_\theta\left[ \frac{\ud}{\ud \bm \theta_i}ln(f(\bm
     X | \theta)) \frac{\ud}{\ud \bm \theta_j}ln(f(\bm X
     | \theta))\right]$$
@@ -2359,10 +2396,10 @@ R-script \verb#AsEffOfMLE.R# demonstrates this for a $N(0,
   \end{itemize}
 \end{itemize}
 \begin{example}
-R-function mle() computes this approximation numerically. Recall the example
-\ref{exampleMLESpatial1} which used R-script \verb#MLESpatial.R#. 
+R-function \verb#mle()# computes this approximation numerically. Recall the
+example \ref{exampleMLESpatial1} which used R-script \verb#MLESpatial.R#. 
 
-Function ccov(sol) returns this approximation
+Function \verb#ccov(sol)# returns this approximation
 $$\bm \theta = \begin{bmatrix}
 \mu \\ ln(\phi) \\ ln(\sigma^2)
 \end{bmatrix}$$
@@ -2371,7 +2408,7 @@ $$\widehat{Var}(\hat \theta) = \begin{bmatrix}
 0.64 & 1.13 & -1.03 \\
 -0.58 & -1.03 & 1.00
 \end{bmatrix}$$
-Using function summary(sol) gives results
+Using function \verb#summary(sol)# gives results
 \begin{table}[h]
 \caption{Correlations between the random variable pairs
 of example \ref{exampleSpatialData1}}
