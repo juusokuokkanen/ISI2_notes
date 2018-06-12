@@ -2139,11 +2139,11 @@ But is $\bar X$ really the best?
 
 We could construct infinitely many unbiased estimators as weighted mean of $\bar
 X$ and $S^2$:
-$$W_W = w \bar X + (1-w)S^2 \text{ where } w \in [0,1]$$
+$$W_w = w \bar X + (1-w)S^2 \text{ where } w \in [0,1]$$
 Could some selection of $w$ lead to smaller variance than $Var(\bar X) =
-\frac{\lambda}{n}$? Or is there some other estimator that has $Var(w) =
+\frac{\lambda}{n}$? Or is there some other estimator that has $Var(W_w) =
 \frac{\lambda}{n}$?
-% TODO: Did I miss something here?
+% TODO: Did I miss something here
 The following theorem gives light to this function.
 %TODO: Left out the $\hat \lambda = \bar X$ at notes 12 page 8 end. Is it
 % needed?
@@ -2199,19 +2199,26 @@ First note that
 %\bm X}\right] = cov(W(\bm X), \frac{\ud}{\ud \theta}ln(f(\bm X | \theta ))$.
 
 %New version
-$$(2)~\frac{\ud}{\ud\theta}E_\theta(W(\bm X)) = \int_{\mathcal X} \frac{\ud}{\ud
-\theta}W(\bm x) f(\bm x | \theta) \ud \bm x$$
-$$= \int_{\mathcal X} W(\bm x)\frac{\ud}{\ud \theta} f(\bm x | \theta) \ud \bm
-x$$
-$$= \int_{\mathcal X} W(\bm x)\frac{\ud}{\ud \theta} f(\bm x | \theta)
-\underbrace{\frac{f(\bm x | \theta)}{f(\bm x | \theta)}}_{=1} \ud \bm x$$
-$$= \int_{\mathcal X} W(\bm x) \frac{\frac{\ud}{\ud \theta}f(\bm x |
-\theta)}{f(\bm x | \theta)} f(\bm x | \theta) \ud \bm x$$
-$$= E_\theta\left[W(\bm X) \frac{\frac{\ud}{\ud \theta}f(\bm X |
-\theta)}{f(\bm X | \theta)} \right] ~ \left\| ~ \frac{\ud ~ ln(f(\bm
-X))}{\ud \bm X} = \frac{f'(\bm X)}{f(\bm X)} \right.$$ 
-$$= E_\theta\left[W(\bm X) \frac{\ud ~ ln(f(\bm
-X | \theta))}{\ud \theta} \right] ~ (3)$$
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{lll}
+(2)~\frac{\ud}{\ud\theta}E_\theta(W(\bm X)) & = \int_{\mathcal X}
+\frac{\ud}{\ud \theta}W(\bm x) f(\bm x | \theta) \ud \bm x \\
+& = \int_{\mathcal X} W(\bm x)\frac{\ud}{\ud \theta} f(\bm x | \theta) \ud \bm
+x\\
+& = \int_{\mathcal X} W(\bm x)\frac{\ud}{\ud \theta} f(\bm x | \theta)
+\underbrace{\frac{f(\bm x | \theta)}{f(\bm x | \theta)}}_{=1} \ud \bm x\\
+& = \int_{\mathcal X} W(\bm x) \frac{\frac{\ud}{\ud \theta}f(\bm x |
+\theta)}{f(\bm x | \theta)} f(\bm x | \theta) \ud \bm x\\
+& = E_\theta\left[W(\bm X) \frac{\frac{\ud}{\ud \theta}f(\bm X |
+\theta)}{f(\bm X | \theta)} \right] & \left\| ~ \frac{\ud ~ ln(f(\bm
+X))}{\ud \bm X} = \frac{f'(\bm X)}{f(\bm X)} \right.\\
+& = E_\theta\left[W(\bm X) \frac{\ud ~ ln(f(\bm
+X | \theta))}{\ud \theta} \right] ~ (3)
+\end{array}
+\end{equation*}
+
+
 Recall the definition of covariance
 $$cov(X,Y) = E(XY)-E(X)E(Y)$$
 Use this with $X=W(\bm X)$ and $Y=\frac{\ud}{\ud \theta}ln\left(f(\bm X
@@ -2278,20 +2285,27 @@ $$\frac{\ud}{\ud \lambda} E_\lambda(\bar X) = \frac{\ud}{\ud \lambda} \lambda
 Denominator (of corollary \ref{corollaryCR1}) becomes
 $$nE_\lambda\left[\left( \frac{\ud}{\ud x} ln(f(x | \lambda)) \right)^2\right]$$
 By using lemma \ref{lemmaCB1}
-$$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
-ln(f(\bm x | \lambda))\right\}$$
-$$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
-ln(\frac{e^{-\lambda}\lambda^x}{x!})\right\}$$
-$$=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
--\lambda +x \cdot ln(\lambda)-ln(x!)\right\}$$
-$$=-nE_\lambda\left\{ \frac{\ud}{\ud \lambda}
-\left(-1+\frac{x}{\lambda}\right)\right\}$$
-$$=-nE_\lambda\left(-\frac{x}{\lambda^2}\right) = \frac{n}{\lambda^2}E(X) =
-\frac{n}{\lambda}$$
+
+\begin{equation*}
+\renewcommand{\arraystretch}{1.7}
+\begin{array}{ll}
+=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
+ln(f(\bm x | \lambda))\right\} \\
+=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
+ln(\frac{e^{-\lambda}\lambda^x}{x!})\right\}\\
+=-nE_\lambda\left\{ \frac{\ud^2}{\ud \lambda^2}
+-\lambda +x \cdot ln(\lambda)-ln(x!)\right\}\\
+=-nE_\lambda\left\{ \frac{\ud}{\ud \lambda}
+\left(-1+\frac{x}{\lambda}\right)\right\}\\
+=-nE_\lambda\left(-\frac{x}{\lambda^2}\right) = \frac{n}{\lambda^2}E(X) =
+\frac{n}{\lambda}\\
+\end{array}
+\end{equation*}
+
 Therefore
 $$Var_X(W(\bm X)) \geq \frac{1}{n/\lambda} = \frac{\lambda}{n}$$
 In the example \ref{exampleBestEstimator1} we found that $Var(\bar X) =
-\frac{n}{\lambda}$. It is equal to the Cramer-Rao lower bound. Therefore
+\frac{\lambda}{n}$. It is equal to the Cramer-Rao lower bound. Therefore
 $\bar X$ is the best unbiased estimator of $\lambda$.
 \end{example}
 \section{Asymptotic behaviour of estimators}
